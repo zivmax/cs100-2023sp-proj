@@ -7,7 +7,6 @@
 
 #include "utils.hpp"
 
-
 class WorldBase
 {
     public:

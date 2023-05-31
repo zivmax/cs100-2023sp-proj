@@ -6,6 +6,8 @@ GameWorld::~GameWorld() {}
 
 void GameWorld::Init()
 {
+    SetWave(0);
+    SetSun(0);
     
 }
 

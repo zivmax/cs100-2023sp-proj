@@ -7,8 +7,6 @@ add_library(
   GameObject.cpp
 )
 
-add_subdirectory(Plants/)
-add_subdirectory(Zombies/)
 
 target_link_libraries(
   GameObject
