@@ -3,13 +3,14 @@ cmake_minimum_required(VERSION 3.16)
 add_library(
 	Plants
 	STATIC
-	plant.cpp	
+	"plant.hpp"	
 )
 
 
 target_link_libraries(
 	Plants
 	Framework
+	GameObject
 )
 
 target_include_directories(

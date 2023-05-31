@@ -3,13 +3,14 @@ cmake_minimum_required(VERSION 3.16)
 add_library(
 	Zombies
 	STATIC
-	zombie.cpp
+	"zombie.hpp"
 )
 
 
 target_link_libraries(
 	Zombies
 	Framework
+	GameObject
 )
 
 target_include_directories(

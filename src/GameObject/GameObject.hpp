@@ -3,6 +3,10 @@
 
 #include "ObjectBase.hpp"
 #include <memory>
+#include "etc.hpp"
+#include "zombie.hpp"
+#include "plant.hpp"
+
 
 // Declares the class name GameWorld so that its pointers can be used.
 class GameWorld;
@@ -12,6 +16,8 @@ class GameObject : public ObjectBase, public std::enable_shared_from_this<GameOb
 {
     public:
         using std::enable_shared_from_this<GameObject>::shared_from_this; // Use shared_from_this() instead of "this".
+
+        GameObject(ImageID imageID, int x, int y, LayerID layer, int width, int height, AnimID animID) : ObjectBase(imageID, x, y, layer, width, height, animID) {}
 
     private:
 };
