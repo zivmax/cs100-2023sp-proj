@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.16)
 add_library(
 	Zombies
 	STATIC
-	common_zombie.cpp
+	zombie.cpp
 )
 
 

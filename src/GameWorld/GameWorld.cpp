@@ -4,16 +4,16 @@ GameWorld::GameWorld() {}
 
 GameWorld::~GameWorld() {}
 
-void GameWorld::Init() {
-  // YOUR CODE HERE
+void GameWorld::Init()
+{
+    
 }
 
-LevelStatus GameWorld::Update() {
-  // YOUR CODE HERE
-  return LevelStatus::ONGOING;
+LevelStatus GameWorld::Update()
+{
+    return LevelStatus::ONGOING;
 }
 
-void GameWorld::CleanUp() {
-  // YOUR CODE HERE
+void GameWorld::CleanUp()
+{
 }
-
