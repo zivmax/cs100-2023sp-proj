@@ -38,7 +38,7 @@ class GameManager
         void MouseDownEvent(int x, int y);
 
         std::size_t DrawOneObject(ImageID imageID, AnimID animID, double x, double y, std::size_t frame) const;
-
+        
     private:
         enum class GameState { TITLE,
                                ANIMATING,
