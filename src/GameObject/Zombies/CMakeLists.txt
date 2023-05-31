@@ -1,25 +1,21 @@
 cmake_minimum_required(VERSION 3.16)
 
 add_library(
-  GameObject
-  STATIC
-  GameObject.hpp
-  GameObject.cpp
+	Zombies
+	STATIC
+	common_zombie.cpp
 )
 
-add_subdirectory(Plants/)
-add_subdirectory(Zombies/)
 
 target_link_libraries(
+  Zombies
   GameObject
-  Framework
+  GameWorld
 )
 
 target_include_directories(
-  GameObject
+  Plants
   PUBLIC 
-  ${CMAKE_SOURCE_DIR}/src/
-  ${CMAKE_SOURCE_DIR}/src/Framework/
   ${CMAKE_SOURCE_DIR}/src/GameWorld/
   ${CMAKE_SOURCE_DIR}/src/GameObject/
 )
