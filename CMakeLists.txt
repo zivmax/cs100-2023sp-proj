@@ -4,6 +4,8 @@ set(PROJECT_NAME "PvZ")
 project(${PROJECT_NAME})
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS}")
+set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS}")
 
 ########### MAGIC THAT YOU DO NOT NEED TO MODIFY #############
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
@@ -38,6 +40,9 @@ ENDIF()
 add_subdirectory(src/Framework/)
 add_subdirectory(src/GameObject/)
 add_subdirectory(src/GameWorld/)
+add_subdirectory(src/GameObject/Plants/)
+add_subdirectory(src/GameObject/Zombies/)
+add_subdirectory(src/GameObject/Etc/)
 #↑↑↑↑↑↑↑↑↑↑↑ ADD YOUR SUBDIRECTORIES HERE ↑↑↑↑↑↑↑↑↑↑↑↑↑
 
 add_executable(
@@ -46,15 +51,20 @@ add_executable(
 )
 
 target_link_libraries(
-  ${PROJECT_NAME}
-  Framework
-  GameWorld
+    ${PROJECT_NAME}
+    Framework
+    GameWorld
 )
 
 target_include_directories(
-  ${PROJECT_NAME} 
-  PUBLIC 
-  src/
-  src/Framework/
-  src/GameWorld/
+    ${PROJECT_NAME} 
+    PUBLIC 
+	${CMAKE_SOURCE_DIR}/src/
+	${CMAKE_SOURCE_DIR}/src/Framework/
+	${CMAKE_SOURCE_DIR}/src/GameObject/
+	${CMAKE_SOURCE_DIR}/src/GameWorld/
+	${CMAKE_SOURCE_DIR}/src/GameObject/Zombies/
+	${CMAKE_SOURCE_DIR}/src/GameObject/Plants/
+	${CMAKE_SOURCE_DIR}/src/GameObject/Etc/
 )
+

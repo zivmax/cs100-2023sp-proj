@@ -6,6 +6,9 @@
 
 #include "WorldBase.hpp"
 #include "GameObject.hpp"
+#include "plants.hpp"
+#include "zombies.hpp"
+#include "etc.hpp"
 #include "utils.hpp"
 
 
@@ -23,6 +26,7 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
         void CleanUp() override;
 
     private:
+        std::list<std::shared_ptr<GameObject>>
 };
 
 #endif // !GAMEWORLD_HPP__

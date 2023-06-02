@@ -3,9 +3,7 @@
 
 #include "ObjectBase.hpp"
 #include <memory>
-#include "etc.hpp"
-#include "zombie.hpp"
-#include "plant.hpp"
+
 
 
 // Declares the class name GameWorld so that its pointers can be used.
