@@ -26,7 +26,7 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
         void CleanUp() override;
 
     private:
-        std::list<std::shared_ptr<GameObject>>
+        std::list<std::shared_ptr<GameObject>> m_objects;
 };
 
 #endif // !GAMEWORLD_HPP__
