@@ -1,4 +1,7 @@
 #include "GameWorld.hpp"
+#include "plants.hpp"
+#include "zombies.hpp"
+#include "etc.hpp"
 
 
 GameWorld::GameWorld() {}

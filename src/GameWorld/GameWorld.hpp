@@ -5,12 +5,9 @@
 #include <memory>
 
 #include "WorldBase.hpp"
-#include "GameObject.hpp"
-#include "plants.hpp"
-#include "zombies.hpp"
-#include "etc.hpp"
 #include "utils.hpp"
 
+class GameObject;
 
 class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorld>
 {

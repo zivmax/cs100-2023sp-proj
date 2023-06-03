@@ -2,6 +2,7 @@
 #define GAMEOBJECT_HPP__
 
 #include "ObjectBase.hpp"
+#include "GameWorld.hpp"
 #include <memory>
 
 const double TIME_PER_TICK = (1 / 30);
@@ -9,6 +10,8 @@ const double TIME_PER_TICK = (1 / 30);
 // Declares the class name GameWorld so that its pointers can be used.
 class GameWorld;
 using pGameWorld = std::shared_ptr<GameWorld>;
+//using pGameWorld = std::shared_ptr<WorldBase>;
+
 
 class GameObject : public ObjectBase, public std::enable_shared_from_this<GameObject>
 {

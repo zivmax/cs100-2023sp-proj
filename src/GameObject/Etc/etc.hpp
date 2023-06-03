@@ -1,5 +1,5 @@
-#ifndef BACK_GROUND_HPP__
-#define BACK_GROUND_HPP__
+#ifndef ETC_HPP__
+#define ETC_HPP__
 
 
 #include "GameObject.hpp"

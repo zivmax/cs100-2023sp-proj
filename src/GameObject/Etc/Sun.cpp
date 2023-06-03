@@ -7,9 +7,9 @@ Sun::Sun(int x, int y, pGameWorld belonging_world) : GameObject(belonging_world,
 
 void Sun::OnClick()
 {
-    //m_is_dead = true;
-    //int current_sun = m_belonging_world->GetSun();
-    //m_belonging_world->SetSun(current_sun + 25);
+    m_is_dead = true;
+    int current_sun = m_belonging_world->GetSun();
+    m_belonging_world->SetSun(current_sun + 25);
 }
 
 
