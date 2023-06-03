@@ -7,6 +7,7 @@ file(GLOB MY_SOURCE_FILES
     *.h
 )
 
+
 add_library(
 	Etc
 	STATIC

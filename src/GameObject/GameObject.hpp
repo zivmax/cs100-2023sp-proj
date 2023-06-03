@@ -4,7 +4,7 @@
 #include "ObjectBase.hpp"
 #include <memory>
 
-
+const double TIME_PER_TICK = (1 / 30);
 
 // Declares the class name GameWorld so that its pointers can be used.
 class GameWorld;
@@ -15,10 +15,17 @@ class GameObject : public ObjectBase, public std::enable_shared_from_this<GameOb
     public:
         using std::enable_shared_from_this<GameObject>::shared_from_this; // Use shared_from_this() instead of "this".
 
-        GameObject(ImageID imageID, int x, int y, LayerID layer, int width, int height, AnimID animID) : ObjectBase(imageID, x, y, layer, width, height, animID) {}
+        GameObject(pGameWorld ptr_gameworld, ImageID imageID, int x, int y, LayerID layer, int width, int height, AnimID animID);
+        bool IsDead() const;
 
-    private:
+    protected:
+        std::shared_ptr<GameWorld> m_belonging_world;
+        bool m_is_dead = false;
 };
 
+
+enum class MyEnumClass {
+
+};
 
 #endif // !GAMEOBJECT_HPP__

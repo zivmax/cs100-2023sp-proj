@@ -6,7 +6,7 @@
 
 // Change it if the program fails to load assets.
 // You may use your absolute path.
-static const std::string ASSET_DIR = "../assets/";
+static const std::string ASSET_DIR = "D:/CS_learning/SIST/CS_100/Proj/assets";
 
 
 // Returns a random integer within [min, max] (inclusive).
