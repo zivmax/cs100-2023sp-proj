@@ -8,3 +8,8 @@ bool GameObject::IsDead() const
 {
     return m_is_dead;
 }
+
+void GameObject::SelfKill()
+{
+	m_is_dead = true;
+}
