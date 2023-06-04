@@ -10,6 +10,13 @@ class ZombieBase : public GameObject
 
 
     protected:
-    	int m_HP = -1;
         bool m_is_eating = false;
+};
+
+class RegularZombie : public ZombieBase
+{
+    public:
+        RegularZombie(int x, int y, pGameWorld belonging_world);
+
+        virtual void Update() override;
 };

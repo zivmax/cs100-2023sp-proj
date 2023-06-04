@@ -1,12 +1,18 @@
 #include "GameWorld.hpp"
+#include "Etc.hpp"
 #include "GameObject.hpp"
 #include "Plants.hpp"
 #include "Seeds.hpp"
 #include "Zombies.hpp"
-#include "Etc.hpp"
 
 
-GameWorld::GameWorld() {}
+GameWorld::GameWorld()
+{
+    m_sun_gen_left_ticks = 180;
+    m_wave_gen_left_ticks = 10;
+    m_sun_gen_inter_ticks = 300;
+    m_wave_gen_inter_ticks = std::max(150, 600 - 20 * GetWave());
+}
 
 GameWorld::~GameWorld() {}
 
@@ -26,10 +32,10 @@ void GameWorld::Init()
 
 void GameWorld::CreatePlantingSpots()
 {
-    // 45 planting spots will be created in total.
-    for (size_t i = 0; i < 9; i++)
+    // 45 (9 * 5) planting spots will be created in total.
+    for (size_t i = 0; i < GAME_COLS; i++)
     {
-        for (size_t j = 0; j < 5; j++)
+        for (size_t j = 0; j < GAME_ROWS; j++)
         {
             int x = FIRST_COL_CENTER + i * LAWN_GRID_WIDTH;
             int y = FIRST_ROW_CENTER + j * LAWN_GRID_HEIGHT;
@@ -54,25 +60,33 @@ void GameWorld::CreateShovel()
 
 void GameWorld::HandleCollisions()
 {
-    for (auto &obj1 : m_objects_ptr)
+    for (auto iter1 = m_objects_ptr.begin(); iter1 != m_objects_ptr.end(); ++iter1)
     {
-        for (auto &obj2 : m_objects_ptr)
+        for (auto iter2 = iter1; iter2 != m_objects_ptr.end(); ++iter2)
         {
-            if (obj1 == obj2)
+            if (*iter1 == *iter2)
             {
                 continue;
             }
-            
-            // We only check the ollision of two objects 
+
+            // We only check the ollision of two objects
             // if they are on the same row and their type need to be checked.
-            if (GameObject::AreCollidable(*obj1, *obj2))
+            if (GameObject::AreCollidable(*iter1, *iter2))
             {
-                if (GameObject::AreColliding(*obj1, *obj2))
+                if (GameObject::AreColliding(*iter1, *iter2))
                 {
-                    obj1->OnCollision(*obj2);
-                    obj2->OnCollision(*obj1);
+                    (*iter1)->SetIsColliding(true);
+                    (*iter2)->SetIsColliding(true);
+
+                    (*iter1)->OnCollision(**iter2);
+                    (*iter2)->OnCollision(**iter1);
+
+                    break;
                 }
             }
+
+            (*iter1)->SetIsColliding(false);
+            (*iter2)->SetIsColliding(false);
         }
     }
 }
@@ -87,6 +101,7 @@ void GameWorld::UpdateAllObjects()
 }
 
 
+// This func remove all the dead object's shared ptr from the m_objects_ptr list.
 void GameWorld::RemoveDeadObject()
 {
     for (auto &obj : m_objects_ptr)
@@ -100,8 +115,56 @@ void GameWorld::RemoveDeadObject()
 }
 
 
+void GameWorld::GenerateSun()
+{
+    int x = randInt(75, WINDOW_WIDTH - 75);
+    int y = WINDOW_HEIGHT - 1;
+    m_objects_ptr.push_back(std::make_shared<WorldSun>(x, y, shared_from_this()));
+}
+
+void GameWorld::GenerateWave()
+{
+    double p1 = 20;
+    double p2 = 2 * std::max(GetWave() - 8, 0);
+    double p3 = 3 * std::max(GetWave() - 15, 0);
+
+    double P_regular_zombie = p1 / (p1 + p2 + p3);
+    double P_bucket_zombie = p2 / (p1 + p2 + p3);
+    double P_pole_zombie = p3 / (p1 + p2 + p3);
+
+    int total_amount = (15 + GetWave()) / 10;
+
+    int x = randInt(WINDOW_WIDTH - 40, WINDOW_WIDTH - 1);
+    int y = FIRST_ROW_CENTER + randInt(0, GAME_ROWS - 1) * LAWN_GRID_HEIGHT;
+
+    m_objects_ptr.push_back(std::make_shared<RegularZombie>(x, y, shared_from_this()));
+
+    SetWave(GetWave() + 1);
+    m_wave_gen_inter_ticks = std::max(150, 600 - 20 * GetWave());
+}
+
 LevelStatus GameWorld::Update()
 {
+    if (m_sun_gen_left_ticks == 0)
+    {
+        GenerateSun();
+        m_sun_gen_left_ticks = m_sun_gen_inter_ticks;
+    }
+    else
+    {
+        m_sun_gen_left_ticks--;
+    }
+
+    if (m_wave_gen_left_ticks == 0)
+    {
+        GenerateWave();
+        m_wave_gen_left_ticks = m_wave_gen_inter_ticks;
+    }
+    else
+    {
+        m_wave_gen_left_ticks--;
+    }
+
     UpdateAllObjects();
 
     HandleCollisions();

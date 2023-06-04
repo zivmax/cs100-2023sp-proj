@@ -42,6 +42,10 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
         void CleanUp() override;
 
     private:
+        int m_sun_gen_left_ticks;
+        int m_wave_gen_left_ticks;
+        int m_sun_gen_inter_ticks;
+        int m_wave_gen_inter_ticks;
         std::list<std::shared_ptr<GameObject>> m_objects_ptr;
         ObjectOnHands m_object_on_hands = ObjectOnHands::NONE;
 
@@ -52,9 +56,10 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
         void HandleCollisions();
         void UpdateAllObjects();
         void RemoveDeadObject();
+
+        void GenerateSun();
+        void GenerateWave();
 };
-
-
 
 
 #endif // !GAMEWORLD_HPP__

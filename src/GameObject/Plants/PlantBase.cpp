@@ -25,7 +25,7 @@ void PlantBase::OnClick()
 
 void PlantBase::OnCollision(const GameObject& other)
 {
-    m_HP -= 3;
+    m_HP -= other.GetAP();
     if (m_HP <= 0)
     {
         SelfKill();

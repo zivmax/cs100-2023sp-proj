@@ -63,7 +63,7 @@ void WorldSun::Update()
 {
     if (m_elapsed_ticks != m_drop_ticks)
     {
-        MoveTo(GetX(), GetY() + 1);
+        MoveTo(GetX(), GetY() - 1);
     }
     else
     {

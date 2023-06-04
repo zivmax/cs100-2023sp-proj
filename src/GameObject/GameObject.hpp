@@ -29,10 +29,14 @@ class GameObject : public ObjectBase, public std::enable_shared_from_this<GameOb
         GameObject &operator=(const GameObject &other) = delete;
         GameObject &operator=(GameObject &&other) = delete;
         GameObject(pGameWorld ptr_gameworld, ImageID imageID, int x, int y, LayerID layer, int width, int height, AnimID animID);
+        
         void SelfKill();
         bool IsDead() const;
-        void SetIsColliding(bool is_colliding);
         virtual void OnCollision(const GameObject &other);
+
+        int GetAP() const;
+
+        void SetIsColliding(bool is_colliding);
 
         static bool IsPlant(const GameObject &obj) ;
         static bool IsPlant(const pGameObject &obj) ;

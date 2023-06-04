@@ -17,6 +17,12 @@ bool GameObject::IsDead() const
     return m_is_dead;
 }
 
+int GameObject::GetAP() const
+{
+    return m_AP;
+}
+
+
 void GameObject::SetIsColliding(bool is_colliding)
 {
     m_is_colliding = is_colliding;
@@ -78,18 +84,14 @@ bool GameObject::AreCollidable(const GameObject &obj1, const GameObject &obj2)
 
 bool GameObject::AreColliding(GameObject &obj1, GameObject &obj2)
 {
-    int diff_x = abs(obj1.GetX() - obj2.GetX());
+    int diff_x = std::abs(obj1.GetX() - obj2.GetX());
 
     if (diff_x <= (obj1.GetWidth() / 2 + obj2.GetWidth() / 2))
     {
-        obj1.m_is_colliding = true;
-        obj2.m_is_colliding = true;
         return true;
     }
     else
     {
-        obj1.m_is_colliding = false;
-        obj2.m_is_colliding = false;
         return false;
     }
 
@@ -149,18 +151,14 @@ bool GameObject::AreCollidable(const pGameObject &obj1, const pGameObject &obj2)
 
 bool GameObject::AreColliding(pGameObject &obj1, pGameObject &obj2)
 {
-    int diff_x = abs(obj1->GetX() - obj2->GetX());
+    int diff_x = std::abs(obj1->GetX() - obj2->GetX());
 
     if (diff_x <= (obj1->GetWidth() / 2 + obj2->GetWidth() / 2))
     {
-        obj1->m_is_colliding = true;
-        obj2->m_is_colliding = true;
         return true;
     }
     else
     {
-        obj1->m_is_colliding = false;
-        obj2->m_is_colliding = false;
         return false;
     }
 }
