@@ -23,11 +23,12 @@ void SunFlower::Update()
             {
                 m_first_production_left_ticks = -1;
                 m_belonging_world->AddObject(std::make_shared<FlowerSun>(GetX(), GetY(), m_belonging_world));
+                m_first_producted = true;
                 m_ticks_passed_after_one_generation = 0;
             }
             else
             {
-                m_first_production_left_ticks += 1;
+                m_first_production_left_ticks--;
             }
         }
         else
@@ -39,7 +40,7 @@ void SunFlower::Update()
 			}
             else
             {
-				m_ticks_passed_after_one_generation += 1;
+				m_ticks_passed_after_one_generation++;
 			}
 		}
     }

@@ -67,5 +67,11 @@ class PlantingSpot : public GameObject
 
 
 
+class Shovel : public GameObject
+{
+    public:
+        Shovel(pGameObject belonging_world);
+};
+
 
 #endif // !BACK_GROUND_HPP__

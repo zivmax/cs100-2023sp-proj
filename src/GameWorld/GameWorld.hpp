@@ -30,12 +30,16 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
 
         void Init() override;
 
+        void CreatePlantingSpots();
+        void CreateSeedCards();
+
         LevelStatus Update() override;
 
         pGameObject_weak AddObject(pGameObject new_object);
 
         pGameObject_weak PlantingSeedOnHand(int x, int y);
 
+        void SetObjectOnHands(ObjectOnHands new_object_on_hands);
         ObjectOnHands GetObjectOnHands() const;
 
         void CleanUp() override;

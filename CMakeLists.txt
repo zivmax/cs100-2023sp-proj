@@ -43,6 +43,7 @@ add_subdirectory(src/Framework/)
 add_subdirectory(src/GameObject/)
 add_subdirectory(src/GameWorld/)
 add_subdirectory(src/GameObject/Plants/)
+add_subdirectory(src/GameObject/Seeds/)
 add_subdirectory(src/GameObject/Zombies/)
 add_subdirectory(src/GameObject/Etc/)
 #↑↑↑↑↑↑↑↑↑↑↑ ADD YOUR SUBDIRECTORIES HERE ↑↑↑↑↑↑↑↑↑↑↑↑↑
@@ -67,6 +68,7 @@ target_include_directories(
 	${CMAKE_SOURCE_DIR}/src/GameWorld/
 	${CMAKE_SOURCE_DIR}/src/GameObject/Zombies/
 	${CMAKE_SOURCE_DIR}/src/GameObject/Plants/
+	${CMAKE_SOURCE_DIR}/src/GameObject/Seeds/
 	${CMAKE_SOURCE_DIR}/src/GameObject/Etc/
 )
 
