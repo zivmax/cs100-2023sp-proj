@@ -10,7 +10,7 @@ SunFlower::SunFlower(int x, int y, pGameWorld belonging_world) : PlantBase(belon
 
 void SunFlower::Update()
 {
-    if (IsDead())
+    if (IsDead()) // If the SunFlower is already dead, finish the func immeadiately.
     {
         return;
     }

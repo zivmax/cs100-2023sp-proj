@@ -24,6 +24,7 @@ void GameWorld::Init()
 
 void GameWorld::CreatePlantingSpots()
 {
+    // 45 planting spots will be created in total.
     for (size_t i = 0; i < 9; i++)
     {
         for (size_t j = 0; j < 5; j++)
