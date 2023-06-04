@@ -1,8 +1,9 @@
 #include "GameWorld.hpp"
 #include "GameObject.hpp"
-#include "Etc.hpp"
 #include "Plants.hpp"
 #include "Seeds.hpp"
+#include "Zombies.hpp"
+#include "Etc.hpp"
 
 
 GameWorld::GameWorld() {}
@@ -37,11 +38,13 @@ void GameWorld::CreatePlantingSpots()
     }
 }
 
+
 void GameWorld::CreateSeedCards()
 {
     int x = 130;
     m_objects_ptr.push_back(std::make_shared<SunFlowerSeed>(x, shared_from_this()));
 }
+
 
 void GameWorld::CreateShovel()
 {
@@ -49,7 +52,7 @@ void GameWorld::CreateShovel()
 }
 
 
-void GameWorld::HandleCollision()
+void GameWorld::HandleCollisions()
 {
     for (auto &obj1 : m_objects_ptr)
     {
@@ -60,6 +63,8 @@ void GameWorld::HandleCollision()
                 continue;
             }
             
+            // We only check the ollision of two objects 
+            // if they are on the same row and their type need to be checked.
             if (GameObject::AreCollidable(*obj1, *obj2))
             {
                 if (GameObject::AreColliding(*obj1, *obj2))
@@ -73,13 +78,17 @@ void GameWorld::HandleCollision()
 }
 
 
-LevelStatus GameWorld::Update()
+void GameWorld::UpdateAllObjects()
 {
     for (auto &obj : m_objects_ptr)
     {
         obj->Update();
     }
+}
 
+
+void GameWorld::RemoveDeadObject()
+{
     for (auto &obj : m_objects_ptr)
     {
         if (obj->IsDead())
@@ -88,6 +97,16 @@ LevelStatus GameWorld::Update()
             break;
         }
     }
+}
+
+
+LevelStatus GameWorld::Update()
+{
+    UpdateAllObjects();
+
+    HandleCollisions();
+
+    RemoveDeadObject();
 
     return LevelStatus::ONGOING;
 }

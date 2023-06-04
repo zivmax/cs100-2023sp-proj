@@ -78,7 +78,7 @@ bool GameObject::AreCollidable(const GameObject &obj1, const GameObject &obj2)
 
 bool GameObject::AreColliding(GameObject &obj1, GameObject &obj2)
 {
-    size_t diff_x = abs(obj1.GetX() - obj2.GetX());
+    int diff_x = abs(obj1.GetX() - obj2.GetX());
 
     if (diff_x <= (obj1.GetWidth() / 2 + obj2.GetWidth() / 2))
     {
@@ -149,7 +149,7 @@ bool GameObject::AreCollidable(const pGameObject &obj1, const pGameObject &obj2)
 
 bool GameObject::AreColliding(pGameObject &obj1, pGameObject &obj2)
 {
-    size_t diff_x = abs(obj1->GetX() - obj2->GetX());
+    int diff_x = abs(obj1->GetX() - obj2->GetX());
 
     if (diff_x <= (obj1->GetWidth() / 2 + obj2->GetWidth() / 2))
     {

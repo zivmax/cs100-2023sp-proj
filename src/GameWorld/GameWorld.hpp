@@ -30,7 +30,6 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
 
         void Init() override;
 
-
         LevelStatus Update() override;
 
         pGameObject_weak AddObject(pGameObject new_object);
@@ -50,7 +49,9 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
         void CreateSeedCards();
         void CreateShovel();
 
-        void HandleCollision();
+        void HandleCollisions();
+        void UpdateAllObjects();
+        void RemoveDeadObject();
 };
 
 
