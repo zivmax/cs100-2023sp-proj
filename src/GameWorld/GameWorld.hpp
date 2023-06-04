@@ -30,9 +30,6 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
 
         void Init() override;
 
-        void CreatePlantingSpots();
-        void CreateSeedCards();
-        void CreateShovel();
 
         LevelStatus Update() override;
 
@@ -48,6 +45,12 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
     private:
         std::list<std::shared_ptr<GameObject>> m_objects_ptr;
         ObjectOnHands m_object_on_hands = ObjectOnHands::NONE;
+
+        void CreatePlantingSpots();
+        void CreateSeedCards();
+        void CreateShovel();
+
+        void HandleCollision();
 };
 
 

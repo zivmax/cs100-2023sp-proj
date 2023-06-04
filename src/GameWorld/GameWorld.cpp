@@ -1,6 +1,6 @@
 #include "GameWorld.hpp"
-#include "Etc.hpp"
 #include "GameObject.hpp"
+#include "Etc.hpp"
 #include "Plants.hpp"
 #include "Seeds.hpp"
 
@@ -49,6 +49,29 @@ void GameWorld::CreateShovel()
 }
 
 
+void GameWorld::HandleCollision()
+{
+    for (auto &obj1 : m_objects_ptr)
+    {
+        for (auto &obj2 : m_objects_ptr)
+        {
+            if (obj1 == obj2)
+            {
+                continue;
+            }
+            
+            if (GameObject::AreCollidable(*obj1, *obj2))
+            {
+                if (GameObject::AreColliding(*obj1, *obj2))
+                {
+                    obj1->OnCollision(*obj2);
+                    obj2->OnCollision(*obj1);
+                }
+            }
+        }
+    }
+}
+
 
 LevelStatus GameWorld::Update()
 {
@@ -89,8 +112,6 @@ pGameObject_weak GameWorld::PlantingSeedOnHand(int x, int y)
         return returned_ptr;
     }
 
-    // If the seed is planted succcessfully,
-    // the planting spot will get a weak ptr to watch the plant planted on it
 
     switch (m_object_on_hands)
     {

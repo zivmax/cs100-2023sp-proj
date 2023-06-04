@@ -35,13 +35,13 @@ void SunFlower::Update()
         {
             if (m_ticks_passed_after_one_generation == 100)
             {
-				m_ticks_passed_after_one_generation = 0;
-				m_belonging_world->AddObject(std::make_shared<FlowerSun>(GetX(), GetY(), m_belonging_world));
-			}
+                m_ticks_passed_after_one_generation = 0;
+                m_belonging_world->AddObject(std::make_shared<FlowerSun>(GetX(), GetY(), m_belonging_world));
+            }
             else
             {
-				m_ticks_passed_after_one_generation++;
-			}
-		}
+                m_ticks_passed_after_one_generation++;
+            }
+        }
     }
 }

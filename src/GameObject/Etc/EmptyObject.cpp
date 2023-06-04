@@ -4,4 +4,3 @@ EmptyObject::EmptyObject(pGameWorld belonging_world) : GameObject(belonging_worl
 
 void EmptyObject::Update() {}
 void EmptyObject::OnClick() {}
-

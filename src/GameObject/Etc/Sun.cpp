@@ -7,7 +7,7 @@ Sun::Sun(int x, int y, pGameWorld belonging_world) : GameObject(belonging_world,
 
 void Sun::OnClick()
 {
-    m_is_dead = true;
+    SelfKill();
     int current_sun = m_belonging_world->GetSun();
     m_belonging_world->SetSun(current_sun + 25);
 }
@@ -44,7 +44,7 @@ void FlowerSun::Update()
         if (m_elapsed_ticks - m_drop_ticks == 300)
         {
             // If the sun has been on the ground for 300 ticks, then it will disappear.
-            m_is_dead = true;
+            SelfKill();
         }
     }
 }
@@ -72,7 +72,7 @@ void WorldSun::Update()
         if (m_elapsed_ticks - m_drop_ticks == 300)
         {
             // If the sun has been on the ground for 300 ticks, then it will disappear.
-            m_is_dead = true;
+            SelfKill();
         }
     }
 }

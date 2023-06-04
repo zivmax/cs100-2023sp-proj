@@ -7,8 +7,6 @@ PlantBase::PlantBase(pGameWorld belonging_world, ImageID imageID, AnimID animID,
     m_HP = HP;
 
     // The origin of the lawn grid is the most left bottom one.
-    m_col_on_lawn = (x - FIRST_COL_CENTER) / LAWN_GRID_WIDTH + 1;
-    m_row_on_lawn = (y - FIRST_ROW_CENTER) / LAWN_GRID_HEIGHT + 1;
 }
 
 // For all the plants, they should do nothing when being clcked, the PlantingSpot class will take care of the clicks.
@@ -17,10 +15,19 @@ void PlantBase::OnClick()
     switch (m_belonging_world->GetObjectOnHands())
     {
         case ObjectOnHands::SHOVEL:
-            m_is_dead = true;
+            SelfKill();
             m_belonging_world->SetObjectOnHands(ObjectOnHands::NONE);
             break;
         default:
             break;
+    }
+}
+
+void PlantBase::OnCollision(const GameObject& other)
+{
+    m_HP -= 3;
+    if (m_HP <= 0)
+    {
+        SelfKill();
     }
 }
