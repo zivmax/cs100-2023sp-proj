@@ -11,6 +11,14 @@ const double TIME_PER_TICK = (1 / 30);
 using pGameWorld = std::shared_ptr<GameWorld>;
 //using pGameWorld = std::shared_ptr<WorldBase>;
 
+enum class ObjectType {
+    UNDEFINED,
+    ATTACKING_OBJECT,
+    PLANTING_SPOT,
+    HANDIBLE,
+    PLANT,
+    ZOMBIE,
+};
 
 class GameObject : public ObjectBase, public std::enable_shared_from_this<GameObject>
 {
@@ -28,6 +36,7 @@ class GameObject : public ObjectBase, public std::enable_shared_from_this<GameOb
     protected:
         std::shared_ptr<GameWorld> m_belonging_world;
         bool m_is_dead = false;
+        ObjectType m_type = ObjectType::UNDEFINED;
 };
 
 

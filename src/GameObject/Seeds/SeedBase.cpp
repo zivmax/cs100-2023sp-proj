@@ -3,6 +3,8 @@
 
 SeedBase::SeedBase(pGameWorld belonging_world, ImageID imageID, ObjectOnHands seed_type, int cooling_ticks, int cost_sun, int x, int y) : GameObject(belonging_world, imageID, x, y, LAYER_UI, 50, 70, ANIMID_NO_ANIMATION)
 {
+    m_type = ObjectType::HANDIBLE;
+
     m_cooling_ticks = cooling_ticks;
     m_seed_type = seed_type;
     m_cost_sun = cost_sun;

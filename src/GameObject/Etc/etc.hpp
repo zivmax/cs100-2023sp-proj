@@ -61,8 +61,6 @@ class PlantingSpot : public GameObject
         virtual void Update() override;
         virtual void OnClick() override;
 
-    private:
-        pGameObject_weak planted_object;
 };
 
 

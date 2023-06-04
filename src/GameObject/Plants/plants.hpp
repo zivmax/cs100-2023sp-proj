@@ -9,6 +9,8 @@ class PlantBase : public GameObject
 
     protected:
         int m_HP = -1;
+        int m_col_on_lawn = -1;
+        int m_row_on_lawn = -1;
 };
 
 

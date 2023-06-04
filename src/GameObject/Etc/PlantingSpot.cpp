@@ -2,7 +2,7 @@
 
 PlantingSpot::PlantingSpot(int x, int y, pGameWorld belonging_world) : GameObject(belonging_world, IMGID_NONE, x, y, LAYER_UI, 60, 80, ANIMID_NO_ANIMATION) 
 {
-    planted_object = std::weak_ptr<GameObject>();
+    m_type = ObjectType::PLANTING_SPOT;
 }
 
 void PlantingSpot::Update() {}
@@ -16,7 +16,7 @@ void PlantingSpot::OnClick()
             break;
         // All other possibilities are plants' seed.
         default:
-            planted_object = m_belonging_world->PlantingSeedOnHand(GetX(), GetY());
+            m_belonging_world->PlantingSeedOnHand(GetX(), GetY());
             break;
     }
 }

@@ -82,7 +82,7 @@ pGameObject_weak GameWorld::AddObject(pGameObject new_object_ptr)
 
 pGameObject_weak GameWorld::PlantingSeedOnHand(int x, int y)
 {
-    std::weak_ptr<GameObject> returned_ptr = std::weak_ptr<GameObject>();
+    pGameObject_weak returned_ptr = pGameObject_weak();
 
     if (m_object_on_hands == ObjectOnHands::NONE)
     {
