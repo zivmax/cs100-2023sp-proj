@@ -19,6 +19,7 @@ void GameWorld::Init()
 
     CreatePlantingSpots();
     CreateSeedCards();
+    CreateShovel();
 }
 
 
@@ -41,6 +42,12 @@ void GameWorld::CreateSeedCards()
     int x = 130;
     m_objects_ptr.push_back(std::make_shared<SunFlowerSeed>(x, shared_from_this()));
 }
+
+void GameWorld::CreateShovel()
+{
+    m_objects_ptr.push_back(std::make_shared<Shovel>(shared_from_this()));
+}
+
 
 
 LevelStatus GameWorld::Update()

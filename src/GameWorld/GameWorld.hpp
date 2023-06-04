@@ -32,6 +32,7 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
 
         void CreatePlantingSpots();
         void CreateSeedCards();
+        void CreateShovel();
 
         LevelStatus Update() override;
 

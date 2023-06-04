@@ -12,13 +12,7 @@ void PlantingSpot::OnClick()
     switch (m_belonging_world->GetObjectOnHands())
     {
         case ObjectOnHands::NONE:
-            break;
         case ObjectOnHands::SHOVEL:
-            if (!planted_object.expired())
-            {
-                planted_object.lock()->SelfKill();
-                planted_object = std::weak_ptr<GameObject>();
-            }
             break;
         // All other possibilities are plants' seed.
         default:

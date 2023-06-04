@@ -70,7 +70,11 @@ class PlantingSpot : public GameObject
 class Shovel : public GameObject
 {
     public:
-        Shovel(pGameObject belonging_world);
+        Shovel(pGameWorld belonging_world);
+
+        virtual void Update() override;
+        virtual void OnClick() override;
+
 };
 
 
