@@ -3,9 +3,10 @@ cmake_minimum_required(VERSION 3.16)
 message("Call Etc")
 
 file(GLOB MY_SOURCE_FILES
-    *.cpp
-    *.h
+    "*.cpp"
+    "*.h"
 )
+
 
 
 add_library(

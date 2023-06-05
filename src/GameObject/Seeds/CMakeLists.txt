@@ -3,9 +3,10 @@ cmake_minimum_required(VERSION 3.16)
 message("Call Seeds")
 
 file(GLOB MY_SOURCE_FILES
-    *.cpp
-    *.h
+    "*.cpp"
+    "*.h"
 )
+
 
 add_library(
 	Seeds
@@ -17,6 +18,7 @@ add_library(
 target_link_libraries(
 	Seeds
 	GameObject
+	Etc
 )
 
 target_include_directories(
