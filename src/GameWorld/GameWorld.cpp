@@ -9,9 +9,7 @@
 GameWorld::GameWorld()
 {
     m_sun_gen_left_ticks = 180;
-    m_wave_gen_left_ticks = 10;
     m_sun_gen_inter_ticks = 300;
-    m_wave_gen_inter_ticks = std::max(150, 600 - 20 * GetWave());
 }
 
 GameWorld::~GameWorld() {}
@@ -19,6 +17,8 @@ GameWorld::~GameWorld() {}
 
 void GameWorld::Init()
 {
+    m_wave_gen_inter_ticks = 600;
+    m_wave_gen_left_ticks = 10;
     m_objects_ptr.push_back(std::make_shared<BackGround>(shared_from_this()));
 
     SetWave(0);
@@ -27,6 +27,47 @@ void GameWorld::Init()
     CreatePlantingSpots();
     CreateSeedCards();
     CreateShovel();
+}
+
+
+LevelStatus GameWorld::Update()
+{
+    if (m_sun_gen_left_ticks == 0)
+    {
+        GenerateSun();
+    }
+    else
+    {
+        m_sun_gen_left_ticks--;
+    }
+
+    if (m_wave_gen_left_ticks == 0)
+    {
+        GenerateWave();
+    }
+    else
+    {
+        m_wave_gen_left_ticks--;
+    }
+
+    UpdateAllObjects();
+
+    if (IsLost())
+    {
+        return LevelStatus::LOSING;
+    }
+
+    HandleCollisions();
+
+    RemoveDeadObject();
+
+    return LevelStatus::ONGOING;
+}
+
+
+void GameWorld::CleanUp()
+{
+    m_objects_ptr.clear();
 }
 
 
@@ -109,6 +150,8 @@ void GameWorld::GenerateSun()
     int x = randInt(75, WINDOW_WIDTH - 75);
     int y = WINDOW_HEIGHT - 1;
     m_objects_ptr.push_back(std::make_shared<WorldSun>(x, y, shared_from_this()));
+
+    m_sun_gen_left_ticks = m_sun_gen_inter_ticks;
 }
 
 void GameWorld::GenerateWave()
@@ -130,37 +173,21 @@ void GameWorld::GenerateWave()
 
     SetWave(GetWave() + 1);
     m_wave_gen_inter_ticks = std::max(150, 600 - 20 * GetWave());
+    m_wave_gen_left_ticks = m_wave_gen_inter_ticks;
 }
 
-LevelStatus GameWorld::Update()
+
+bool GameWorld::IsLost() const
 {
-    if (m_sun_gen_left_ticks == 0)
+    for (auto &obj_ptr : m_objects_ptr)
     {
-        GenerateSun();
-        m_sun_gen_left_ticks = m_sun_gen_inter_ticks;
-    }
-    else
-    {
-        m_sun_gen_left_ticks--;
+        if (GameObject::IsZombie(obj_ptr) && obj_ptr->GetX() < 0)
+        {
+            return true;
+        }
     }
 
-    if (m_wave_gen_left_ticks == 0)
-    {
-        GenerateWave();
-        m_wave_gen_left_ticks = m_wave_gen_inter_ticks;
-    }
-    else
-    {
-        m_wave_gen_left_ticks--;
-    }
-
-    UpdateAllObjects();
-
-    HandleCollisions();
-
-    RemoveDeadObject();
-
-    return LevelStatus::ONGOING;
+    return false;
 }
 
 
@@ -206,9 +233,4 @@ ObjectOnHands GameWorld::GetObjectOnHands() const
 void GameWorld::SetObjectOnHands(ObjectOnHands new_object_on_hands)
 {
     m_object_on_hands = new_object_on_hands;
-}
-
-void GameWorld::CleanUp()
-{
-    m_objects_ptr.clear();
 }

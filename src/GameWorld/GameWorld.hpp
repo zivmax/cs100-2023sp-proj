@@ -32,20 +32,20 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
 
         LevelStatus Update() override;
 
-        pGameObject_weak AddObject(pGameObject new_object);
+        void CleanUp() override;
 
+        pGameObject_weak AddObject(pGameObject new_object);
         pGameObject_weak PlantingSeedOnHand(int x, int y);
 
         void SetObjectOnHands(ObjectOnHands new_object_on_hands);
         ObjectOnHands GetObjectOnHands() const;
 
-        void CleanUp() override;
 
     private:
-        int m_sun_gen_left_ticks;
-        int m_wave_gen_left_ticks;
-        int m_sun_gen_inter_ticks;
-        int m_wave_gen_inter_ticks;
+        int m_sun_gen_left_ticks = 0;
+        int m_wave_gen_left_ticks = 0;
+        int m_sun_gen_inter_ticks = 0;
+        int m_wave_gen_inter_ticks = 0;
         std::list<std::shared_ptr<GameObject>> m_objects_ptr;
         ObjectOnHands m_object_on_hands = ObjectOnHands::NONE;
 
@@ -59,6 +59,8 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
 
         void GenerateSun();
         void GenerateWave();
+
+        bool IsLost() const;
 };
 
 
