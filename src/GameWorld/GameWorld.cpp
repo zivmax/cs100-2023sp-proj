@@ -265,7 +265,7 @@ pGameObject_weak GameWorld::PlantingSeedOnHand(int x, int y)
             break;
 
         case ObjectOnHands::WALL_NUT_SEED:
-            returned_ptr = AddObject(std::make_shared<SunFlower>(x, y, shared_from_this()));
+            returned_ptr = AddObject(std::make_shared<WallNut>(x, y, shared_from_this()));
             break;
 
         case ObjectOnHands::CHERRY_BOMB_SEED:
