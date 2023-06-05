@@ -201,11 +201,11 @@ void GameWorld::GenerateRandomZombies(int total_amount)
         }
         else if (random_num < P_regular_zombie + P_bucket_zombie)
         {
-            GenerateZombie<RegularZombie>();
+            GenerateZombie<BucketZombie>();
         }
         else
         {
-            GenerateZombie<RegularZombie>();
+            GenerateZombie<PoleZombie>();
         }
     }
 }
@@ -225,8 +225,7 @@ bool GameWorld::IsLost() const
     {
         if (GameObject::IsZombie(obj_ptr) && obj_ptr->GetX() < 0)
         {
-            obj_ptr->SelfKill();
-            return false;
+            return true;
         }
     }
 
