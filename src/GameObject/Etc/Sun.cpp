@@ -22,10 +22,9 @@ FlowerSun::FlowerSun(int x, int y, pGameWorld belonging_world) : Sun(x, y, belon
 
 void FlowerSun::Update()
 {
-    if (m_elapsed_ticks <= m_drop_ticks)
+    if (m_elapsed_ticks < m_drop_ticks)
     {
         // Increment the elapsed time since the sun started moving.
-        m_elapsed_ticks++;
 
         int t = m_elapsed_ticks; // Calculate the time since the sun started moving.
         int delta_t = 1;
@@ -39,14 +38,14 @@ void FlowerSun::Update()
     }
     else
     {
-        m_elapsed_ticks++;
-
         if (m_elapsed_ticks - m_drop_ticks == 300)
         {
             // If the sun has been on the ground for 300 ticks, then it will disappear.
             SelfKill();
         }
     }
+
+    m_elapsed_ticks++;
 }
 
 
@@ -61,13 +60,12 @@ WorldSun::WorldSun(int x, int y, pGameWorld belonging_world) : Sun(x, y, belongi
 
 void WorldSun::Update()
 {
-    if (m_elapsed_ticks <= m_drop_ticks)
+    if (m_elapsed_ticks < m_drop_ticks)
     {
         MoveTo(GetX(), GetY() - 1);
     }
     else
     {
-        m_elapsed_ticks++;
 
         if (m_elapsed_ticks - m_drop_ticks == 300)
         {
@@ -75,5 +73,6 @@ void WorldSun::Update()
             SelfKill();
         }
     }
-}
 
+    m_elapsed_ticks++;
+}
