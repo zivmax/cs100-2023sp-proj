@@ -197,11 +197,11 @@ void GameWorld::GenerateRandomZombies(int total_amount)
         int random_num = randInt(0, 100);
         if (random_num < P_regular_zombie)
         {
-            GenerateZombie<RegularZombie>();
+            GenerateZombie<BucketZombie>();
         }
         else if (random_num < P_regular_zombie + P_bucket_zombie)
         {
-            GenerateZombie<RegularZombie>();
+            GenerateZombie<BucketZombie>();
         }
         else
         {

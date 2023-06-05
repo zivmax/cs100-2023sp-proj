@@ -13,6 +13,7 @@ class ZombieBase : public GameObject
 
         virtual void OnClick() override;
         void OnCollision(const GameObject &other) override;
+        void UpdateEatingStatus();
 
 
     protected:
@@ -34,6 +35,9 @@ class BucketZombie : public ZombieBase
         BucketZombie(int x, int y, pGameWorld belonging_world);
 
         virtual void Update() override;
+
+    private:
+        bool m_has_bucket = true;
 };
 
 class PoleZombie : public ZombieBase
@@ -43,4 +47,3 @@ class PoleZombie : public ZombieBase
 
         virtual void Update() override;
 };
-
