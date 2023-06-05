@@ -25,13 +25,18 @@ void Repeater::Update()
         if (m_belonging_world->AnyZombieOnRow(m_row_on_lawn))
         {
             Attack();
+
+            // The first shoot will reset the cooling timer.
+            m_cooling_left_ticks = m_first_shoot_cooling_ticks;
         }
 
         return;
     }
     else if (m_cooling_left_ticks == 25)
     {
-
+        // The second shoot will be performed after first shoot 5 ticks, 
+        // NO MATTER is there zombies.
+        Attack();
     }
 
     m_cooling_left_ticks--;
@@ -40,5 +45,4 @@ void Repeater::Update()
 void Repeater::Attack()
 {
     m_belonging_world->AddObject(std::make_shared<Pea>(GetX() + 30, GetY() + 20, m_belonging_world));
-    m_cooling_left_ticks = m_first_shoot_cooling_ticks;
 }

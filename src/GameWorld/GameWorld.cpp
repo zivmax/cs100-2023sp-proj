@@ -273,7 +273,7 @@ pGameObject_weak GameWorld::PlantingSeedOnHand(int x, int y)
             break;
 
         case ObjectOnHands::REPEATER_SEED:
-            returned_ptr = AddObject(std::make_shared<SunFlower>(x, y, shared_from_this()));
+            returned_ptr = AddObject(std::make_shared<Repeater>(x, y, shared_from_this()));
             break;
 
         default:
