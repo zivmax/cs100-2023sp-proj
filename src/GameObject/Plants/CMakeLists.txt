@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.16)
 message("Call Plants")
 
 file(GLOB MY_SOURCE_FILES
-    *.cpp
-    *.h
+    "*.cpp"
+    "*.h"
 )
 
 add_library(
@@ -18,6 +18,7 @@ add_library(
 target_link_libraries(
 	Plants
 	GameObject
+	Etc
 )
 
 target_include_directories(

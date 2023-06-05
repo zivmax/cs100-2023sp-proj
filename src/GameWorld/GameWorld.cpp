@@ -189,7 +189,6 @@ void GameWorld::GenerateRandomZombies(int total_amount)
 
     int P_regular_zombie = p1 / (p1 + p2 + p3) * 100;
     int P_bucket_zombie = p2 / (p1 + p2 + p3) * 100;
-    int P_pole_zombie = p3 / (p1 + p2 + p3) * 100;
 
 
     for (int i = 0; i < total_amount; i++)
