@@ -1,0 +1,1 @@
+Compress-Archive -Path .\CMakeLists.txt, .\src\ -DestinationPath .\pvz.zip

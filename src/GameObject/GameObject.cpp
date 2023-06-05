@@ -23,12 +23,6 @@ int GameObject::GetAP() const
 }
 
 
-void GameObject::SetIsColliding(bool is_colliding)
-{
-    m_is_colliding = is_colliding;
-}
-
-
 void GameObject::OnCollision(const GameObject &obj) {}
 
 
@@ -47,6 +41,13 @@ bool GameObject::IsZombie(const GameObject &obj)
 {
     return obj.m_type == ObjectType::ZOMBIE;
 }
+
+
+void GameObject::InitCollisionStatus(GameObject &obj)
+{
+    obj.m_is_colliding = false;
+}
+
 
 bool GameObject::AreCollidable(const GameObject &obj1, const GameObject &obj2)
 {
@@ -99,6 +100,30 @@ bool GameObject::AreColliding(GameObject &obj1, GameObject &obj2)
 }
 
 
+bool GameObject::UpdateCollisionStatus(GameObject &obj1, GameObject &obj2)
+{
+    // We only check the ollision of two objects
+    // if they are on the same row and their type need to be checked.
+    if (GameObject::AreCollidable(obj1, obj2))
+    {
+        if (GameObject::AreColliding(obj1, obj2))
+        {
+            obj1.m_is_colliding = true;
+            obj2.m_is_colliding = true;
+
+            obj1.OnCollision(obj2);
+            obj2.OnCollision(obj1);
+
+            return true;
+        }
+    }
+
+    obj1.m_is_colliding = false;
+    obj2.m_is_colliding = false;
+    return false;
+}
+
+
 // These funcs use const pointer of GameObject &obj as parameter.
 bool GameObject::IsPlant(const pGameObject &obj)
 {
@@ -113,6 +138,12 @@ bool GameObject::IsAttackingObject(const pGameObject &obj)
 bool GameObject::IsZombie(const pGameObject &obj)
 {
     return obj->m_type == ObjectType::ZOMBIE;
+}
+
+
+void GameObject::InitCollisionStatus(pGameObject &obj)
+{
+    obj->m_is_colliding = false;
 }
 
 
@@ -161,4 +192,28 @@ bool GameObject::AreColliding(pGameObject &obj1, pGameObject &obj2)
     {
         return false;
     }
+}
+
+
+bool GameObject::UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2)
+{
+    // We only check the ollision of two objects
+    // if they are on the same row and their type need to be checked.
+    if (GameObject::AreCollidable(obj1, obj2))
+    {
+        if (GameObject::AreColliding(obj1, obj2))
+        {
+            obj1->m_is_colliding = true;
+            obj2->m_is_colliding = true;
+
+            obj1->OnCollision(*obj2);
+            obj2->OnCollision(*obj1);
+
+            return true;
+        }
+    }
+
+    obj1->m_is_colliding = (obj1->m_is_colliding) ? true : false;
+    obj2->m_is_colliding = (obj2->m_is_colliding) ? true : false;
+    return false;
 }

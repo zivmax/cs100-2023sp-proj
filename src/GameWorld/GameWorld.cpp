@@ -60,6 +60,12 @@ void GameWorld::CreateShovel()
 
 void GameWorld::HandleCollisions()
 {
+    for (auto &obj_ptr : m_objects_ptr)
+    {
+        GameObject::InitCollisionStatus(obj_ptr);
+    }
+
+
     for (auto iter1 = m_objects_ptr.begin(); iter1 != m_objects_ptr.end(); ++iter1)
     {
         for (auto iter2 = iter1; iter2 != m_objects_ptr.end(); ++iter2)
@@ -69,24 +75,7 @@ void GameWorld::HandleCollisions()
                 continue;
             }
 
-            // We only check the ollision of two objects
-            // if they are on the same row and their type need to be checked.
-            if (GameObject::AreCollidable(*iter1, *iter2))
-            {
-                if (GameObject::AreColliding(*iter1, *iter2))
-                {
-                    (*iter1)->SetIsColliding(true);
-                    (*iter2)->SetIsColliding(true);
-
-                    (*iter1)->OnCollision(**iter2);
-                    (*iter2)->OnCollision(**iter1);
-
-                    break;
-                }
-            }
-
-            (*iter1)->SetIsColliding(false);
-            (*iter2)->SetIsColliding(false);
+            GameObject::UpdateCollisionStatus(*iter1, *iter2);
         }
     }
 }
@@ -94,9 +83,9 @@ void GameWorld::HandleCollisions()
 
 void GameWorld::UpdateAllObjects()
 {
-    for (auto &obj : m_objects_ptr)
+    for (auto &obj_ptr : m_objects_ptr)
     {
-        obj->Update();
+        obj_ptr->Update();
     }
 }
 
@@ -104,11 +93,11 @@ void GameWorld::UpdateAllObjects()
 // This func remove all the dead object's shared ptr from the m_objects_ptr list.
 void GameWorld::RemoveDeadObject()
 {
-    for (auto &obj : m_objects_ptr)
+    for (auto &obj_ptr : m_objects_ptr)
     {
-        if (obj->IsDead())
+        if (obj_ptr->IsDead())
         {
-            m_objects_ptr.remove(obj);
+            m_objects_ptr.remove(obj_ptr);
             break;
         }
     }

@@ -36,22 +36,26 @@ class GameObject : public ObjectBase, public std::enable_shared_from_this<GameOb
 
         int GetAP() const;
 
-        void SetIsColliding(bool is_colliding);
-
         static bool IsPlant(const GameObject &obj) ;
         static bool IsPlant(const pGameObject &obj) ;
 
         static bool IsAttackingObject(const GameObject &obj) ;
         static bool IsAttackingObject(const pGameObject &obj) ;
 
-        static bool IsZombie(const GameObject &other) ;
+        static bool IsZombie(const GameObject &obj);
         static bool IsZombie(const pGameObject &obj) ;
+
+        static void InitCollisionStatus(GameObject &obj);
+        static void InitCollisionStatus(pGameObject &obj);
 
         static bool AreCollidable(const GameObject &obj1, const GameObject &obj2) ;
         static bool AreCollidable(const pGameObject &obj1, const pGameObject &obj2) ;
 
         static bool AreColliding(GameObject &obj1, GameObject &obj2);
         static bool AreColliding(pGameObject &obj1, pGameObject &obj2);
+
+        static bool UpdateCollisionStatus(GameObject &obj1, GameObject &obj2);
+        static bool UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2);
 
     protected:
         int m_AP = 0;
