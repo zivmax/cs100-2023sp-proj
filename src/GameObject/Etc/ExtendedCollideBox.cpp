@@ -11,7 +11,7 @@ ExtendedHitBox::ExtendedHitBox(int x, int y, int width, int height, pGameWorld b
 
 void ExtendedHitBox::Update()
 {
-    if (GetX() >= 0)
+    if (GetX() > 0)
     {
         MoveTo(m_belonging_obj.lock()->GetX() - 40, m_belonging_obj.lock()->GetY());
     }

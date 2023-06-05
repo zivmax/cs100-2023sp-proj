@@ -4,14 +4,24 @@
 #include "Plants.hpp"
 #include "Seeds.hpp"
 #include "Zombies.hpp"
+#include <iostream>
 
-static const int INIT_SUN = 50;
+using std::cout, std::endl;
 
-static const int FIRST_WAVE_TICKS = 1200;
+static const int INIT_SUN = 500000;
+
+static const int FIRST_WAVE_TICKS = 10;
 static const int FIRST_WAVE_INTER_TICKS = 600;
 
 static const int FIRST_WORLD_SUN_GEN_INTER_TICKS = 180;
 static const int WORLD_SUN_GEN_INTER_TICKS = 300;
+
+
+// varibles for debugging;
+unsigned long long g_ticks1 = 0;
+unsigned long long g_ticks2 = 0;
+long long g_tmp_ticks = 0;
+long long g_tmp_wave = 0;
 
 GameWorld::GameWorld()
 {
@@ -20,6 +30,100 @@ GameWorld::GameWorld()
 }
 
 GameWorld::~GameWorld() {}
+
+void GameWorld::PrintToTalTicks() const
+{
+
+
+    cout << "Total ticks: ";
+
+    if (g_ticks2 != 0)
+    {
+        cout << g_ticks2 << ' : ';
+    }
+
+    cout << g_ticks1 << "\n";
+}
+
+
+int GameWorld::CheckZombiesNum() const
+{
+    int amount = 0;
+    for (auto &obj_ptr : m_objects_ptr)
+    {
+        if (GameObject::IsZombie(obj_ptr))
+        {
+            amount++;
+        }
+    }
+
+    return amount;
+}
+
+
+int GameWorld::CheckPlantsNum() const
+{
+    int amount = 0;
+    for (auto &obj_ptr : m_objects_ptr)
+    {
+        if (GameObject::IsPlant(obj_ptr))
+        {
+            amount++;
+        }
+    }
+
+    return amount;
+}
+
+
+int GameWorld::CheckAttackObjNum() const
+{
+    int amount = 0;
+    for (auto &obj_ptr : m_objects_ptr)
+    {
+        if (GameObject::IsAttackingObject(obj_ptr))
+        {
+            amount++;
+        }
+    }
+
+    return amount;
+}
+
+
+void GameWorld::CheckWaveGen() const
+{
+    if (g_ticks1 == FIRST_WAVE_TICKS && GetWave() == 1)
+    {
+        cout << "Wave 1 Time right\n";
+    }
+
+    if (GetWave() == 22)
+    {
+        g_tmp_ticks = g_ticks1;
+    }
+
+    if (GetWave() == 23 && g_ticks1 - g_tmp_ticks == 160)
+    {
+        cout << "Wave 22 and 23 inter Time right\n";
+    }
+}
+
+
+void GameWorld::PrintWave() const
+{
+    if (GetWave() != g_tmp_wave)
+    {
+        cout << "Wave " << GetWave() << "\n";
+        g_tmp_wave = GetWave();
+    }
+}
+
+void GameWorld::PrintDebugInfo() const
+{
+
+    CheckWaveGen();
+}
 
 
 void GameWorld::Init()
@@ -57,6 +161,17 @@ LevelStatus GameWorld::Update()
     UpdateAllObjects();
     HandleCollisions();
     RemoveDeadObject();
+
+
+    if (g_ticks1 == ULLONG_MAX)
+    {
+        g_ticks2++;
+        g_ticks1 = 0;
+    }
+
+    g_ticks1++;
+
+    PrintDebugInfo();
 
     if (IsLost())
     {
@@ -225,7 +340,8 @@ bool GameWorld::IsLost() const
     {
         if (GameObject::IsZombie(obj_ptr) && obj_ptr->GetX() < 0)
         {
-            return true;
+            obj_ptr->SelfKill();
+            return false;
         }
     }
 

@@ -50,6 +50,15 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
 
         bool AnyZombieOnRow(int row) const;
 
+        // Funcs for debugging.
+        void PrintDebugInfo() const;
+        void PrintToTalTicks() const;
+        void PrintWave() const;
+        void CheckWaveGen() const;
+        int CheckZombiesNum() const;
+        int CheckPlantsNum() const;
+        int CheckAttackObjNum() const;
+
 
     private:
         int m_sun_gen_left_ticks = 0;
