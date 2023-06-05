@@ -61,13 +61,13 @@ WorldSun::WorldSun(int x, int y, pGameWorld belonging_world) : Sun(x, y, belongi
 
 void WorldSun::Update()
 {
-    if (m_elapsed_ticks != m_drop_ticks)
+    if (m_elapsed_ticks <= m_drop_ticks)
     {
         MoveTo(GetX(), GetY() - 1);
     }
     else
     {
-        m_elapsed_ticks += 1;
+        m_elapsed_ticks++;
 
         if (m_elapsed_ticks - m_drop_ticks == 300)
         {
