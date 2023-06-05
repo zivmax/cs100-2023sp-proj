@@ -17,7 +17,7 @@ add_library(
 target_link_libraries(
 	Zombies
 	GameObject
-	etc
+	Etc
 )
 
 target_include_directories(
