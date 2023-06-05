@@ -98,15 +98,11 @@ class Explosion : public AttackingObj
         Explosion(int x, int y, pGameWorld belonging_world);
 
         virtual void Update() override;
+
+    private:
+        int m_last_ticks_left = -1;
 };
 
 
-class BombShrapnel : public AttackingObj
-{
-    public:
-        BombShrapnel(int x, int y, pGameWorld belonging_world);
-
-        virtual void Update() override;
-};
 
 #endif // !BACK_GROUND_HPP__
