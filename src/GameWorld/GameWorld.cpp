@@ -19,6 +19,7 @@ void GameWorld::Init()
 {
     m_wave_gen_inter_ticks = 600;
     m_wave_gen_left_ticks = 10;
+
     m_objects_ptr.push_back(std::make_shared<BackGround>(shared_from_this()));
 
     SetWave(0);
