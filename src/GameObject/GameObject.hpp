@@ -32,6 +32,7 @@ class GameObject : public ObjectBase, public std::enable_shared_from_this<GameOb
         
         void SelfKill();
         bool IsDead() const;
+        bool IsColliding() const;
         virtual void OnCollision(const GameObject &other);
 
         int GetAP() const;

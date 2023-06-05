@@ -18,11 +18,17 @@ bool GameObject::IsDead() const
     return m_is_dead;
 }
 
+
+bool GameObject::IsColliding() const
+{
+    return m_is_colliding;
+}
+
+
 int GameObject::GetAP() const
 {
     return m_AP;
 }
-
 
 
 int GameObject::GetLawnRow() const
@@ -126,8 +132,8 @@ bool GameObject::UpdateCollisionStatus(GameObject &obj1, GameObject &obj2)
         }
     }
 
-    obj1.m_is_colliding = false;
-    obj2.m_is_colliding = false;
+    obj1.m_is_colliding = (obj1.m_is_colliding) ? true : false;
+    obj2.m_is_colliding = (obj2.m_is_colliding) ? true : false;
     return false;
 }
 
@@ -217,7 +223,7 @@ bool GameObject::UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2)
             obj1->OnCollision(*obj2);
             obj2->OnCollision(*obj1);
 
-                                  return true;
+            return true;
         }
     }
 

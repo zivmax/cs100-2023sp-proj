@@ -14,7 +14,8 @@ void AttackingObj::OnClick() {}
 
 void AttackingObj::OnCollision(const GameObject &other)
 {
-    SelfKill();
+    if (other.GetAP() != 0)
+    {
+        SelfKill();
+    }
 }
-
-

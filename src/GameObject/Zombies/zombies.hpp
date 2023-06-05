@@ -46,4 +46,14 @@ class PoleZombie : public ZombieBase
         PoleZombie(int x, int y, pGameWorld belonging_world);
 
         virtual void Update() override;
+        void ExtendHitBox();
+        void StartJump();
+
+    private:
+        bool m_is_running = true;
+        bool m_is_playing = false;
+        bool m_is_extended = false;
+        int m_speed = -1;
+        int m_jump_anime_frames_left = -1;
+        pGameObject_weak m_extended_box = pGameObject_weak();
 };

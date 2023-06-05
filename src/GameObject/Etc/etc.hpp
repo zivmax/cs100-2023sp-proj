@@ -104,5 +104,18 @@ class Explosion : public AttackingObj
 };
 
 
+class ExtendedHitBox : public GameObject
+{
+    public:
+        ExtendedHitBox(int x, int y, int width, int height, pGameWorld belonging_world, pGameObject_weak belonging_obj);
+
+        virtual void Update() override;
+        virtual void OnClick() override;
+        virtual void OnCollision(const GameObject &other) override;
+
+    private:
+        pGameObject_weak m_belonging_obj = pGameObject_weak();
+};
+
 
 #endif // !BACK_GROUND_HPP__
