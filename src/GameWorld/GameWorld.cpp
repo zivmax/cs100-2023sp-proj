@@ -5,9 +5,9 @@
 #include "Seeds.hpp"
 #include "Zombies.hpp"
 
-static const int INIT_SUN = 1000;
+static const int INIT_SUN = 50;
 
-static const int FIRST_WAVE_TICKS = 10;
+static const int FIRST_WAVE_TICKS = 1200;
 static const int FIRST_WAVE_INTER_TICKS = 600;
 
 static const int FIRST_WORLD_SUN_GEN_INTER_TICKS = 180;
