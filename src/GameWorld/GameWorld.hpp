@@ -11,11 +11,14 @@ class GameObject;
 using pGameObject_weak = std::weak_ptr<GameObject>;
 using pGameObject = std::shared_ptr<GameObject>;
 
+enum class ZombieType;
+
 enum class ObjectOnHands {
     NONE,
     SHOVEL,
     SUN_FLOWER_SEED,
 };
+
 
 class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorld>
 {
@@ -59,6 +62,9 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
 
         void GenerateSun();
         void GenerateWave();
+
+        void GenerateZombie(ZombieType type);
+        void GenerateRandomZombies(int total_amount);
 
         bool IsLost() const;
 };

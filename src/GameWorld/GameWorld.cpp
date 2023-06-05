@@ -20,7 +20,7 @@ void GameWorld::Init()
     m_wave_gen_inter_ticks = 600;
     m_wave_gen_left_ticks = 1200;
 
-    m_objects_ptr.push_back(std::make_shared<BackGround>(shared_from_this()));
+    AddObject(std::make_shared<BackGround>(shared_from_this()));
 
     SetWave(0);
     SetSun(50);
@@ -81,7 +81,7 @@ void GameWorld::CreatePlantingSpots()
         {
             int x = FIRST_COL_CENTER + i * LAWN_GRID_WIDTH;
             int y = FIRST_ROW_CENTER + j * LAWN_GRID_HEIGHT;
-            m_objects_ptr.push_back(std::make_shared<PlantingSpot>(x, y, shared_from_this()));
+            AddObject(std::make_shared<PlantingSpot>(x, y, shared_from_this()));
         }
     }
 }
@@ -90,13 +90,13 @@ void GameWorld::CreatePlantingSpots()
 void GameWorld::CreateSeedCards()
 {
     int x = 130;
-    m_objects_ptr.push_back(std::make_shared<SunFlowerSeed>(x, shared_from_this()));
+    AddObject(std::make_shared<SunFlowerSeed>(x, shared_from_this()));
 }
 
 
 void GameWorld::CreateShovel()
 {
-    m_objects_ptr.push_back(std::make_shared<Shovel>(shared_from_this()));
+    AddObject(std::make_shared<Shovel>(shared_from_this()));
 }
 
 
@@ -150,31 +150,74 @@ void GameWorld::GenerateSun()
 {
     int x = randInt(75, WINDOW_WIDTH - 75);
     int y = WINDOW_HEIGHT - 1;
-    m_objects_ptr.push_back(std::make_shared<WorldSun>(x, y, shared_from_this()));
+    AddObject(std::make_shared<WorldSun>(x, y, shared_from_this()));
 
     m_sun_gen_left_ticks = m_sun_gen_inter_ticks;
 }
 
 void GameWorld::GenerateWave()
 {
+    SetWave(GetWave() + 1);
+
+    int total_amount = (15 + GetWave()) / 10;
+
+    GenerateRandomZombies(total_amount);
+
+    m_wave_gen_inter_ticks = std::max(150, 600 - 20 * GetWave());
+    m_wave_gen_left_ticks = m_wave_gen_inter_ticks;
+}
+
+
+void GameWorld::GenerateRandomZombies(int total_amount)
+{
     double p1 = 20;
     double p2 = 2 * std::max(GetWave() - 8, 0);
     double p3 = 3 * std::max(GetWave() - 15, 0);
 
-    double P_regular_zombie = p1 / (p1 + p2 + p3);
-    double P_bucket_zombie = p2 / (p1 + p2 + p3);
-    double P_pole_zombie = p3 / (p1 + p2 + p3);
+    int P_regular_zombie = p1 / (p1 + p2 + p3) * 100;
+    int P_bucket_zombie = p2 / (p1 + p2 + p3) * 100;
+    int P_pole_zombie = p3 / (p1 + p2 + p3) * 100;
 
-    int total_amount = (15 + GetWave()) / 10;
+    
+    for (int i = 0; i < total_amount; i++)
+    {
+        int random_num = randInt(0, 100);
+        if (random_num < P_regular_zombie)
+        {
+            GenerateZombie(ZombieType::REGULAR);
+        }
+        else if (random_num < P_regular_zombie + P_bucket_zombie)
+        {
+            GenerateZombie(ZombieType::BUCKET);
+        }
+        else
+        {
+            GenerateZombie(ZombieType::POLE);
+        }
+    }
+}
+
+
+void GameWorld::GenerateZombie(ZombieType type)
+{
 
     int x = randInt(WINDOW_WIDTH - 40, WINDOW_WIDTH - 1);
     int y = FIRST_ROW_CENTER + randInt(0, GAME_ROWS - 1) * LAWN_GRID_HEIGHT;
 
-    m_objects_ptr.push_back(std::make_shared<RegularZombie>(x, y, shared_from_this()));
-
-    SetWave(GetWave() + 1);
-    m_wave_gen_inter_ticks = std::max(150, 600 - 20 * GetWave());
-    m_wave_gen_left_ticks = m_wave_gen_inter_ticks;
+    switch (type)
+    {
+        case ZombieType::REGULAR:
+            AddObject(std::make_shared<RegularZombie>(x, y, shared_from_this()));
+            break;
+        case ZombieType::BUCKET:
+            AddObject(std::make_shared<RegularZombie>(x, y, shared_from_this()));
+            break;
+        case ZombieType::POLE:
+            AddObject(std::make_shared<RegularZombie>(x, y, shared_from_this()));
+            break;
+        default:
+            break;
+    }
 }
 
 
@@ -184,7 +227,8 @@ bool GameWorld::IsLost() const
     {
         if (GameObject::IsZombie(obj_ptr) && obj_ptr->GetX() < 0)
         {
-            return true;
+            obj_ptr->SelfKill();
+            return false;
         }
     }
 

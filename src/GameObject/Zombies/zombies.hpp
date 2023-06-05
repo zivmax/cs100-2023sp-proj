@@ -1,5 +1,11 @@
 #include "GameObject.hpp"
 
+enum class ZombieType {
+    REGULAR,
+    BUCKET,
+    POLE,
+};
+
 class ZombieBase : public GameObject
 {
     public:
