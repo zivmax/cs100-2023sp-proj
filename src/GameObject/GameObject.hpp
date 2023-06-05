@@ -35,6 +35,7 @@ class GameObject : public ObjectBase, public std::enable_shared_from_this<GameOb
         virtual void OnCollision(const GameObject &other);
 
         int GetAP() const;
+        int GetLawnRow() const;
 
         static bool IsPlant(const GameObject &obj) ;
         static bool IsPlant(const pGameObject &obj) ;

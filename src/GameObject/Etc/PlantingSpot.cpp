@@ -1,6 +1,7 @@
 #include "Etc.hpp"
 
-PlantingSpot::PlantingSpot(int x, int y, pGameWorld belonging_world) : GameObject(belonging_world, IMGID_NONE, x, y, LAYER_UI, 60, 80, ANIMID_NO_ANIMATION) 
+PlantingSpot::PlantingSpot(int x, int y, pGameWorld belonging_world)
+    : GameObject(belonging_world, IMGID_NONE, x, y, LAYER_UI, 60, 80, ANIMID_NO_ANIMATION)
 {
     m_type = ObjectType::PLANTING_SPOT;
 }

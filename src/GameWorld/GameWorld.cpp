@@ -5,6 +5,8 @@
 #include "Seeds.hpp"
 #include "Zombies.hpp"
 
+const int INIT_SUN = 1000;
+const int FIRST_WAVE_TICKS = 10;
 
 GameWorld::GameWorld()
 {
@@ -18,12 +20,12 @@ GameWorld::~GameWorld() {}
 void GameWorld::Init()
 {
     m_wave_gen_inter_ticks = 600;
-    m_wave_gen_left_ticks = 1200;
+    m_wave_gen_left_ticks = FIRST_WAVE_TICKS;
 
     AddObject(std::make_shared<BackGround>(shared_from_this()));
 
     SetWave(0);
-    SetSun(50);
+    SetSun(INIT_SUN);
 
     CreatePlantingSpots();
     CreateSeedCards();
@@ -33,34 +35,28 @@ void GameWorld::Init()
 
 LevelStatus GameWorld::Update()
 {
+    m_wave_gen_left_ticks--;
+    m_sun_gen_left_ticks--;
+
     if (m_sun_gen_left_ticks == 0)
     {
         GenerateSun();
-    }
-    else
-    {
-        m_sun_gen_left_ticks--;
     }
 
     if (m_wave_gen_left_ticks == 0)
     {
         GenerateWave();
     }
-    else
-    {
-        m_wave_gen_left_ticks--;
-    }
+
 
     UpdateAllObjects();
+    HandleCollisions();
+    RemoveDeadObject();
 
     if (IsLost())
     {
         return LevelStatus::LOSING;
     }
-
-    HandleCollisions();
-
-    RemoveDeadObject();
 
     return LevelStatus::ONGOING;
 }
@@ -91,6 +87,9 @@ void GameWorld::CreateSeedCards()
 {
     int x = 130;
     AddObject(std::make_shared<SunFlowerSeed>(x, shared_from_this()));
+
+    x += 60;
+    AddObject(std::make_shared<PeaShooterSeed>(x, shared_from_this()));
 }
 
 
@@ -178,7 +177,7 @@ void GameWorld::GenerateRandomZombies(int total_amount)
     int P_bucket_zombie = p2 / (p1 + p2 + p3) * 100;
     int P_pole_zombie = p3 / (p1 + p2 + p3) * 100;
 
-    
+
     for (int i = 0; i < total_amount; i++)
     {
         int random_num = randInt(0, 100);
@@ -261,6 +260,23 @@ pGameObject_weak GameWorld::PlantingSeedOnHand(int x, int y)
         case ObjectOnHands::SUN_FLOWER_SEED:
             returned_ptr = AddObject(std::make_shared<SunFlower>(x, y, shared_from_this()));
             break;
+
+        case ObjectOnHands::PEA_SHOOTER_SEED:
+            returned_ptr = AddObject(std::make_shared<PeaShooter>(x, y, shared_from_this()));
+            break;
+
+        case ObjectOnHands::WALL_NUT_SEED:
+            returned_ptr = AddObject(std::make_shared<SunFlower>(x, y, shared_from_this()));
+            break;
+
+        case ObjectOnHands::CHERRY_BOMB_SEED:
+            returned_ptr = AddObject(std::make_shared<SunFlower>(x, y, shared_from_this()));
+            break;
+
+        case ObjectOnHands::REPEATER_SEED:
+            returned_ptr = AddObject(std::make_shared<SunFlower>(x, y, shared_from_this()));
+            break;
+
         default:
             break;
     }
@@ -278,4 +294,16 @@ ObjectOnHands GameWorld::GetObjectOnHands() const
 void GameWorld::SetObjectOnHands(ObjectOnHands new_object_on_hands)
 {
     m_object_on_hands = new_object_on_hands;
+}
+
+
+bool GameWorld::AnyZombieOnRow(int request_row) const
+{
+    for (auto &obj_ptr : m_objects_ptr)
+    {
+        if (GameObject::IsZombie(obj_ptr) && obj_ptr->GetLawnRow() == request_row)
+        {
+            return true;
+        }
+    }
 }

@@ -14,9 +14,14 @@ using pGameObject = std::shared_ptr<GameObject>;
 enum class ZombieType;
 
 enum class ObjectOnHands {
+    UNDEFINED,
     NONE,
     SHOVEL,
     SUN_FLOWER_SEED,
+    PEA_SHOOTER_SEED,
+    WALL_NUT_SEED,
+    CHERRY_BOMB_SEED,
+    REPEATER_SEED,
 };
 
 
@@ -42,6 +47,8 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
 
         void SetObjectOnHands(ObjectOnHands new_object_on_hands);
         ObjectOnHands GetObjectOnHands() const;
+
+        bool AnyZombieOnRow(int row) const;
 
 
     private:

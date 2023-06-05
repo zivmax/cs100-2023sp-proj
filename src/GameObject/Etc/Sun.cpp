@@ -2,7 +2,8 @@
 #include "utils.hpp"
 
 
-Sun::Sun(int x, int y, pGameWorld belonging_world) : GameObject(belonging_world, IMGID_SUN, x, y, LAYER_SUN, 80, 80, ANIMID_IDLE_ANIM) {}
+Sun::Sun(int x, int y, pGameWorld belonging_world) 
+    : GameObject(belonging_world, IMGID_SUN, x, y, LAYER_SUN, 80, 80, ANIMID_IDLE_ANIM) {}
 
 
 void Sun::OnClick()

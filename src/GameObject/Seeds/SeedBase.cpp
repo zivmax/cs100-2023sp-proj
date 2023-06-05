@@ -1,7 +1,8 @@
 #include "Seeds.hpp"
 
 
-SeedBase::SeedBase(pGameWorld belonging_world, ImageID imageID, ObjectOnHands seed_type, int cooling_ticks, int cost_sun, int x, int y) : GameObject(belonging_world, imageID, x, y, LAYER_UI, 50, 70, ANIMID_NO_ANIMATION)
+SeedBase::SeedBase(pGameWorld belonging_world, ImageID imageID, ObjectOnHands seed_type, int cooling_ticks, int cost_sun, int x)
+    : GameObject(belonging_world, imageID, x, WINDOW_HEIGHT - 44, LAYER_UI, 50, 70, ANIMID_NO_ANIMATION)
 {
     m_type = ObjectType::HANDIBLE;
 

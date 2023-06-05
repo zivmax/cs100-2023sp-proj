@@ -21,7 +21,55 @@ class SunFlower : public PlantBase
 
 
     private:
-        int m_first_production_left_ticks = -1;
-        int m_ticks_passed_after_one_generation = -1;
-        bool m_first_producted = false;
+        int m_production_left_ticks = -1;
+        int m_inter_ticks_of_production = -1;
+};
+
+
+class PeaShooter : public PlantBase
+{
+    public:
+        PeaShooter(int x , int y, pGameWorld belonging_world);
+
+        virtual void Update() override;
+        void Attack();
+
+    private:
+        int m_shoot_cooling_ticks = -1;
+        int m_cooling_left_ticks = -1;
+};
+
+
+class WallNut : public PlantBase
+{
+    public:
+        WallNut(int x, int y, pGameWorld belonging_world);
+
+        virtual void Update() override;
+};
+
+
+class CherryBomb : public PlantBase
+{
+    public:
+        CherryBomb(int x, int y, pGameWorld belonging_world);
+
+        virtual void Update() override;
+
+    private:
+        int m_explode_left_ticks = -1;
+};
+
+
+class Repeater : public PlantBase
+{
+    public:
+        Repeater(int x, int y, pGameWorld belonging_world);
+
+        virtual void Update() override;
+        void Attack();
+
+    private:
+        int m_shoot_cooling_ticks = -1;
+        int m_cooling_left_ticks = -1;
 };

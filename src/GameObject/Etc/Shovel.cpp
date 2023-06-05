@@ -1,6 +1,7 @@
 #include "Etc.hpp"
 
-Shovel::Shovel(pGameWorld belonging_world) : GameObject(belonging_world, IMGID_SHOVEL, 600, WINDOW_HEIGHT - 40, LAYER_UI, 50, 50, ANIMID_NO_ANIMATION) 
+Shovel::Shovel(pGameWorld belonging_world) 
+    : GameObject(belonging_world, IMGID_SHOVEL, 600, WINDOW_HEIGHT - 40, LAYER_UI, 50, 50, ANIMID_NO_ANIMATION) 
 {
     m_type = ObjectType::HANDIBLE;
 }

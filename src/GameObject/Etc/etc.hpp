@@ -8,10 +8,10 @@
 class EmptyObject : public GameObject
 {
     public:
-		EmptyObject(pGameWorld belonging_world);
+        EmptyObject(pGameWorld belonging_world);
 
-		virtual void Update() override;
-		virtual void OnClick() override;
+        virtual void Update() override;
+        virtual void OnClick() override;
 };
 
 class BackGround : public GameObject
@@ -60,9 +60,7 @@ class PlantingSpot : public GameObject
 
         virtual void Update() override;
         virtual void OnClick() override;
-
 };
-
 
 
 class Shovel : public GameObject
@@ -72,8 +70,43 @@ class Shovel : public GameObject
 
         virtual void Update() override;
         virtual void OnClick() override;
-
 };
 
+
+class AttackingObj : public GameObject
+{
+    public:
+        AttackingObj(pGameWorld belonging_world, ImageID imageID, AnimID animID, int AP, int x, int y, int width, int height);
+
+        virtual void OnClick() override;
+        virtual void OnCollision(const GameObject &other) override;
+};
+
+
+class Pea : public AttackingObj
+{
+    public:
+        Pea(int x, int y, pGameWorld belonging_world);
+
+        virtual void Update() override;
+};
+
+
+class Explosion : public AttackingObj
+{
+    public:
+        Explosion(int x, int y, pGameWorld belonging_world);
+
+        virtual void Update() override;
+};
+
+
+class BombShrapnel : public AttackingObj
+{
+    public:
+        BombShrapnel(int x, int y, pGameWorld belonging_world);
+
+        virtual void Update() override;
+};
 
 #endif // !BACK_GROUND_HPP__

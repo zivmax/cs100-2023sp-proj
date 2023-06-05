@@ -1,6 +1,7 @@
 #include "GameObject.hpp"
 
-GameObject::GameObject(pGameWorld ptr_gameworld, ImageID imageID, int x, int y, LayerID layer, int width, int height, AnimID animID) : ObjectBase(imageID, x, y, layer, width, height, animID), m_belonging_world(ptr_gameworld)
+GameObject::GameObject(pGameWorld ptr_gameworld, ImageID imageID, int x, int y, LayerID layer, int width, int height, AnimID animID)
+    : ObjectBase(imageID, x, y, layer, width, height, animID), m_belonging_world(ptr_gameworld)
 {
     m_row_on_lawn = (y - FIRST_ROW_CENTER) / LAWN_GRID_HEIGHT + 1;
 }
@@ -20,6 +21,13 @@ bool GameObject::IsDead() const
 int GameObject::GetAP() const
 {
     return m_AP;
+}
+
+
+
+int GameObject::GetLawnRow() const
+{
+    return m_row_on_lawn;
 }
 
 
@@ -209,7 +217,7 @@ bool GameObject::UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2)
             obj1->OnCollision(*obj2);
             obj2->OnCollision(*obj1);
 
-            return true;
+                                  return true;
         }
     }
 

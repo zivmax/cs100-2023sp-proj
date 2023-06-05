@@ -26,3 +26,21 @@ class RegularZombie : public ZombieBase
 
         virtual void Update() override;
 };
+
+
+class BucketZombie : public ZombieBase
+{
+    public:
+        BucketZombie(int x, int y, pGameWorld belonging_world);
+
+        virtual void Update() override;
+};
+
+class PoleZombie : public ZombieBase
+{
+    public:
+        PoleZombie(int x, int y, pGameWorld belonging_world);
+
+        virtual void Update() override;
+};
+

@@ -1,6 +1,7 @@
 #include "Zombies.hpp"
 
-ZombieBase::ZombieBase(pGameWorld belonging_world, ImageID imageID, AnimID animID, int AP, int HP, int x, int y) : GameObject(belonging_world, imageID, x, y, LAYER_ZOMBIES, 20, 80, animID)
+ZombieBase::ZombieBase(pGameWorld belonging_world, ImageID imageID, AnimID animID, int AP, int HP, int x, int y)
+    : GameObject(belonging_world, imageID, x, y, LAYER_ZOMBIES, 20, 80, animID)
 {
     m_type = ObjectType::ZOMBIE;
 
