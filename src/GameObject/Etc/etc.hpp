@@ -42,6 +42,10 @@ class FlowerSun : public Sun
         FlowerSun(int x, int y, pGameWorld belonging_world);
 
         virtual void Update() override;
+
+    private:
+        int m_speed_x = -1;
+        int m_speed_y = -1;
 };
 
 class WorldSun : public Sun

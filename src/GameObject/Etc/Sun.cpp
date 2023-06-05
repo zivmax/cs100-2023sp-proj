@@ -2,7 +2,7 @@
 #include "utils.hpp"
 
 
-Sun::Sun(int x, int y, pGameWorld belonging_world) 
+Sun::Sun(int x, int y, pGameWorld belonging_world)
     : GameObject(belonging_world, IMGID_SUN, x, y, LAYER_SUN, 80, 80, ANIMID_IDLE_ANIM) {}
 
 
@@ -18,6 +18,8 @@ FlowerSun::FlowerSun(int x, int y, pGameWorld belonging_world) : Sun(x, y, belon
 {
     m_drop_ticks = 12;
     m_elapsed_ticks = 0;
+    m_speed_x = 1;
+    m_speed_y = 4;
 }
 
 
@@ -31,8 +33,10 @@ void FlowerSun::Update()
         int delta_t = 1;
 
         // Calculate the position of the sun using the parabolic motion formula.
-        int next_x = GetX() - 1;                                                           // Calculate horizontal position
-        int next_y = GetY() + 4 * delta_t - 0.5 * 1 * delta_t * delta_t - 1 * delta_t * t; // Calculate vertical position
+        int next_x = GetX() - m_speed_x; // Calculate horizontal position
+        int next_y = GetY() + m_speed_y; // Calculate vertical position
+
+        m_speed_y--;
 
         // Update the position of the sun
         MoveTo(next_x, next_y);
