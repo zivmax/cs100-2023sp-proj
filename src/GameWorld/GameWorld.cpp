@@ -305,4 +305,6 @@ bool GameWorld::AnyZombieOnRow(int request_row) const
             return true;
         }
     }
+
+    return false;
 }
