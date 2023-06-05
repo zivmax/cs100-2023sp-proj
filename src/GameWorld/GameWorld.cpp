@@ -5,13 +5,18 @@
 #include "Seeds.hpp"
 #include "Zombies.hpp"
 
-const int INIT_SUN = 1000;
-const int FIRST_WAVE_TICKS = 10;
+static const int INIT_SUN = 1000;
+
+static const int FIRST_WAVE_TICKS = 10;
+static const int FIRST_WAVE_INTER_TICKS = 600;
+
+static const int FIRST_WORLD_SUN_GEN_INTER_TICKS = 180;
+static const int WORLD_SUN_GEN_INTER_TICKS = 300;
 
 GameWorld::GameWorld()
 {
-    m_sun_gen_left_ticks = 180;
-    m_sun_gen_inter_ticks = 300;
+    m_sun_gen_left_ticks = FIRST_WORLD_SUN_GEN_INTER_TICKS;
+    m_sun_gen_inter_ticks = WORLD_SUN_GEN_INTER_TICKS;
 }
 
 GameWorld::~GameWorld() {}
@@ -19,7 +24,7 @@ GameWorld::~GameWorld() {}
 
 void GameWorld::Init()
 {
-    m_wave_gen_inter_ticks = 600;
+    m_wave_gen_inter_ticks = FIRST_WAVE_INTER_TICKS;
     m_wave_gen_left_ticks = FIRST_WAVE_TICKS;
 
     AddObject(std::make_shared<BackGround>(shared_from_this()));
@@ -90,6 +95,15 @@ void GameWorld::CreateSeedCards()
 
     x += 60;
     AddObject(std::make_shared<PeaShooterSeed>(x, shared_from_this()));
+
+    x += 60;
+    AddObject(std::make_shared<WallNutSeed>(x, shared_from_this()));
+
+    x += 60;
+    AddObject(std::make_shared<CherryBombSeed>(x, shared_from_this()));
+
+    x += 60;
+    AddObject(std::make_shared<RepeaterSeed>(x, shared_from_this()));
 }
 
 
@@ -183,40 +197,25 @@ void GameWorld::GenerateRandomZombies(int total_amount)
         int random_num = randInt(0, 100);
         if (random_num < P_regular_zombie)
         {
-            GenerateZombie(ZombieType::REGULAR);
+            GenerateZombie<RegularZombie>();
         }
         else if (random_num < P_regular_zombie + P_bucket_zombie)
         {
-            GenerateZombie(ZombieType::BUCKET);
+            GenerateZombie<RegularZombie>();
         }
         else
         {
-            GenerateZombie(ZombieType::POLE);
+            GenerateZombie<RegularZombie>();
         }
     }
 }
 
-
-void GameWorld::GenerateZombie(ZombieType type)
+template <typename ZombieT>
+void GameWorld::GenerateZombie()
 {
-
     int x = randInt(WINDOW_WIDTH - 40, WINDOW_WIDTH - 1);
     int y = FIRST_ROW_CENTER + randInt(0, GAME_ROWS - 1) * LAWN_GRID_HEIGHT;
-
-    switch (type)
-    {
-        case ZombieType::REGULAR:
-            AddObject(std::make_shared<RegularZombie>(x, y, shared_from_this()));
-            break;
-        case ZombieType::BUCKET:
-            AddObject(std::make_shared<RegularZombie>(x, y, shared_from_this()));
-            break;
-        case ZombieType::POLE:
-            AddObject(std::make_shared<RegularZombie>(x, y, shared_from_this()));
-            break;
-        default:
-            break;
-    }
+    AddObject(std::make_shared<ZombieT>(x, y, shared_from_this()));
 }
 
 

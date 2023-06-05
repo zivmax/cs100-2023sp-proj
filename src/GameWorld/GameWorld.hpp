@@ -70,7 +70,9 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
         void GenerateSun();
         void GenerateWave();
 
-        void GenerateZombie(ZombieType type);
+        template <typename ZombieT>
+        void GenerateZombie();
+
         void GenerateRandomZombies(int total_amount);
 
         bool IsLost() const;

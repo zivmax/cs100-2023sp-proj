@@ -1,10 +1,12 @@
 #include "Etc.hpp"
 #include "Plants.hpp"
 
+static const int INTER_TICKS_OF_PRODUCTION = 600;
+
 SunFlower::SunFlower(int x, int y, pGameWorld belonging_world) : PlantBase(belonging_world, IMGID_SUNFLOWER, ANIMID_IDLE_ANIM, 300, x, y)
 {
     m_production_left_ticks = randInt(30, 600);
-    m_inter_ticks_of_production = 600;
+    m_inter_ticks_of_production = INTER_TICKS_OF_PRODUCTION;
 }
 
 

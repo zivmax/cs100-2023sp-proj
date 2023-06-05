@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
+message("Call PvZ")
+
 set(PROJECT_NAME "PvZ")
 project(${PROJECT_NAME})
 

@@ -46,6 +46,9 @@ class WallNut : public PlantBase
         WallNut(int x, int y, pGameWorld belonging_world);
 
         virtual void Update() override;
+
+    private:
+        bool m_is_cracked = false;
 };
 
 
@@ -70,6 +73,7 @@ class Repeater : public PlantBase
         void Attack();
 
     private:
-        int m_shoot_cooling_ticks = -1;
         int m_cooling_left_ticks = -1;
+        int m_first_shoot_cooling_ticks = -1;
+        int m_second_shoot_cooling_ticks = -1;
 };
