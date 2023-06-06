@@ -10,10 +10,10 @@ void RegularZombie::Update()
         return;
     }
 
-    UpdateEatingStatus();
-
-    if (!m_is_eating)
+    if (!(m_is_eating && m_is_colliding))
     {
         MoveTo(GetX() - 1, GetY());
     }
+
+    UpdateStopEating();
 }

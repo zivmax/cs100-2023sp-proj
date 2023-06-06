@@ -45,6 +45,7 @@ void PoleZombie::Update()
         ExtendHitBox();
     }
 
+
     if (m_is_running && m_extended_box.lock()->IsColliding())
     {
         StartJump();
@@ -60,13 +61,15 @@ void PoleZombie::Update()
             PlayAnimation(ANIMID_WALK_ANIM);
         }
     }
-    else
-    {
-        UpdateEatingStatus();
-    }
 
-    if (!m_is_colliding && !m_is_eating && !m_is_playing)
+
+    if (!m_is_colliding && !m_is_eating && !m_is_playing && m_is_extended)
     {
         MoveTo(GetX() - m_speed, GetY());
+    }
+
+    if (!m_is_running && !m_is_playing)
+    {
+        UpdateStopEating();
     }
 }

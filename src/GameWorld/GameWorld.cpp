@@ -5,13 +5,21 @@
 #include "Seeds.hpp"
 #include "Zombies.hpp"
 
+// Correct is 50
 static const int INIT_SUN = 50;
 
+// Correct is 1200
 static const int FIRST_WAVE_TICKS = 1200;
+// Correct is 600
 static const int FIRST_WAVE_INTER_TICKS = 600;
 
+// Correct is 180
 static const int FIRST_WORLD_SUN_GEN_INTER_TICKS = 180;
+// Correct is 300
 static const int WORLD_SUN_GEN_INTER_TICKS = 300;
+
+// Correct is true
+static const bool ENABLE_LOST = true;
 
 GameWorld::GameWorld()
 {
@@ -57,6 +65,7 @@ LevelStatus GameWorld::Update()
     UpdateAllObjects();
     HandleCollisions();
     RemoveDeadObject();
+    ExtraEatingUpdateForZombies();
 
     if (IsLost())
     {
@@ -193,14 +202,14 @@ void GameWorld::GenerateRandomZombies(int total_amount)
 
     for (int i = 0; i < total_amount; i++)
     {
-        int random_num = randInt(0, 100);
-        if (random_num < P_regular_zombie)
+        int random_num = randInt(1, 100);
+        if (random_num <= P_regular_zombie)
         {
-            GenerateZombie<PoleZombie>();
+            GenerateZombie<RegularZombie>();
         }
-        else if (random_num < P_regular_zombie + P_bucket_zombie)
+        else if (random_num <= P_regular_zombie + P_bucket_zombie)
         {
-            GenerateZombie<PoleZombie>();
+            GenerateZombie<BucketZombie>();
         }
         else
         {
@@ -224,7 +233,7 @@ bool GameWorld::IsLost() const
     {
         if (GameObject::IsZombie(obj_ptr) && obj_ptr->GetX() < 0)
         {
-            return true;
+            return ENABLE_LOST;
         }
     }
 
@@ -305,4 +314,24 @@ bool GameWorld::AnyZombieOnRow(int request_row) const
     }
 
     return false;
+}
+
+void GameWorld::ExtraEatingUpdateForZombies()
+{
+    for (auto &obj_ptr1 : m_objects_ptr)
+    {
+        if (GameObject::IsZombie(obj_ptr1))
+        {
+            for (auto &obj_ptr2 : m_objects_ptr)
+            {
+                if (GameObject::IsPlant(obj_ptr2))
+                {
+                    if (GameObject::AreColliding(obj_ptr1, obj_ptr2))
+                    {
+                        obj_ptr1->Update();
+                    }
+                }
+            }
+        }
+    }
 }

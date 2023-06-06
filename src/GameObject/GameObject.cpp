@@ -1,4 +1,6 @@
 #include "GameObject.hpp"
+#include <cmath>
+
 
 GameObject::GameObject(pGameWorld ptr_gameworld, ImageID imageID, int x, int y, LayerID layer, int width, int height, AnimID animID)
     : ObjectBase(imageID, x, y, layer, width, height, animID), m_belonging_world(ptr_gameworld)
@@ -65,35 +67,37 @@ void GameObject::InitCollisionStatus(GameObject &obj)
 
 bool GameObject::AreCollidable(const GameObject &obj1, const GameObject &obj2)
 {
+    bool is_collidable = false;
+
     if (obj1.m_row_on_lawn != obj2.m_row_on_lawn)
     {
-        return false;
+        is_collidable = false;
     }
     else if (obj1.m_is_dead || obj2.m_is_dead)
     {
-        return false;
+        is_collidable = false;
     }
     else if (obj1.m_type == ObjectType::ATTACKING_OBJECT)
     {
         if (obj2.m_type == ObjectType::ZOMBIE)
-            return true;
+            is_collidable = true;
     }
     else if (obj1.m_type == ObjectType::PLANT)
     {
         if (obj2.m_type == ObjectType::ZOMBIE)
-            return true;
+            is_collidable = true;
     }
     else if (obj1.m_type == ObjectType::ZOMBIE)
     {
         if (obj2.m_type == ObjectType::ATTACKING_OBJECT || obj2.m_type == ObjectType::PLANT)
-            return true;
+            is_collidable = true;
     }
     else
     {
-        return false;
+        is_collidable = false;
     }
 
-    return false;
+    return is_collidable;
 }
 
 
@@ -101,16 +105,17 @@ bool GameObject::AreColliding(GameObject &obj1, GameObject &obj2)
 {
     int diff_x = std::abs(obj1.GetX() - obj2.GetX());
 
-    if (diff_x <= (obj1.GetWidth() / 2 + obj2.GetWidth() / 2))
+    bool is_colliding = false;
+    if (diff_x < (obj1.GetWidth() / 2 + obj2.GetWidth() / 2))
     {
-        return true;
+        is_colliding =  true;
     }
     else
     {
-        return false;
+        is_colliding = false;
     }
 
-    return false;
+    return is_colliding;
 }
 
 
@@ -136,6 +141,8 @@ bool GameObject::UpdateCollisionStatus(GameObject &obj1, GameObject &obj2)
     obj2.m_is_colliding = (obj2.m_is_colliding) ? true : false;
     return false;
 }
+
+
 
 
 // These funcs use const pointer of GameObject &obj as parameter.

@@ -30,7 +30,7 @@ void ZombieBase::OnCollision(const GameObject &other)
     }
 }
 
-void ZombieBase::UpdateEatingStatus()
+void ZombieBase::UpdateStopEating()
 {
     if (!m_is_colliding && m_is_eating)
     {
@@ -38,3 +38,6 @@ void ZombieBase::UpdateEatingStatus()
         PlayAnimation(ANIMID_WALK_ANIM);
     }
 }
+
+
+

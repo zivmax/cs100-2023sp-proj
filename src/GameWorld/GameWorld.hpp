@@ -64,6 +64,9 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
         void CreateShovel();
 
         void HandleCollisions();
+        void ExtraEatingUpdateForZombies();
+
+
         void UpdateAllObjects();
         void RemoveDeadObject();
 

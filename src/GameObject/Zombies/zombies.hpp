@@ -13,7 +13,8 @@ class ZombieBase : public GameObject
 
         virtual void OnClick() override;
         void OnCollision(const GameObject &other) override;
-        void UpdateEatingStatus();
+        void UpdateStopEating();
+
 
 
     protected:
