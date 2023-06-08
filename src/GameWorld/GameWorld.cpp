@@ -32,8 +32,7 @@ GameWorld::~GameWorld() {}
 
 void GameWorld::Init()
 {
-    m_wave_gen_inter_ticks = FIRST_WAVE_INTER_TICKS;
-    m_wave_gen_timer = FIRST_WAVE_TICKS;
+    m_wave_gen_timer = std::max(150, 600 - 20 * GetWave());
 
     AddObject(std::make_shared<BackGround>(shared_from_this()));
 
@@ -187,8 +186,7 @@ void GameWorld::GenerateWave()
 
     GenerateRandomZombies(total_amount);
 
-    m_wave_gen_inter_ticks = std::max(150, 600 - 20 * GetWave());
-    m_wave_gen_timer = m_wave_gen_inter_ticks;
+    m_wave_gen_timer = std::max(150, 600 - 20 * GetWave());
 }
 
 
