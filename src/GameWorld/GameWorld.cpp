@@ -5,6 +5,7 @@
 #include "Seeds.hpp"
 #include "Zombies.hpp"
 
+
 // Correct is 50
 static const int INIT_SUN = 50;
 
@@ -12,6 +13,8 @@ static const int INIT_SUN = 50;
 static const int FIRST_WAVE_TICKS = 1200;
 // Correct is 600
 static const int FIRST_WAVE_INTER_TICKS = 600;
+// Correct is std::max(150, 600 - 20 * GetWave())
+#define WAVE_INTER_TICKS std::max(150, 600 - 20 * GetWave())
 
 // Correct is 180
 static const int FIRST_WORLD_SUN_GEN_INTER_TICKS = 180;
@@ -23,8 +26,8 @@ static const bool ENABLE_LOST = true;
 
 GameWorld::GameWorld()
 {
-    m_sun_gen_timer = FIRST_WORLD_SUN_GEN_INTER_TICKS;
-    m_sun_gen_inter_ticks = WORLD_SUN_GEN_INTER_TICKS;
+    m_sun_gen_inter_ticks = FIRST_WAVE_INTER_TICKS;
+    m_wave_gen_inter_ticks = WAVE_INTER_TICKS;
 }
 
 GameWorld::~GameWorld() {}
@@ -32,7 +35,8 @@ GameWorld::~GameWorld() {}
 
 void GameWorld::Init()
 {
-    m_wave_gen_timer = std::max(150, 600 - 20 * GetWave());
+    m_wave_gen_timer = FIRST_WAVE_TICKS;
+    m_sun_gen_timer = FIRST_WORLD_SUN_GEN_INTER_TICKS;
 
     AddObject(std::make_shared<BackGround>(shared_from_this()));
 
@@ -130,7 +134,6 @@ void GameWorld::HandleCollisions()
         GameObject::InitCollisionStatus(obj_ptr);
     }
 
-
     for (auto iter1 = m_objects_ptr.begin(); iter1 != m_objects_ptr.end(); ++iter1)
     {
         for (auto iter2 = iter1; iter2 != m_objects_ptr.end(); ++iter2)
@@ -186,7 +189,8 @@ void GameWorld::GenerateWave()
 
     GenerateRandomZombies(total_amount);
 
-    m_wave_gen_timer = std::max(150, 600 - 20 * GetWave());
+    m_wave_gen_inter_ticks = WAVE_INTER_TICKS;
+    m_wave_gen_timer = m_wave_gen_inter_ticks;
 }
 
 

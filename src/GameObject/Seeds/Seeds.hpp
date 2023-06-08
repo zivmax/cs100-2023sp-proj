@@ -9,7 +9,6 @@ class SeedBase : public GameObject
         virtual void Update() override;
 
 	protected:
-		int m_cooling_ticks_left = -1;
         int m_cooling_ticks = -1;
         int m_cost_sun = -1;
 
@@ -26,7 +25,7 @@ class SeedCoolDownMask : public GameObject
         virtual void Update() override;
 
 	private:
-		int m_last_ticks = -1;
+		int m_remove_timer = -1;
 };
 
 

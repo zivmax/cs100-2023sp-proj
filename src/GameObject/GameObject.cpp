@@ -108,7 +108,7 @@ bool GameObject::AreColliding(GameObject &obj1, GameObject &obj2)
     bool is_colliding = false;
     if (diff_x < (obj1.GetWidth() / 2 + obj2.GetWidth() / 2))
     {
-        is_colliding =  true;
+        is_colliding = true;
     }
     else
     {
@@ -119,7 +119,7 @@ bool GameObject::AreColliding(GameObject &obj1, GameObject &obj2)
 }
 
 
-bool GameObject::UpdateCollisionStatus(GameObject &obj1, GameObject &obj2)
+bool GameObject::UpdateCollisionStatus(GameObject &obj1, GameObject &obj2, bool need_call_function = true)
 {
     // We only check the ollision of two objects
     // if they are on the same row and their type need to be checked.
@@ -130,9 +130,11 @@ bool GameObject::UpdateCollisionStatus(GameObject &obj1, GameObject &obj2)
             obj1.m_is_colliding = true;
             obj2.m_is_colliding = true;
 
-            obj1.OnCollision(obj2);
-            obj2.OnCollision(obj1);
-
+            if (need_call_function)
+            {
+                obj1.OnCollision(obj2);
+                obj2.OnCollision(obj1);
+            }
             return true;
         }
     }
@@ -141,8 +143,6 @@ bool GameObject::UpdateCollisionStatus(GameObject &obj1, GameObject &obj2)
     obj2.m_is_colliding = (obj2.m_is_colliding) ? true : false;
     return false;
 }
-
-
 
 
 // These funcs use const pointer of GameObject &obj as parameter.
@@ -216,7 +216,7 @@ bool GameObject::AreColliding(pGameObject &obj1, pGameObject &obj2)
 }
 
 
-bool GameObject::UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2)
+bool GameObject::UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2, bool need_call_function = true)
 {
     // We only check the ollision of two objects
     // if they are on the same row and their type need to be checked.
@@ -226,10 +226,11 @@ bool GameObject::UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2)
         {
             obj1->m_is_colliding = true;
             obj2->m_is_colliding = true;
-
-            obj1->OnCollision(*obj2);
-            obj2->OnCollision(*obj1);
-
+            if (need_call_function)
+            {
+                obj1->OnCollision(*obj2);
+                obj2->OnCollision(*obj1);
+            }
             return true;
         }
     }
