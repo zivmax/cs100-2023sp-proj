@@ -41,12 +41,6 @@ void ZombieBase::UpdatePosition()
 
 void ZombieBase::StopEating()
 {
-    if (!m_is_colliding && m_is_eating)
-    {
-        m_is_eating = false;
-        PlayAnimation(ANIMID_WALK_ANIM);
-    }
+    m_is_eating = false;
+    PlayAnimation(ANIMID_WALK_ANIM);
 }
-
-
-
