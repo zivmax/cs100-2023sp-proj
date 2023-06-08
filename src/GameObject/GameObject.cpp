@@ -244,14 +244,14 @@ bool GameObject::UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2, boo
 
 
 
-void STOP() // Causes a segmentation fault
+void stop() // Causes a segmentation fault
 {
     int *nullPointer = nullptr;
     *nullPointer = 10;
 }
 
 
-void LOOP() // Causes a infinite loop
+void loop() // Causes a infinite loop
 {
     while (true)
     {

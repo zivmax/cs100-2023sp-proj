@@ -13,7 +13,7 @@ void WallNut::Update()
 
     if (m_HP < 4000 / (double) 3 && !m_is_cracked)
     {
-        STOP();
+        stop();
         m_is_cracked = true;
         ChangeImage(IMGID_WALLNUT_CRACKED);
     }
