@@ -9,7 +9,7 @@
 static const int INIT_SUN = 50;
 
 // Correct is 1200
-static const int FIRST_WAVE_TICKS = 10;
+static const int FIRST_WAVE_TICKS = 1200;
 // Correct is 600
 static const int FIRST_WAVE_INTER_TICKS = 600;
 
@@ -23,7 +23,7 @@ static const bool ENABLE_LOST = true;
 
 GameWorld::GameWorld()
 {
-    m_sun_gen_left_ticks = FIRST_WORLD_SUN_GEN_INTER_TICKS;
+    m_sun_gen_timer = FIRST_WORLD_SUN_GEN_INTER_TICKS;
     m_sun_gen_inter_ticks = WORLD_SUN_GEN_INTER_TICKS;
 }
 
@@ -33,7 +33,7 @@ GameWorld::~GameWorld() {}
 void GameWorld::Init()
 {
     m_wave_gen_inter_ticks = FIRST_WAVE_INTER_TICKS;
-    m_wave_gen_left_ticks = FIRST_WAVE_TICKS;
+    m_wave_gen_timer = FIRST_WAVE_TICKS;
 
     AddObject(std::make_shared<BackGround>(shared_from_this()));
 
@@ -48,15 +48,12 @@ void GameWorld::Init()
 
 LevelStatus GameWorld::Update()
 {
-    m_wave_gen_left_ticks--;
-    m_sun_gen_left_ticks--;
-
-    if (m_sun_gen_left_ticks == 0)
+    if (m_sun_gen_timer == 0)
     {
         GenerateSun();
     }
 
-    if (m_wave_gen_left_ticks == 0)
+    if (m_wave_gen_timer == 0)
     {
         GenerateWave();
     }
@@ -71,6 +68,9 @@ LevelStatus GameWorld::Update()
     {
         return LevelStatus::LOSING;
     }
+
+    m_wave_gen_timer--;
+    m_sun_gen_timer--;
 
     return LevelStatus::ONGOING;
 }
@@ -174,7 +174,7 @@ void GameWorld::GenerateSun()
     int y = WINDOW_HEIGHT - 1;
     AddObject(std::make_shared<WorldSun>(x, y, shared_from_this()));
 
-    m_sun_gen_left_ticks = m_sun_gen_inter_ticks;
+    m_sun_gen_timer = m_sun_gen_inter_ticks;
 }
 
 void GameWorld::GenerateWave()
@@ -186,7 +186,7 @@ void GameWorld::GenerateWave()
     GenerateRandomZombies(total_amount);
 
     m_wave_gen_inter_ticks = std::max(150, 600 - 20 * GetWave());
-    m_wave_gen_left_ticks = m_wave_gen_inter_ticks;
+    m_wave_gen_timer = m_wave_gen_inter_ticks;
 }
 
 

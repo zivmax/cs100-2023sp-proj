@@ -6,7 +6,7 @@ static const int SHOOT_COOLING_TICKS = 30;
 PeaShooter::PeaShooter(int x, int y, pGameWorld belonging_world)
     : PlantBase(belonging_world, IMGID_PEASHOOTER, ANIMID_IDLE_ANIM, 300, x, y)
 {
-    m_cooling_left_ticks = 0;
+    m_cooling_timer = 0;
     m_shoot_cooling_ticks = SHOOT_COOLING_TICKS;
 }
 
@@ -17,7 +17,7 @@ void PeaShooter::Update()
     {
         return;
     }
-    else if (m_cooling_left_ticks == 0)
+    else if (m_cooling_timer == 0)
     {
         if (m_belonging_world->AnyZombieOnRow(m_row_on_lawn))
         {
@@ -27,11 +27,11 @@ void PeaShooter::Update()
         return;
     }
 
-    m_cooling_left_ticks--;
+    m_cooling_timer--;
 }
 
 void PeaShooter::Attack()
 {
     m_belonging_world->AddObject(std::make_shared<Pea>(GetX() + 30, GetY() + 20, m_belonging_world));
-    m_cooling_left_ticks = m_shoot_cooling_ticks;
+    m_cooling_timer = m_shoot_cooling_ticks;
 }
