@@ -119,7 +119,7 @@ bool GameObject::AreColliding(GameObject &obj1, GameObject &obj2)
 }
 
 
-bool GameObject::UpdateCollisionStatus(GameObject &obj1, GameObject &obj2, bool need_call_function = true)
+bool GameObject::UpdateCollisionStatus(GameObject &obj1, GameObject &obj2, bool need_call_function)
 {
     // We only check the ollision of two objects
     // if they are on the same row and their type need to be checked.
@@ -216,7 +216,7 @@ bool GameObject::AreColliding(pGameObject &obj1, pGameObject &obj2)
 }
 
 
-bool GameObject::UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2, bool need_call_function = true)
+bool GameObject::UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2, bool need_call_function)
 {
     // We only check the ollision of two objects
     // if they are on the same row and their type need to be checked.

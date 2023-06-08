@@ -56,8 +56,8 @@ class GameObject : public ObjectBase, public std::enable_shared_from_this<GameOb
         static bool AreColliding(GameObject &obj1, GameObject &obj2);
         static bool AreColliding(pGameObject &obj1, pGameObject &obj2);
 
-        static bool UpdateCollisionStatus(GameObject &obj1, GameObject &obj2, bool need_call_function);
-        static bool UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2, bool need_call_function);
+        static bool UpdateCollisionStatus(GameObject &obj1, GameObject &obj2, bool need_call_function = true);
+        static bool UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2, bool need_call_function = true);
 
 
     protected:

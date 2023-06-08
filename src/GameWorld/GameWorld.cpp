@@ -26,7 +26,7 @@ static const bool ENABLE_LOST = true;
 
 GameWorld::GameWorld()
 {
-    m_sun_gen_inter_ticks = FIRST_WAVE_INTER_TICKS;
+    m_sun_gen_inter_ticks = WORLD_SUN_GEN_INTER_TICKS;
     m_wave_gen_inter_ticks = WAVE_INTER_TICKS;
 }
 
