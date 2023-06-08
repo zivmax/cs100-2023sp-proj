@@ -21,7 +21,7 @@ class SunFlower : public PlantBase
 
 
     private:
-        int m_production_left_ticks = -1;
+        int m_production_timer = -1;
         int m_inter_ticks_of_production = -1;
 };
 
@@ -36,7 +36,7 @@ class PeaShooter : public PlantBase
 
     private:
         int m_shoot_cooling_ticks = -1;
-        int m_cooling_left_ticks = -1;
+        int m_cooling_timer = -1;
 };
 
 
@@ -60,7 +60,7 @@ class CherryBomb : public PlantBase
         virtual void Update() override;
 
     private:
-        int m_explode_left_ticks = -1;
+        int m_explode_timer = -1;
 };
 
 
@@ -73,7 +73,7 @@ class Repeater : public PlantBase
         void Attack();
 
     private:
-        int m_cooling_left_ticks = -1;
+        int m_cooling_timer = -1;
         int m_first_shoot_cooling_ticks = -1;
         int m_second_shoot_cooling_ticks = -1;
 };
