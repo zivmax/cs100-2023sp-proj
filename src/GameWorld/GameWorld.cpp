@@ -326,15 +326,15 @@ void GameWorld::ExtraEatingUpdateForZombies()
     {
         if (GameObject::IsZombie(obj_ptr1) && obj_ptr1->IsColliding())
         {
+            GameObject::InitCollisionStatus(obj_ptr1);
+
             for (auto &obj_ptr2 : m_objects_ptr)
             {
+
                 if (GameObject::IsPlant(obj_ptr2))
                 {
-                    if (GameObject::AreColliding(obj_ptr1, obj_ptr2))
-                    {
-                        // We break the 2nd loop and continue the 1st loop.
-                        goto next_obj_ptr1;
-                    }
+                    // the `false` param mean no func call in `UpdateCollisionStatus`
+                    GameObject::UpdateCollisionStatus(obj_ptr1, obj_ptr2, false);
                 }
             }
             /*
@@ -343,9 +343,5 @@ void GameWorld::ExtraEatingUpdateForZombies()
              */
             obj_ptr1->Update();
         }
-
-
-    next_obj_ptr1:
-        continue;
     }
 }
