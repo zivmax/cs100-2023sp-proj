@@ -13,12 +13,14 @@ class ZombieBase : public GameObject
 
         virtual void OnClick() override;
         void OnCollision(const GameObject &other) override;
-        void UpdateStopEating();
+        void UpdatePosition();
+        void StopEating();
 
 
 
     protected:
         bool m_is_eating = false;
+        int m_speed = -1;
 };
 
 class RegularZombie : public ZombieBase
@@ -53,8 +55,6 @@ class PoleZombie : public ZombieBase
     private:
         bool m_is_running = true;
         bool m_is_playing = false;
-        bool m_is_extended = false;
-        int m_speed = -1;
         int m_jump_anime_frames_left = -1;
         pGameObject_weak m_extended_box = pGameObject_weak();
 };

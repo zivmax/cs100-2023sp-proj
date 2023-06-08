@@ -9,16 +9,19 @@ PoleZombie::PoleZombie(int x, int y, pGameWorld belonging_world)
 {
     m_speed = 2;
     m_jump_anime_frames_left = POLE_ZOMBIE_JUMP_ANIME_FRAMES;
+
+    // This will Extend a new hitbox for pole zombie
+    ExtendHitBox();
 }
 
 
 void PoleZombie::ExtendHitBox()
 {
+    // The Extended Box will be 40 pixels to the left of the original box
     pGameObject ExtendedBox = std::make_shared<ExtendedHitBox>(
         GetX() - 40, GetY(), GetWidth(), GetHeight(), m_belonging_world, shared_from_this());
 
     m_extended_box = m_belonging_world->AddObject(ExtendedBox);
-    m_is_extended = true;
 }
 
 
@@ -26,8 +29,10 @@ void PoleZombie::StartJump()
 {
     PlayAnimation(ANIMID_JUMP_ANIM);
     m_is_running = false;
-    m_speed = 1;
     m_is_playing = true;
+    m_speed = 1;
+
+    // After jumped, the pole zombie won't need the extended box anymore
     m_extended_box.lock()->SelfKill();
     m_extended_box = pGameObject_weak();
 }
@@ -39,12 +44,6 @@ void PoleZombie::Update()
     {
         return;
     }
-
-    if (!m_is_extended)
-    {
-        ExtendHitBox();
-    }
-
 
     if (m_is_running && m_extended_box.lock()->IsColliding())
     {
@@ -62,14 +61,13 @@ void PoleZombie::Update()
         }
     }
 
-
-    if (!m_is_colliding && !m_is_eating && !m_is_playing && m_is_extended)
+    if (!m_is_playing)
     {
-        MoveTo(GetX() - m_speed, GetY());
+        UpdatePosition();
     }
 
-    if (!m_is_running && !m_is_playing)
+    if (!m_is_running && !m_is_playing && !m_is_colliding && m_is_eating)
     {
-        UpdateStopEating();
+        StopEating();
     }
 }

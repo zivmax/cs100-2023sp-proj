@@ -9,7 +9,7 @@
 static const int INIT_SUN = 50;
 
 // Correct is 1200
-static const int FIRST_WAVE_TICKS = 1200;
+static const int FIRST_WAVE_TICKS = 10;
 // Correct is 600
 static const int FIRST_WAVE_INTER_TICKS = 600;
 
@@ -320,7 +320,7 @@ void GameWorld::ExtraEatingUpdateForZombies()
 {
     for (auto &obj_ptr1 : m_objects_ptr)
     {
-        if (GameObject::IsZombie(obj_ptr1))
+        if (GameObject::IsZombie(obj_ptr1) && obj_ptr1->IsColliding())
         {
             for (auto &obj_ptr2 : m_objects_ptr)
             {
@@ -328,10 +328,20 @@ void GameWorld::ExtraEatingUpdateForZombies()
                 {
                     if (GameObject::AreColliding(obj_ptr1, obj_ptr2))
                     {
-                        obj_ptr1->Update();
+                        // We break the 2nd loop and continue the 1st loop.
+                        goto next_obj_ptr1;
                     }
                 }
             }
+            /*
+             * This Update Will Only make the not colliding but
+             * eating Zomibie Stop Eating.
+             */
+            obj_ptr1->Update();
         }
+
+
+    next_obj_ptr1:
+        continue;
     }
 }

@@ -1,7 +1,10 @@
 #include "Zombies.hpp"
 
 BucketZombie::BucketZombie(int x, int y, pGameWorld belonging_world)
-    : ZombieBase(belonging_world, IMGID_BUCKET_HEAD_ZOMBIE, ANIMID_WALK_ANIM, 3, 1300, x, y) {}
+    : ZombieBase(belonging_world, IMGID_BUCKET_HEAD_ZOMBIE, ANIMID_WALK_ANIM, 3, 1300, x, y) 
+{
+    m_speed = 1;
+}
 
 void BucketZombie::Update()
 {
@@ -16,10 +19,10 @@ void BucketZombie::Update()
         m_has_bucket = false;
     }
 
-    if (!(m_is_eating && m_is_colliding))
-    {
-        MoveTo(GetX() - 1, GetY());
-    }
+    UpdatePosition();
 
-    UpdateStopEating();
+    if (!m_is_colliding && m_is_eating)
+    {
+        StopEating();
+    }
 }
