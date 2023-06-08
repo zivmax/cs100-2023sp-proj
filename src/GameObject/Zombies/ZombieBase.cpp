@@ -30,6 +30,7 @@ void ZombieBase::OnCollision(const GameObject &other)
     }
 }
 
+
 void ZombieBase::UpdatePosition()
 {
     // Only when Zombie is both eating and colliding, it will stop moving
@@ -38,6 +39,7 @@ void ZombieBase::UpdatePosition()
         MoveTo(GetX() - m_speed, GetY());
     }
 }
+
 
 void ZombieBase::StopEating()
 {

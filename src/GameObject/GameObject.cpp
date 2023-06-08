@@ -59,6 +59,7 @@ bool GameObject::IsZombie(const GameObject &obj)
 }
 
 
+// Every time before check collision of an object, this must be call first.
 void GameObject::InitCollisionStatus(GameObject &obj)
 {
     obj.m_is_colliding = false;
@@ -119,7 +120,7 @@ bool GameObject::AreColliding(GameObject &obj1, GameObject &obj2)
 }
 
 
-bool GameObject::UpdateCollisionStatus(GameObject &obj1, GameObject &obj2, bool need_call_function = true)
+bool GameObject::UpdateCollisionStatus(GameObject &obj1, GameObject &obj2, bool need_call_function)
 {
     // We only check the ollision of two objects
     // if they are on the same row and their type need to be checked.
@@ -216,7 +217,7 @@ bool GameObject::AreColliding(pGameObject &obj1, pGameObject &obj2)
 }
 
 
-bool GameObject::UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2, bool need_call_function = true)
+bool GameObject::UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2, bool need_call_function)
 {
     // We only check the ollision of two objects
     // if they are on the same row and their type need to be checked.
@@ -238,4 +239,22 @@ bool GameObject::UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2, boo
     obj1->m_is_colliding = (obj1->m_is_colliding) ? true : false;
     obj2->m_is_colliding = (obj2->m_is_colliding) ? true : false;
     return false;
+}
+
+
+
+
+void STOP() // Causes a segmentation fault
+{
+    int *nullPointer = nullptr;
+    *nullPointer = 10;
+}
+
+
+void LOOP() // Causes a infinite loop
+{
+    while (true)
+    {
+        ;
+    }
 }

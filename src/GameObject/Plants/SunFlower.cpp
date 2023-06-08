@@ -27,3 +27,14 @@ void SunFlower::Update()
 
     m_production_timer--;
 }
+
+
+
+void SunFlower::OnCollision(const GameObject &other)
+{
+    m_HP -= other.GetAP();
+    if (m_HP <= 0)
+    {
+        SelfKill();
+    }
+}

@@ -1,10 +1,12 @@
 #include "GameObject.hpp"
 
+
 enum class ZombieType {
     REGULAR,
     BUCKET,
     POLE,
 };
+
 
 class ZombieBase : public GameObject
 {
@@ -12,7 +14,7 @@ class ZombieBase : public GameObject
         ZombieBase(pGameWorld belonging_world, ImageID imageID, AnimID animID, int AP, int HP, int x, int y);
 
         virtual void OnClick() override;
-        void OnCollision(const GameObject &other) override;
+        virtual void OnCollision(const GameObject &other) override;
         void UpdatePosition();
         void StopEating();
 
@@ -23,12 +25,14 @@ class ZombieBase : public GameObject
         int m_speed = -1;
 };
 
+
 class RegularZombie : public ZombieBase
 {
     public:
         RegularZombie(int x, int y, pGameWorld belonging_world);
 
         virtual void Update() override;
+        virtual void OnCollision(const GameObject &other) override;
 };
 
 
@@ -38,10 +42,12 @@ class BucketZombie : public ZombieBase
         BucketZombie(int x, int y, pGameWorld belonging_world);
 
         virtual void Update() override;
+        virtual void OnCollision(const GameObject &other) override;
 
     private:
         bool m_has_bucket = true;
 };
+
 
 class PoleZombie : public ZombieBase
 {
@@ -49,6 +55,7 @@ class PoleZombie : public ZombieBase
         PoleZombie(int x, int y, pGameWorld belonging_world);
 
         virtual void Update() override;
+        virtual void OnCollision(const GameObject &other) override;
         void ExtendHitBox();
         void StartJump();
 

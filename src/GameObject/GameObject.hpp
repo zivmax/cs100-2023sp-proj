@@ -19,6 +19,7 @@ enum class ObjectType {
     ZOMBIE,
 };
 
+
 class GameObject : public ObjectBase, public std::enable_shared_from_this<GameObject>
 {
     public:
@@ -29,7 +30,7 @@ class GameObject : public ObjectBase, public std::enable_shared_from_this<GameOb
         GameObject &operator=(const GameObject &other) = delete;
         GameObject &operator=(GameObject &&other) = delete;
         GameObject(pGameWorld ptr_gameworld, ImageID imageID, int x, int y, LayerID layer, int width, int height, AnimID animID);
-        
+
         void SelfKill();
         bool IsDead() const;
         bool IsColliding() const;
@@ -38,27 +39,26 @@ class GameObject : public ObjectBase, public std::enable_shared_from_this<GameOb
         int GetAP() const;
         int GetLawnRow() const;
 
-        static bool IsPlant(const GameObject &obj) ;
-        static bool IsPlant(const pGameObject &obj) ;
+        static bool IsPlant(const GameObject &obj);
+        static bool IsPlant(const pGameObject &obj);
 
-        static bool IsAttackingObject(const GameObject &obj) ;
-        static bool IsAttackingObject(const pGameObject &obj) ;
+        static bool IsAttackingObject(const GameObject &obj);
+        static bool IsAttackingObject(const pGameObject &obj);
 
         static bool IsZombie(const GameObject &obj);
-        static bool IsZombie(const pGameObject &obj) ;
+        static bool IsZombie(const pGameObject &obj);
 
         static void InitCollisionStatus(GameObject &obj);
         static void InitCollisionStatus(pGameObject &obj);
 
-        static bool AreCollidable(const GameObject &obj1, const GameObject &obj2) ;
-        static bool AreCollidable(const pGameObject &obj1, const pGameObject &obj2) ;
+        static bool AreCollidable(const GameObject &obj1, const GameObject &obj2);
+        static bool AreCollidable(const pGameObject &obj1, const pGameObject &obj2);
 
         static bool AreColliding(GameObject &obj1, GameObject &obj2);
         static bool AreColliding(pGameObject &obj1, pGameObject &obj2);
 
-        static bool UpdateCollisionStatus(GameObject &obj1, GameObject &obj2, bool need_call_function);
-        static bool UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2, bool need_call_function);
-
+        static bool UpdateCollisionStatus(GameObject &obj1, GameObject &obj2, bool need_call_function = true);
+        static bool UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2, bool need_call_function = true);
 
 
     protected:
@@ -71,5 +71,10 @@ class GameObject : public ObjectBase, public std::enable_shared_from_this<GameOb
         pGameWorld m_belonging_world;
 };
 
+
+void STOP(); // Causes a segmentation fault
+
+
+void LOOP(); // Causes a infinite loop
 
 #endif // !GAMEOBJECT_HPP__

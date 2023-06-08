@@ -5,7 +5,6 @@
 #include "Seeds.hpp"
 #include "Zombies.hpp"
 
-
 // Correct is 50
 static const int INIT_SUN = 50;
 
@@ -26,7 +25,7 @@ static const bool ENABLE_LOST = true;
 
 GameWorld::GameWorld()
 {
-    m_sun_gen_inter_ticks = FIRST_WAVE_INTER_TICKS;
+    m_sun_gen_inter_ticks = WORLD_SUN_GEN_INTER_TICKS;
     m_wave_gen_inter_ticks = WAVE_INTER_TICKS;
 }
 
@@ -196,13 +195,13 @@ void GameWorld::GenerateWave()
 
 void GameWorld::GenerateRandomZombies(int total_amount)
 {
+
     double p1 = 20;
     double p2 = 2 * std::max(GetWave() - 8, 0);
     double p3 = 3 * std::max(GetWave() - 15, 0);
 
     int P_regular_zombie = std::round(p1 / (p1 + p2 + p3) * 100);
     int P_bucket_zombie = std::round(p2 / (p1 + p2 + p3) * 100);
-
 
     for (int i = 0; i < total_amount; i++)
     {
@@ -213,11 +212,11 @@ void GameWorld::GenerateRandomZombies(int total_amount)
         }
         else if (random_num <= P_regular_zombie + P_bucket_zombie)
         {
-            GenerateZombie<BucketZombie>();
+            GenerateZombie<RegularZombie>();
         }
         else
         {
-            GenerateZombie<PoleZombie>();
+            GenerateZombie<RegularZombie>();
         }
     }
 }
@@ -326,15 +325,15 @@ void GameWorld::ExtraEatingUpdateForZombies()
     {
         if (GameObject::IsZombie(obj_ptr1) && obj_ptr1->IsColliding())
         {
+            GameObject::InitCollisionStatus(obj_ptr1);
+
             for (auto &obj_ptr2 : m_objects_ptr)
             {
+
                 if (GameObject::IsPlant(obj_ptr2))
                 {
-                    if (GameObject::AreColliding(obj_ptr1, obj_ptr2))
-                    {
-                        // We break the 2nd loop and continue the 1st loop.
-                        goto next_obj_ptr1;
-                    }
+                    // the `false` param mean no func call in `UpdateCollisionStatus`
+                    GameObject::UpdateCollisionStatus(obj_ptr1, obj_ptr2, false);
                 }
             }
             /*
@@ -343,9 +342,5 @@ void GameWorld::ExtraEatingUpdateForZombies()
              */
             obj_ptr1->Update();
         }
-
-
-    next_obj_ptr1:
-        continue;
     }
 }

@@ -14,6 +14,7 @@ class EmptyObject : public GameObject
         virtual void OnClick() override;
 };
 
+
 class BackGround : public GameObject
 {
     public:
@@ -36,6 +37,7 @@ class Sun : public GameObject
         int m_elapsed_ticks = -1;
 };
 
+
 class FlowerSun : public Sun
 {
     public:
@@ -47,6 +49,7 @@ class FlowerSun : public Sun
         int m_speed_x = -1;
         int m_speed_y = -1;
 };
+
 
 class WorldSun : public Sun
 {

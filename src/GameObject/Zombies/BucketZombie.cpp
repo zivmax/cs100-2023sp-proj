@@ -26,3 +26,20 @@ void BucketZombie::Update()
         StopEating();
     }
 }
+
+void BucketZombie::OnCollision(const GameObject &other)
+{
+    if (GameObject::IsPlant(other) && !m_is_eating)
+    {
+        m_is_eating = true;
+        PlayAnimation(ANIMID_EAT_ANIM);
+    }
+    else
+    {
+        m_HP -= other.GetAP();
+        if (m_HP <= 0)
+        {
+            SelfKill();
+        }
+    }
+}

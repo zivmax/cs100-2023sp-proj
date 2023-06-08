@@ -30,6 +30,16 @@ void PeaShooter::Update()
     m_cooling_timer--;
 }
 
+void PeaShooter::OnCollision(const GameObject &other)
+{
+    m_HP -= other.GetAP();
+    if (m_HP <= 0)
+    {
+        SelfKill();
+    }
+}
+
+
 void PeaShooter::Attack()
 {
     m_belonging_world->AddObject(std::make_shared<Pea>(GetX() + 30, GetY() + 20, m_belonging_world));
