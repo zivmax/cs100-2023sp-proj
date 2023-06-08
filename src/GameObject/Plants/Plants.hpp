@@ -32,7 +32,7 @@ class PeaShooter : public PlantBase
         PeaShooter(int x , int y, pGameWorld belonging_world);
 
         virtual void Update() override;
-        void Attack();
+        virtual void Attack();
 
     private:
         int m_shoot_cooling_ticks = -1;
@@ -70,7 +70,7 @@ class Repeater : public PlantBase
         Repeater(int x, int y, pGameWorld belonging_world);
 
         virtual void Update() override;
-        void Attack();
+        virtual void Attack();
 
     private:
         int m_cooling_timer = -1;

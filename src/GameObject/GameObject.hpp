@@ -60,7 +60,6 @@ class GameObject : public ObjectBase, public std::enable_shared_from_this<GameOb
         static bool UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2, bool need_call_function);
 
 
-
     protected:
         int m_AP = 0;
         int m_HP = 1;

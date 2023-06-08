@@ -12,9 +12,9 @@ class ZombieBase : public GameObject
         ZombieBase(pGameWorld belonging_world, ImageID imageID, AnimID animID, int AP, int HP, int x, int y);
 
         virtual void OnClick() override;
-        void OnCollision(const GameObject &other) override;
-        void UpdatePosition();
-        void StopEating();
+        virtual void OnCollision(const GameObject &other) override;
+        virtual void UpdatePosition();
+        virtual void StopEating();
 
 
 
