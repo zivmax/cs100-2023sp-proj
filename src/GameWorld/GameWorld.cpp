@@ -62,7 +62,7 @@ LevelStatus GameWorld::Update()
     UpdateAllObjects();
     HandleCollisions();
     RemoveDeadObject();
-    
+
     if (IsLost())
     {
         return LevelStatus::LOSING;
@@ -198,8 +198,8 @@ void GameWorld::GenerateRandomZombies(int total_amount)
     double p2 = 2 * std::max(GetWave() - 8, 0);
     double p3 = 3 * std::max(GetWave() - 15, 0);
 
-    int P_regular_zombie = p1 / (p1 + p2 + p3) * 100;
-    int P_bucket_zombie = p2 / (p1 + p2 + p3) * 100;
+    int P_regular_zombie = std::round(p1 / (p1 + p2 + p3) * 100);
+    int P_bucket_zombie = std::round(p2 / (p1 + p2 + p3) * 100);
 
 
     for (int i = 0; i < total_amount; i++)
