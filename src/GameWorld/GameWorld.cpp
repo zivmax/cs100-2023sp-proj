@@ -48,6 +48,7 @@ void GameWorld::Init()
 
 LevelStatus GameWorld::Update()
 {
+
     if (m_sun_gen_timer == 0)
     {
         GenerateSun();
@@ -58,16 +59,16 @@ LevelStatus GameWorld::Update()
         GenerateWave();
     }
 
-
     UpdateAllObjects();
     HandleCollisions();
     RemoveDeadObject();
-    ExtraEatingUpdateForZombies();
-
+    
     if (IsLost())
     {
         return LevelStatus::LOSING;
     }
+
+    ExtraEatingUpdateForZombies();
 
     m_wave_gen_timer--;
     m_sun_gen_timer--;
@@ -79,6 +80,7 @@ LevelStatus GameWorld::Update()
 void GameWorld::CleanUp()
 {
     m_objects_ptr.clear();
+    m_object_on_hands = ObjectOnHands::NONE;
 }
 
 
