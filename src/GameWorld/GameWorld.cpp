@@ -6,14 +6,14 @@
 #include "Zombies.hpp"
 
 // Correct is 50
-static const int INIT_SUN = 50;
+static const int INIT_SUN = 50000;
 
 // Correct is 1200
-static const int FIRST_WAVE_TICKS = 1200;
+static const int FIRST_WAVE_TICKS = 10;
 // Correct is 600
 static const int FIRST_WAVE_INTER_TICKS = 600;
 // Correct is std::max(150, 600 - 20 * GetWave())
-#define WAVE_INTER_TICKS std::max(150, 600 - 20 * GetWave())
+#define WAVE_INTER_TICKS 100
 
 // Correct is 180
 static const int FIRST_WORLD_SUN_GEN_INTER_TICKS = 180;
@@ -21,7 +21,7 @@ static const int FIRST_WORLD_SUN_GEN_INTER_TICKS = 180;
 static const int WORLD_SUN_GEN_INTER_TICKS = 300;
 
 // Correct is true
-static const bool ENABLE_LOST = true;
+static const bool ENABLE_LOST = false;
 
 GameWorld::GameWorld()
 {
@@ -195,7 +195,6 @@ void GameWorld::GenerateWave()
 
 void GameWorld::GenerateRandomZombies(int total_amount)
 {
-
     int p1 = 20;
     int p2 = 2 * std::max(GetWave() - 8, 0);
     int p3 = 3 * std::max(GetWave() - 15, 0);
@@ -205,7 +204,7 @@ void GameWorld::GenerateRandomZombies(int total_amount)
         int random_num = randInt(1, p1 + p2 + p3);
         if (random_num <= p1)
         {
-            GenerateZombie<RegularZombie>();
+            GenerateZombie<PoleZombie>();
         }
         else if (random_num <= p1 + p2)
         {
@@ -213,7 +212,7 @@ void GameWorld::GenerateRandomZombies(int total_amount)
         }
         else
         {
-            GenerateZombie<BucketZombie>();
+            GenerateZombie<PoleZombie>();
         }
     }
 }
@@ -233,7 +232,14 @@ bool GameWorld::IsLost() const
     {
         if (GameObject::IsZombie(obj_ptr) && obj_ptr->GetX() < 0)
         {
-            return ENABLE_LOST;
+            if (ENABLE_LOST)
+            {
+                return true;
+            }
+            else
+            {
+                obj_ptr->SelfKill();
+            }
         }
     }
 

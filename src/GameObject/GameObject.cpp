@@ -140,8 +140,7 @@ bool GameObject::UpdateCollisionStatus(GameObject &obj1, GameObject &obj2, bool 
         }
     }
 
-    obj1.m_is_colliding = (obj1.m_is_colliding) ? true : false;
-    obj2.m_is_colliding = (obj2.m_is_colliding) ? true : false;
+
     return false;
 }
 
@@ -236,8 +235,6 @@ bool GameObject::UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2, boo
         }
     }
 
-    obj1->m_is_colliding = (obj1->m_is_colliding) ? true : false;
-    obj2->m_is_colliding = (obj2->m_is_colliding) ? true : false;
     return false;
 }
 

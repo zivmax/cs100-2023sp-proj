@@ -9,9 +9,6 @@ PoleZombie::PoleZombie(int x, int y, pGameWorld belonging_world)
 {
     m_speed = 2;
     m_jump_anime_frames_left = POLE_ZOMBIE_JUMP_ANIME_FRAMES;
-
-    // This will Extend a new hitbox for pole zombie
-    ExtendHitBox();
 }
 
 
@@ -38,6 +35,13 @@ void PoleZombie::StartJump()
 }
 
 
+void PoleZombie::StopJump()
+{
+    m_is_playing = false;
+    MoveTo(GetX() - 150, GetY());
+    PlayAnimation(ANIMID_WALK_ANIM);
+}
+
 void PoleZombie::Update()
 {
     if (IsDead())
@@ -45,7 +49,14 @@ void PoleZombie::Update()
         return;
     }
 
-    if (m_is_running && m_extended_box.lock()->IsColliding())
+    if (!m_is_extended)
+    {
+        // This will Extend a new hitbox for pole zombie
+        ExtendHitBox();
+        m_is_extended = true;
+    }
+
+    if (m_is_running && (m_extended_box.lock()->IsColliding() || m_is_colliding))
     {
         StartJump();
     }
@@ -55,27 +66,27 @@ void PoleZombie::Update()
 
         if (m_jump_anime_frames_left == 0)
         {
-            m_is_playing = false;
-            MoveTo(GetX() - 150, GetY());
-            PlayAnimation(ANIMID_WALK_ANIM);
+            StopJump();
         }
     }
-
-    if (!m_is_playing)
+    else if (!m_is_colliding)
     {
-        UpdatePosition();
-    }
-
-    if (!m_is_running && !m_is_playing && !m_is_colliding && m_is_eating)
-    {
-        StopEating();
+        if (m_is_eating)
+        {
+            StopEating();
+        }
+        else
+        {
+            // Only when Zombie is both eating and colliding, it won't move
+            UpdatePosition();
+        }
     }
 }
 
 
 void PoleZombie::OnCollision(const GameObject &other)
 {
-    if (GameObject::IsPlant(other) && !m_is_eating)
+    if (GameObject::IsPlant(other) && !m_is_eating && !m_is_running && !m_is_playing)
     {
         m_is_eating = true;
         PlayAnimation(ANIMID_EAT_ANIM);

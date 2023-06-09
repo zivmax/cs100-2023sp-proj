@@ -13,11 +13,17 @@ void BucketZombie::Update()
         return;
     }
 
-    UpdatePosition();
-
-    if (!m_is_colliding && m_is_eating)
+    if (!m_is_colliding)
     {
-        StopEating();
+        if (m_is_eating)
+        {
+            StopEating();
+        }
+        else
+        {
+            // Only when Zombie is both eating and colliding, it won't move
+            UpdatePosition();
+        }
     }
 }
 

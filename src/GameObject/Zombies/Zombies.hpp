@@ -58,8 +58,10 @@ class PoleZombie : public ZombieBase
         virtual void OnCollision(const GameObject &other) override;
         void ExtendHitBox();
         void StartJump();
+        void StopJump();
 
     private:
+        bool m_is_extended = false;
         bool m_is_running = true;
         bool m_is_playing = false;
         int m_jump_anime_frames_left = -1;
