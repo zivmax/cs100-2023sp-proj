@@ -205,14 +205,17 @@ void GameWorld::GenerateRandomZombies(int total_amount)
         int random_num = randInt(1, p1 + p2 + p3);
         if (random_num <= p1)
         {
+            // RegularZombie
             GenerateZombie<RegularZombie>();
         }
         else if (random_num <= p1 + p2)
         {
+            // PoleZombie
             GenerateZombie<PoleZombie>();
         }
         else
         {
+            // BucketZombie
             GenerateZombie<BucketZombie>();
         }
     }
@@ -233,7 +236,14 @@ bool GameWorld::IsLost() const
     {
         if (GameObject::IsZombie(obj_ptr) && obj_ptr->GetX() < 0)
         {
-            return ENABLE_LOST;
+            if (ENABLE_LOST)
+            {
+                return true;
+            }
+            else
+            {
+                obj_ptr->SelfKill();
+            }
         }
     }
 
