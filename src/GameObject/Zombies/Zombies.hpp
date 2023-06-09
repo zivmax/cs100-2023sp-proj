@@ -32,7 +32,6 @@ class RegularZombie : public ZombieBase
         RegularZombie(int x, int y, pGameWorld belonging_world);
 
         virtual void Update() override;
-        virtual void OnCollision(const GameObject &other) override;
 };
 
 

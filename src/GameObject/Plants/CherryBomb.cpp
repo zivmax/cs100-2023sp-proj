@@ -28,12 +28,3 @@ void CherryBomb::Update()
         m_explode_timer--;
     }
 }
-
-void CherryBomb::OnCollision(const GameObject &other)
-{
-    m_HP -= other.GetAP();
-    if (m_HP <= 0)
-    {
-        SelfKill();
-    }
-}

@@ -18,7 +18,6 @@ class SunFlower : public PlantBase
         SunFlower(int x, int y, pGameWorld belonging_world);
 
         virtual void Update() override;
-        virtual void OnCollision(const GameObject &other) override;
 
     private:
         int m_production_timer = -1;
@@ -31,7 +30,6 @@ class PeaShooter : public PlantBase
     public:
         PeaShooter(int x , int y, pGameWorld belonging_world);
 
-        virtual void OnCollision(const GameObject &other) override;
         virtual void Update() override;
         virtual void Attack();
 
@@ -59,7 +57,6 @@ class CherryBomb : public PlantBase
     public:
         CherryBomb(int x, int y, pGameWorld belonging_world);
 
-        virtual void OnCollision(const GameObject &other) override;
         virtual void Update() override;
 
     private:
@@ -72,7 +69,7 @@ class Repeater : public PlantBase
     public:
         Repeater(int x, int y, pGameWorld belonging_world);
 
-        virtual void OnCollision(const GameObject &other) override;
+
         virtual void Update() override;
         virtual void Attack();
 
