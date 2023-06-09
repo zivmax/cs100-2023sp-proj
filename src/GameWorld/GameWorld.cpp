@@ -6,10 +6,10 @@
 #include "Zombies.hpp"
 
 // Correct is 50
-static const int INIT_SUN = 500;
+static const int INIT_SUN = 50;
 
 // Correct is 1200
-static const int FIRST_WAVE_TICKS = 10;
+static const int FIRST_WAVE_TICKS = 1200;
 // Correct is 600
 static const int FIRST_WAVE_INTER_TICKS = 600;
 // Correct is std::max(150, 600 - 20 * GetWave())
@@ -160,11 +160,15 @@ void GameWorld::UpdateAllObjects()
 // This func remove all the dead object's shared ptr from the m_objects_ptr list.
 void GameWorld::RemoveDeadObject()
 {
-    for (auto &obj_ptr : m_objects_ptr)
+    for (auto obj_ptr_iter = m_objects_ptr.begin(); obj_ptr_iter != m_objects_ptr.end();)
     {
-        if (obj_ptr->IsDead())
+        if ((*obj_ptr_iter)->IsDead())
         {
-            m_objects_ptr.remove(obj_ptr);
+            m_objects_ptr.erase(obj_ptr_iter++);
+        }
+        else
+        {
+            obj_ptr_iter++;
         }
     }
 }

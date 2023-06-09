@@ -87,6 +87,7 @@ class AttackingObj : public GameObject
 
         virtual void OnClick() override;
         virtual void OnCollision(const GameObject &other) override;
+        virtual void Update() = 0;
 };
 
 
