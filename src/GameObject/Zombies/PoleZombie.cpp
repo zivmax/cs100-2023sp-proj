@@ -25,6 +25,7 @@ void PoleZombie::ExtendHitBox()
 void PoleZombie::StartJump()
 {
     PlayAnimation(ANIMID_JUMP_ANIM);
+    m_jump_anime_frames_left--;
     m_is_running = false;
     m_is_playing = true;
     m_speed = 1;
@@ -62,11 +63,14 @@ void PoleZombie::Update()
     }
     else if (m_is_playing)
     {
-        m_jump_anime_frames_left--;
 
         if (m_jump_anime_frames_left == 0)
         {
             StopJump();
+        }
+        else
+        {
+            m_jump_anime_frames_left--;
         }
     }
     else if (!m_is_colliding)

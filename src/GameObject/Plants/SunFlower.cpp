@@ -21,13 +21,12 @@ void SunFlower::Update()
     {
         m_belonging_world->AddObject(std::make_shared<FlowerSun>(GetX(), GetY(), m_belonging_world));
         m_production_timer = m_inter_ticks_of_production;
-
-        return;
     }
-
-    m_production_timer--;
+    else
+    {
+        m_production_timer--;
+    }
 }
-
 
 
 void SunFlower::OnCollision(const GameObject &other)

@@ -50,17 +50,23 @@ void GameWorld::Init()
 
 LevelStatus GameWorld::Update()
 {
+    if (GetWave() >= 100)
+    {
+        STOP;
+    }
 
     if (m_sun_gen_timer == 0)
-    {
         GenerateSun();
-    }
+    else
+        m_sun_gen_timer--;
+
 
     if (m_wave_gen_timer == 0)
-    {
         GenerateWave();
-    }
-
+    else
+        m_wave_gen_timer--;
+    
+    
     UpdateAllObjects();
     HandleCollisions();
     RemoveDeadObject();
@@ -72,8 +78,7 @@ LevelStatus GameWorld::Update()
 
     ExtraEatingUpdateForZombies();
 
-    m_wave_gen_timer--;
-    m_sun_gen_timer--;
+
 
     return LevelStatus::ONGOING;
 }
@@ -354,4 +359,43 @@ void GameWorld::ExtraEatingUpdateForZombies()
             }
         }
     }
+}
+
+
+int GameWorld::CountZombies() const
+{
+    int count = 0;
+    for (auto obj : m_objects_ptr)
+    {
+        if (GameObject::IsZombie(obj))
+            count++;
+    }
+
+    return count;
+}
+
+
+int GameWorld::CountPlants() const
+{
+    int count = 0;
+    for (auto obj : m_objects_ptr)
+    {
+        if (GameObject::IsPlant(obj))
+            count++;
+    }
+
+    return count;
+}
+
+
+int GameWorld::CountAttackObjs() const
+{
+    int count = 0;
+    for (auto obj : m_objects_ptr)
+    {
+        if (GameObject::IsAttackingObject(obj))
+            count++;
+    }
+
+    return count;
 }

@@ -23,8 +23,10 @@ void CherryBomb::Update()
         SelfKill();
         return;
     }
-
-    m_explode_timer--;
+    else
+    {
+        m_explode_timer--;
+    }
 }
 
 void CherryBomb::OnCollision(const GameObject &other)

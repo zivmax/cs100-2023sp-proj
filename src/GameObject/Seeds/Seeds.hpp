@@ -33,12 +33,14 @@ class SunFlowerSeed : public SeedBase
 {
 	public:
         SunFlowerSeed(int x, pGameWorld belonging_world);
+        virtual void OnClick() override;
 };
 
 class PeaShooterSeed : public SeedBase
 {
     public:
         PeaShooterSeed(int x, pGameWorld belonging_world);
+        virtual void OnClick() override;
 };
 
 
@@ -46,6 +48,7 @@ class WallNutSeed : public SeedBase
 {
     public:
         WallNutSeed(int x, pGameWorld belonging_world);
+        virtual void OnClick() override;
 };
 
 
@@ -53,10 +56,12 @@ class CherryBombSeed : public SeedBase
 {
     public:
         CherryBombSeed(int x, pGameWorld belonging_world);
+        virtual void OnClick() override;
 };
 
 class RepeaterSeed : public SeedBase
 {
     public:
         RepeaterSeed(int x, pGameWorld belonging_world);
+        virtual void OnClick() override;
 };

@@ -26,8 +26,10 @@ void PeaShooter::Update()
 
         return;
     }
-
-    m_cooling_timer--;
+    else
+    {
+        m_cooling_timer--;
+    }
 }
 
 void PeaShooter::OnCollision(const GameObject &other)
