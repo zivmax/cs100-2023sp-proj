@@ -50,11 +50,6 @@ void GameWorld::Init()
 
 LevelStatus GameWorld::Update()
 {
-    if (GetWave() >= 100)
-    {
-        STOP;
-    }
-
     if (m_sun_gen_timer == 0)
         GenerateSun();
     else
@@ -73,6 +68,7 @@ LevelStatus GameWorld::Update()
 
     if (IsLost())
     {
+
         return LevelStatus::LOSING;
     }
 
@@ -227,6 +223,7 @@ void GameWorld::GenerateRandomZombies(int total_amount)
         }
     }
 }
+
 
 template <typename ZombieT>
 void GameWorld::GenerateZombie()
