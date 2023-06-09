@@ -16,12 +16,11 @@ void ExtendedHitBox::Update()
         return;
     }
     
-    if (m_belonging_obj.expired())
+    if (m_belonging_obj.expired() || m_belonging_obj.lock()->IsDead())
     {
         SelfKill();
     }
-
-    if (GetX() > 1)
+    else if (GetX() > 1)
     {
         MoveTo(m_belonging_obj.lock()->GetX() - 40, m_belonging_obj.lock()->GetY());
     }

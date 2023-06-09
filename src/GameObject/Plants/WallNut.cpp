@@ -10,13 +10,6 @@ void WallNut::Update()
     {
         return;
     }
-
-    if (m_HP < 4000 / (double) 3 && !m_is_cracked)
-    {
-        stop();
-        m_is_cracked = true;
-        ChangeImage(IMGID_WALLNUT_CRACKED);
-    }
 }
 
 void WallNut::OnCollision(const GameObject &other)
@@ -25,5 +18,10 @@ void WallNut::OnCollision(const GameObject &other)
     if (m_HP <= 0)
     {
         SelfKill();
+    }
+    else if (m_HP < 4000 / (double) 3 && !m_is_cracked)
+    {
+        m_is_cracked = true;
+        ChangeImage(IMGID_WALLNUT_CRACKED);
     }
 }
