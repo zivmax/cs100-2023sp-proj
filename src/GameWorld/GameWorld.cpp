@@ -6,14 +6,14 @@
 #include "Zombies.hpp"
 
 // Correct is 50
-static const int INIT_SUN = 50000;
+static const int INIT_SUN = 50;
 
 // Correct is 1200
-static const int FIRST_WAVE_TICKS = 10;
+static const int FIRST_WAVE_TICKS = 1200;
 // Correct is 600
 static const int FIRST_WAVE_INTER_TICKS = 600;
 // Correct is std::max(150, 600 - 20 * GetWave())
-#define WAVE_INTER_TICKS 100
+#define WAVE_INTER_TICKS std::max(150, 600 - 20 * GetWave())
 
 // Correct is 180
 static const int FIRST_WORLD_SUN_GEN_INTER_TICKS = 180;
@@ -21,7 +21,7 @@ static const int FIRST_WORLD_SUN_GEN_INTER_TICKS = 180;
 static const int WORLD_SUN_GEN_INTER_TICKS = 300;
 
 // Correct is true
-static const bool ENABLE_LOST = false;
+static const bool ENABLE_LOST = true;
 
 GameWorld::GameWorld()
 {
@@ -204,15 +204,18 @@ void GameWorld::GenerateRandomZombies(int total_amount)
         int random_num = randInt(1, p1 + p2 + p3);
         if (random_num <= p1)
         {
-            GenerateZombie<PoleZombie>();
+            // RegularZombie
+            GenerateZombie<RegularZombie>();
         }
         else if (random_num <= p1 + p2)
         {
+            // PoleZombie
             GenerateZombie<PoleZombie>();
         }
         else
         {
-            GenerateZombie<PoleZombie>();
+            // BucketZombie
+            GenerateZombie<BucketZombie>();
         }
     }
 }
@@ -343,7 +346,10 @@ void GameWorld::ExtraEatingUpdateForZombies()
              * This Update Will Only make the not colliding but
              * eating Zomibie Stop Eating.
              */
-            obj_ptr1->Update();
+            if (obj_ptr1->IsColliding() == false)
+            {
+                obj_ptr1->Update();
+            }
         }
     }
 }
