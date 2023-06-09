@@ -27,11 +27,6 @@ void FlowerSun::Update()
 {
     if (m_elapsed_ticks < m_drop_ticks)
     {
-        // Increment the elapsed time since the sun started moving.
-
-        int t = m_elapsed_ticks; // Calculate the time since the sun started moving.
-        int delta_t = 1;
-
         // Calculate the position of the sun using the parabolic motion formula.
         int next_x = GetX() - m_speed_x; // Calculate horizontal position
         int next_y = GetY() + m_speed_y; // Calculate vertical position

@@ -196,27 +196,24 @@ void GameWorld::GenerateWave()
 void GameWorld::GenerateRandomZombies(int total_amount)
 {
 
-    double p1 = 20;
-    double p2 = 2 * std::max(GetWave() - 8, 0);
-    double p3 = 3 * std::max(GetWave() - 15, 0);
-
-    int P_regular_zombie = std::round(p1 / (p1 + p2 + p3) * 100);
-    int P_bucket_zombie = std::round(p2 / (p1 + p2 + p3) * 100);
+    int p1 = 20;
+    int p2 = 2 * std::max(GetWave() - 8, 0);
+    int p3 = 3 * std::max(GetWave() - 15, 0);
 
     for (int i = 0; i < total_amount; i++)
     {
-        int random_num = randInt(1, 100);
-        if (random_num <= P_regular_zombie)
+        int random_num = randInt(1, p1 + p2 + p3);
+        if (random_num <= p1)
         {
             GenerateZombie<RegularZombie>();
         }
-        else if (random_num <= P_regular_zombie + P_bucket_zombie)
+        else if (random_num <= p1 + p2)
         {
-            GenerateZombie<RegularZombie>();
+            GenerateZombie<PoleZombie>();
         }
         else
         {
-            GenerateZombie<RegularZombie>();
+            GenerateZombie<BucketZombie>();
         }
     }
 }

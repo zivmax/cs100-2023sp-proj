@@ -8,7 +8,6 @@ RegularZombie::RegularZombie(int x, int y, pGameWorld belonging_world)
 
 void RegularZombie::Update()
 {
-
     if (IsDead())
     {
         return;

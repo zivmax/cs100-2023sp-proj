@@ -13,12 +13,6 @@ void BucketZombie::Update()
         return;
     }
 
-    if (m_HP <= 200 && m_has_bucket)
-    {
-        ChangeImage(IMGID_REGULAR_ZOMBIE);
-        m_has_bucket = false;
-    }
-
     UpdatePosition();
 
     if (!m_is_colliding && m_is_eating)
@@ -37,7 +31,12 @@ void BucketZombie::OnCollision(const GameObject &other)
     else
     {
         m_HP -= other.GetAP();
-        if (m_HP <= 0)
+        if (0 < m_HP <= 200 && m_has_bucket)
+        {
+            ChangeImage(IMGID_REGULAR_ZOMBIE);
+            m_has_bucket = false;
+        }
+        else if (m_HP <= 0)
         {
             SelfKill();
         }
