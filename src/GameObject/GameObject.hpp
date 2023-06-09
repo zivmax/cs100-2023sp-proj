@@ -74,12 +74,4 @@ class GameObject : public ObjectBase, public std::enable_shared_from_this<GameOb
 
 
 
-void stop(); // Causes a segmentation fault
-
-
-void loop(); // Causes a infinite loop
-
-
-#define STOP stop()
-#define LOOP loop()
 #endif // !GAMEOBJECT_HPP__
