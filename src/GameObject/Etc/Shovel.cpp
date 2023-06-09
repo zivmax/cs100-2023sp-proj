@@ -23,6 +23,4 @@ void Shovel::OnClick()
         default:
             break;
     }
-
-    return;
 }

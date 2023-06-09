@@ -79,6 +79,10 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
         void GenerateRandomZombies(int total_amount);
 
         bool IsLost() const;
+
+        int CountZombies() const;
+        int CountPlants() const;
+        int CountAttackObjs() const;
 };
 
 

@@ -23,8 +23,10 @@ class BombShrapnel : public AttackingObj
             {
                 SelfKill();
             }
-
-            m_last_ticks_left--;
+            else
+            {
+                m_last_ticks_left--;
+            }
         }
 
     private:
@@ -59,6 +61,8 @@ void Explosion::Update()
     {
         SelfKill();
     }
-
-    m_last_ticks_left--;
+    else
+    {
+        m_last_ticks_left--;
+    }
 }

@@ -5,7 +5,6 @@
 #include "Seeds.hpp"
 #include "Zombies.hpp"
 
-
 // Correct is 50
 static const int INIT_SUN = 50;
 
@@ -51,30 +50,31 @@ void GameWorld::Init()
 
 LevelStatus GameWorld::Update()
 {
-
     if (m_sun_gen_timer == 0)
-    {
         GenerateSun();
-    }
+    else
+        m_sun_gen_timer--;
+
 
     if (m_wave_gen_timer == 0)
-    {
         GenerateWave();
-    }
-
+    else
+        m_wave_gen_timer--;
+    
+    
     UpdateAllObjects();
     HandleCollisions();
     RemoveDeadObject();
 
     if (IsLost())
     {
+
         return LevelStatus::LOSING;
     }
 
     ExtraEatingUpdateForZombies();
 
-    m_wave_gen_timer--;
-    m_sun_gen_timer--;
+
 
     return LevelStatus::ONGOING;
 }
@@ -161,12 +161,15 @@ void GameWorld::UpdateAllObjects()
 // This func remove all the dead object's shared ptr from the m_objects_ptr list.
 void GameWorld::RemoveDeadObject()
 {
-    for (auto &obj_ptr : m_objects_ptr)
+    for (auto obj_ptr_iter = m_objects_ptr.begin(); obj_ptr_iter != m_objects_ptr.end();)
     {
-        if (obj_ptr->IsDead())
+        if ((*obj_ptr_iter)->IsDead())
         {
-            m_objects_ptr.remove(obj_ptr);
-            break;
+            m_objects_ptr.erase(obj_ptr_iter++);
+        }
+        else
+        {
+            obj_ptr_iter++;
         }
     }
 }
@@ -220,6 +223,7 @@ void GameWorld::GenerateRandomZombies(int total_amount)
         }
     }
 }
+
 
 template <typename ZombieT>
 void GameWorld::GenerateZombie()
@@ -339,7 +343,7 @@ void GameWorld::ExtraEatingUpdateForZombies()
 
                 if (GameObject::IsPlant(obj_ptr2))
                 {
-                    // the `false` param mean no func call in `UpdateCollisionStatus`
+                    // the `false` param means no func call in `UpdateCollisionStatus`
                     GameObject::UpdateCollisionStatus(obj_ptr1, obj_ptr2, false);
                 }
             }
@@ -347,7 +351,49 @@ void GameWorld::ExtraEatingUpdateForZombies()
              * This Update Will Only make the not colliding but
              * eating Zomibie Stop Eating.
              */
-            obj_ptr1->Update();
+            if (obj_ptr1->IsColliding() == false)
+            {
+                obj_ptr1->Update();
+            }
         }
     }
+}
+
+
+int GameWorld::CountZombies() const
+{
+    int count = 0;
+    for (auto obj : m_objects_ptr)
+    {
+        if (GameObject::IsZombie(obj))
+            count++;
+    }
+
+    return count;
+}
+
+
+int GameWorld::CountPlants() const
+{
+    int count = 0;
+    for (auto obj : m_objects_ptr)
+    {
+        if (GameObject::IsPlant(obj))
+            count++;
+    }
+
+    return count;
+}
+
+
+int GameWorld::CountAttackObjs() const
+{
+    int count = 0;
+    for (auto obj : m_objects_ptr)
+    {
+        if (GameObject::IsAttackingObject(obj))
+            count++;
+    }
+
+    return count;
 }

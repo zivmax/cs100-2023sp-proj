@@ -21,9 +21,19 @@ void SunFlower::Update()
     {
         m_belonging_world->AddObject(std::make_shared<FlowerSun>(GetX(), GetY(), m_belonging_world));
         m_production_timer = m_inter_ticks_of_production;
-
-        return;
     }
+    else
+    {
+        m_production_timer--;
+    }
+}
 
-    m_production_timer--;
+
+void SunFlower::OnCollision(const GameObject &other)
+{
+    m_HP -= other.GetAP();
+    if (m_HP <= 0)
+    {
+        SelfKill();
+    }
 }

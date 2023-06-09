@@ -59,6 +59,7 @@ bool GameObject::IsZombie(const GameObject &obj)
 }
 
 
+// Every time before check collision of an object, this must be call first.
 void GameObject::InitCollisionStatus(GameObject &obj)
 {
     obj.m_is_colliding = false;
@@ -106,7 +107,7 @@ bool GameObject::AreColliding(GameObject &obj1, GameObject &obj2)
     int diff_x = std::abs(obj1.GetX() - obj2.GetX());
 
     bool is_colliding = false;
-    if (diff_x < (obj1.GetWidth() / 2 + obj2.GetWidth() / 2))
+    if (diff_x <= (obj1.GetWidth() / 2 + obj2.GetWidth() / 2))
     {
         is_colliding = true;
     }
@@ -139,8 +140,7 @@ bool GameObject::UpdateCollisionStatus(GameObject &obj1, GameObject &obj2, bool 
         }
     }
 
-    obj1.m_is_colliding = (obj1.m_is_colliding) ? true : false;
-    obj2.m_is_colliding = (obj2.m_is_colliding) ? true : false;
+
     return false;
 }
 
@@ -235,7 +235,23 @@ bool GameObject::UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2, boo
         }
     }
 
-    obj1->m_is_colliding = (obj1->m_is_colliding) ? true : false;
-    obj2->m_is_colliding = (obj2->m_is_colliding) ? true : false;
     return false;
+}
+
+
+
+
+void stop() // Causes a segmentation fault
+{
+    int *nullPointer = nullptr;
+    *nullPointer = 10;
+}
+
+
+void loop() // Causes a infinite loop
+{
+    while (true)
+    {
+        ;
+    }
 }

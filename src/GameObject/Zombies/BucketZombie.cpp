@@ -13,16 +13,38 @@ void BucketZombie::Update()
         return;
     }
 
-    if (m_HP <= 200 && m_has_bucket)
+    if (!m_is_colliding)
     {
-        ChangeImage(IMGID_REGULAR_ZOMBIE);
-        m_has_bucket = false;
+        if (m_is_eating)
+        {
+            StopEating();
+        }
+        else
+        {
+            // Only when Zombie is both eating and colliding, it won't move
+            UpdatePosition();
+        }
     }
+}
 
-    UpdatePosition();
-
-    if (!m_is_colliding && m_is_eating)
+void BucketZombie::OnCollision(const GameObject &other)
+{
+    if (GameObject::IsPlant(other) && !m_is_eating)
     {
-        StopEating();
+        m_is_eating = true;
+        PlayAnimation(ANIMID_EAT_ANIM);
+    }
+    else
+    {
+        m_HP -= other.GetAP();
+        if (0 < m_HP <= 200 && m_has_bucket)
+        {
+            ChangeImage(IMGID_REGULAR_ZOMBIE);
+            m_has_bucket = false;
+        }
+        else if (m_HP <= 0)
+        {
+            SelfKill();
+        }
     }
 }
