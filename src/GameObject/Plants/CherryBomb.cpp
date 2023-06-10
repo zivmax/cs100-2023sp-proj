@@ -29,4 +29,11 @@ void CherryBomb::Update()
     }
 }
 
-void CherryBomb::OnCollision(const GameObject &other) {}
+void CherryBomb::OnCollision(const GameObject &other) 
+{
+    m_HP -= other.GetAP();
+    if (m_HP <= 0)
+    {
+        SelfKill();
+    }
+}
