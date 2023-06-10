@@ -30,5 +30,5 @@ target_include_directories(
 	${CMAKE_SOURCE_DIR}/src/GameWorld/
 	${CMAKE_SOURCE_DIR}/src/GameObject/Zombies/
 	${CMAKE_SOURCE_DIR}/src/GameObject/Etc/
-	${CMAKE_SOURCE_DIR}/src/GameObject/ToolKit/
+	${CMAKE_SOURCE_DIR}/src/ToolKit/
 )
