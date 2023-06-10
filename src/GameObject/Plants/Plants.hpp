@@ -58,6 +58,7 @@ class CherryBomb : public PlantBase
         CherryBomb(int x, int y, pGameWorld belonging_world);
 
         virtual void Update() override;
+        virtual void OnCollision(const GameObject &other) override;
 
     private:
         int m_explode_timer = -1;

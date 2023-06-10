@@ -28,3 +28,6 @@ void CherryBomb::Update()
         m_explode_timer--;
     }
 }
+
+void CherryBomb::OnCollision(const GameObject &other) {}
+
