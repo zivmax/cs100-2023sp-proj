@@ -9,7 +9,7 @@
 #include "ObjectBase.hpp"
 #include "SpriteManager.hpp"
 #include "utils.hpp"
-#include "ToolKit.hpp"
+
 
 static void displayCallback()
 {
@@ -211,7 +211,6 @@ void GameManager::SpecialKeyUpEvent(int key, int x, int y)
 
 void GameManager::MouseDownEvent(int x, int y)
 {
-    STOP;
     ObjectBase::ClickAt(x, y);
 }
 
