@@ -68,7 +68,7 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
 
 
         void UpdateAllObjects();
-        void RemoveDeadObject();
+        void RemoveDeadObjects();
 
         void GenerateSun();
         void GenerateWave();
@@ -84,6 +84,5 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
         int CountPlants() const;
         int CountAttackObjs() const;
 };
-
 
 #endif // !GAMEWORLD_HPP__

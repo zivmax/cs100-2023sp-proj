@@ -2,7 +2,7 @@
 
 
 ExtendedHitBox::ExtendedHitBox(int x, int y, int width, int height, pGameWorld belonging_world, pGameObject_weak belonging_obj)
-    : GameObject(belonging_world, IMGID_NONE, x, y, LAYER_ZOMBIES, width, height, ANIMID_NO_ANIMATION)
+    : GameObject(belonging_world, IMGID_NONE, x, y, LAYER_BACKGROUND, width, height, ANIMID_NO_ANIMATION)
 {
     m_type = ObjectType::ZOMBIE;
     m_AP = 0;

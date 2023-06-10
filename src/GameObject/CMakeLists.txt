@@ -10,11 +10,17 @@ add_library(
  )
 
 
+add_subdirectory(./Plants/)
+add_subdirectory(./Seeds/)
+add_subdirectory(./Zombies/)
+add_subdirectory(./Etc/)
+
+
 target_link_libraries(
 	GameObject
 	Framework
+	ToolKit
 )
-
 
 
 target_include_directories(
@@ -24,8 +30,6 @@ target_include_directories(
 	${CMAKE_SOURCE_DIR}/src/Framework/
 	${CMAKE_SOURCE_DIR}/src/GameObject/
 	${CMAKE_SOURCE_DIR}/src/GameWorld/
-	${CMAKE_SOURCE_DIR}/src/GameObject/Zombies/
-	${CMAKE_SOURCE_DIR}/src/GameObject/Plants/
-	${CMAKE_SOURCE_DIR}/src/GameObject/Etc/
+	${CMAKE_SOURCE_DIR}/src/GameObject/ToolKit/
 )
 

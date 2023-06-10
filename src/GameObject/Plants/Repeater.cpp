@@ -1,5 +1,5 @@
-#include "Plants.hpp"
 #include "Etc.hpp"
+#include "Plants.hpp"
 
 static const int FIRST_SHOOT_COOLING_TICKS = 30;
 static const int SECOND_SHOOT_COOLING_TICKS = 5;
@@ -11,7 +11,6 @@ Repeater::Repeater(int x, int y, pGameWorld belonging_world)
     m_first_shoot_cooling_ticks = FIRST_SHOOT_COOLING_TICKS;
     m_second_shoot_cooling_ticks = SECOND_SHOOT_COOLING_TICKS;
 }
-
 
 
 void Repeater::Update()
@@ -34,12 +33,15 @@ void Repeater::Update()
     }
     else if (m_cooling_timer == 25)
     {
-        // The second shoot will be performed after first shoot 5 ticks, 
+        // The second shoot will be performed after first shoot 5 ticks,
         // NO MATTER is there zombies.
         Attack();
+        m_cooling_timer--;
     }
-
-    m_cooling_timer--;
+    else
+    {
+        m_cooling_timer--;
+    }
 }
 
 void Repeater::OnCollision(const GameObject &other)
@@ -50,7 +52,6 @@ void Repeater::OnCollision(const GameObject &other)
         SelfKill();
     }
 }
-
 
 
 void Repeater::Attack()

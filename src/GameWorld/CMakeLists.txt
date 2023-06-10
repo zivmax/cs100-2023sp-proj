@@ -16,6 +16,7 @@ target_link_libraries(
   Zombies
   Plants
   Seeds
+  ToolKit
   Framework
 )
 
@@ -30,4 +31,5 @@ target_include_directories(
 	${CMAKE_SOURCE_DIR}/src/GameObject/Plants/
 	${CMAKE_SOURCE_DIR}/src/GameObject/Seeds/
 	${CMAKE_SOURCE_DIR}/src/GameObject/Etc/
+	${CMAKE_SOURCE_DIR}/src/GameObject/ToolKit/
 	)

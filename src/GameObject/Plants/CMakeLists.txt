@@ -19,6 +19,7 @@ target_link_libraries(
 	Plants
 	GameObject
 	Etc
+	ToolKit
 )
 
 target_include_directories(
@@ -30,4 +31,5 @@ target_include_directories(
 	${CMAKE_SOURCE_DIR}/src/GameWorld/
 	${CMAKE_SOURCE_DIR}/src/GameObject/Plants/
 	${CMAKE_SOURCE_DIR}/src/GameObject/Etc/
+	${CMAKE_SOURCE_DIR}/src/GameObject/ToolKit/
 )

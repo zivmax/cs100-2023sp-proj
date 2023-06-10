@@ -23,6 +23,8 @@ static const int WORLD_SUN_GEN_INTER_TICKS = 300;
 // Correct is true
 static const bool ENABLE_LOST = true;
 
+int cleanUpTimes = 0;
+
 GameWorld::GameWorld()
 {
     m_sun_gen_inter_ticks = WORLD_SUN_GEN_INTER_TICKS;
@@ -34,6 +36,7 @@ GameWorld::~GameWorld() {}
 
 void GameWorld::Init()
 {
+
     m_wave_gen_timer = FIRST_WAVE_TICKS;
     m_sun_gen_timer = FIRST_WORLD_SUN_GEN_INTER_TICKS;
 
@@ -50,6 +53,17 @@ void GameWorld::Init()
 
 LevelStatus GameWorld::Update()
 {
+    // for (auto &i : m_objects_ptr)
+    //{
+    //     if ((GameObject::IsPlant(i) && AnyZombieOnRow((i->GetY() - FIRST_ROW_CENTER) / LAWN_GRID_HEIGHT + 1)))
+    //     {
+    //         STOP;
+    //     }
+    // }
+
+    // if (CountPlants() == 0 && CountZombies() == 1)
+    //     STOP;
+
     if (m_sun_gen_timer == 0)
         GenerateSun();
     else
@@ -60,11 +74,11 @@ LevelStatus GameWorld::Update()
         GenerateWave();
     else
         m_wave_gen_timer--;
-    
-    
+
+
     UpdateAllObjects();
     HandleCollisions();
-    RemoveDeadObject();
+    RemoveDeadObjects();
 
     if (IsLost())
     {
@@ -75,13 +89,13 @@ LevelStatus GameWorld::Update()
     ExtraEatingUpdateForZombies();
 
 
-
     return LevelStatus::ONGOING;
 }
 
 
 void GameWorld::CleanUp()
 {
+    cleanUpTimes++;
     m_objects_ptr.clear();
     m_object_on_hands = ObjectOnHands::NONE;
 }
@@ -159,7 +173,7 @@ void GameWorld::UpdateAllObjects()
 
 
 // This func remove all the dead object's shared ptr from the m_objects_ptr list.
-void GameWorld::RemoveDeadObject()
+void GameWorld::RemoveDeadObjects()
 {
     for (auto obj_ptr_iter = m_objects_ptr.begin(); obj_ptr_iter != m_objects_ptr.end();)
     {
@@ -195,6 +209,18 @@ void GameWorld::GenerateWave()
     m_wave_gen_inter_ticks = WAVE_INTER_TICKS;
     m_wave_gen_timer = m_wave_gen_inter_ticks;
 }
+
+// void GameWorld::GenerateWave()
+//{
+//     SetWave(GetWave() + 1);
+//
+//     int x = randInt(WINDOW_WIDTH - 40, WINDOW_WIDTH - 1);
+//     int y = FIRST_ROW_CENTER + 0 * LAWN_GRID_HEIGHT;
+//     AddObject(std::make_shared<RegularZombie>(x, y, shared_from_this()));
+//
+//     m_wave_gen_inter_ticks = WAVE_INTER_TICKS;
+//     m_wave_gen_timer = m_wave_gen_inter_ticks;
+// }
 
 
 void GameWorld::GenerateRandomZombies(int total_amount)

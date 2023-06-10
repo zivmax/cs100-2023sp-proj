@@ -40,19 +40,16 @@ ENDIF()
 
 
 #↓↓↓↓↓↓↓↓↓↓↓ ADD YOUR SUBDIRECTORIES HERE ↓↓↓↓↓↓↓↓↓↓↓↓
-add_subdirectory(src/Framework/)
-add_subdirectory(src/GameObject/)
-add_subdirectory(src/GameWorld/)
-add_subdirectory(src/GameObject/Plants/)
-add_subdirectory(src/GameObject/Seeds/)
-add_subdirectory(src/GameObject/Zombies/)
-add_subdirectory(src/GameObject/Etc/)
+add_subdirectory(./src/Framework/)
+add_subdirectory(./src/GameObject/)
+add_subdirectory(./src/GameWorld/)
+add_subdirectory(./src/ToolKit/)
 #↑↑↑↑↑↑↑↑↑↑↑ ADD YOUR SUBDIRECTORIES HERE ↑↑↑↑↑↑↑↑↑↑↑↑↑
 
 add_executable(
   ${PROJECT_NAME}
   src/main.cpp
-)
+ "src/ToolKit/ToolKit.cpp")
 
 target_link_libraries(
     ${PROJECT_NAME}
