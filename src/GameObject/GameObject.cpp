@@ -160,6 +160,7 @@ bool GameObject::AreColliding(GameObject &obj1, GameObject &obj2)
     int diff_x = std::abs(obj1.GetX() - obj2.GetX());
     int diff_y = std::abs(obj1.GetY() - obj2.GetY());
 
+    // The boundary of two objects' collision.
     int boundary_x = obj1.GetWidth() / 2 + obj2.GetWidth() / 2;
     int boundary_y = obj1.GetHeight() / 2 + obj2.GetHeight() / 2;
 
@@ -182,6 +183,7 @@ bool GameObject::AreColliding(pGameObject &obj1, pGameObject &obj2)
     int diff_x = std::abs(obj1->GetX() - obj2->GetX());
     int diff_y = std::abs(obj1->GetY() - obj2->GetY());
 
+    // The boundary of two objects' collision.
     int boundary_x = obj1->GetWidth() / 2 + obj2->GetWidth() / 2;
     int boundary_y = obj1->GetHeight() / 2 + obj2->GetHeight() / 2;
 
