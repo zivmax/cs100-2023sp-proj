@@ -170,10 +170,12 @@ bool GameObject::AreCollidable(const pGameObject &obj1, const pGameObject &obj2)
 // Objects on different row will never be considerdd colliding.
 bool GameObject::AreColliding(GameObject &obj1, GameObject &obj2)
 {
-    int diff_x = std::abs(obj1.GetX() - obj2.GetX());
     bool is_colliding = false;
 
-    if (diff_x <= (obj1.GetWidth() / 2 + obj2.GetWidth() / 2))
+    int diff_x = std::abs(obj1.GetX() - obj2.GetX());
+    int boundary_x = obj1.GetWidth() / 2 + obj2.GetWidth() / 2;
+
+    if (diff_x <= boundary_x)
     {
         is_colliding = true;
     }
@@ -187,10 +189,12 @@ bool GameObject::AreColliding(GameObject &obj1, GameObject &obj2)
 
 bool GameObject::AreColliding(pGameObject &obj1, pGameObject &obj2)
 {
-    int diff_x = std::abs(obj1->GetX() - obj2->GetX());
     bool is_colliding = false;
-    
-    if (diff_x <= (obj1->GetWidth() / 2 + obj2->GetWidth() / 2))
+
+    int diff_x = std::abs(obj1->GetX() - obj2->GetX());
+    int boundary_x = obj1->GetWidth() / 2 + obj2->GetWidth() / 2;
+
+    if (diff_x <= boundary_x)
     {
         is_colliding = true;
     }
