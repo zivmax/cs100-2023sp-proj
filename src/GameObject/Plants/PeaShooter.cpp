@@ -19,7 +19,7 @@ void PeaShooter::Update()
     }
     else if (m_cooling_timer == 0)
     {
-        if (m_belonging_world->AnyZombieOnRow(m_row_on_lawn))
+        if (m_belonging_world->AnyZombieOnY(GetY()))
         {
             if (m_belonging_world->AnyZombieRightOf(GetX()))
                 Attack();

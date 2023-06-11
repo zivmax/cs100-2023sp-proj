@@ -153,6 +153,20 @@ bool GameWorld::AnyZombieOnRow(int request_row) const
 }
 
 
+bool GameWorld::AnyZombieOnY(int request_y) const
+{
+    for (auto& obj_ptr : m_objects_ptr)
+    {
+        if (GameObject::IsZombie(obj_ptr) && obj_ptr->GetY() == request_y)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
 bool GameWorld::AnyZombieRightOf(int request_x) const
 {
     for (auto &obj_ptr : m_objects_ptr)
