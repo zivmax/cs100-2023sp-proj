@@ -23,7 +23,6 @@ static const int WORLD_SUN_GEN_INTER_TICKS = 300;
 // Correct is true
 static const bool ENABLE_LOST = true;
 
-int cleanUpTimes = 0;
 
 GameWorld::GameWorld() {}
 
@@ -89,7 +88,6 @@ LevelStatus GameWorld::Update()
 
 void GameWorld::CleanUp()
 {
-    cleanUpTimes++;
     m_objects_ptr.clear();
     m_object_on_hands = ObjectOnHands::NONE;
 }
@@ -341,6 +339,20 @@ bool GameWorld::AnyZombieOnRow(int request_row) const
     for (auto &obj_ptr : m_objects_ptr)
     {
         if (GameObject::IsZombie(obj_ptr) && obj_ptr->GetLawnRow() == request_row)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+bool GameWorld::AnyZombieRightOf(int request_x) const
+{
+    for (auto &obj_ptr : m_objects_ptr)
+    {
+        if (GameObject::IsZombie(obj_ptr) && obj_ptr->GetX() > request_x)
         {
             return true;
         }

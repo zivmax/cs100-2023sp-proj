@@ -48,7 +48,8 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
         void SetObjectOnHands(ObjectOnHands new_object_on_hands);
         ObjectOnHands GetObjectOnHands() const;
 
-        bool AnyZombieOnRow(int row) const;
+        bool AnyZombieOnRow(int request_row) const;
+        bool AnyZombieRightOf(int request_x) const;
 
 
     private:

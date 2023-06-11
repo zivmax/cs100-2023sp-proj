@@ -64,14 +64,10 @@ void WorldSun::Update()
     {
         MoveTo(GetX(), GetY() - 1);
     }
-    else
+    else if (m_elapsed_ticks - m_drop_ticks == 300)
     {
-
-        if (m_elapsed_ticks - m_drop_ticks == 300)
-        {
-            // If the sun has been on the ground for 300 ticks, then it will disappear.
-            SelfKill();
-        }
+        // If the sun has been on the ground for 300 ticks, then it will disappear.
+        SelfKill();
     }
 
     m_elapsed_ticks++;

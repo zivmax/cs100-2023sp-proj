@@ -23,13 +23,14 @@ void Repeater::Update()
     {
         if (m_belonging_world->AnyZombieOnRow(m_row_on_lawn))
         {
-            Attack();
-
-            // The first shoot will reset the cooling timer.
-            m_cooling_timer = m_first_shoot_cooling_ticks;
+            if (m_belonging_world->AnyZombieRightOf(GetX()))
+            {
+                Attack();
+                
+                // The first shoot will reset the cooling timer.
+                m_cooling_timer = m_first_shoot_cooling_ticks;  
+            }
         }
-
-        return;
     }
     else if (m_cooling_timer == 25)
     {
