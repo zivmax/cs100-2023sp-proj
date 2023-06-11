@@ -91,11 +91,11 @@ bool GameObject::AreCollidable(const GameObject &obj1, const GameObject &obj2)
 {
     bool are_collidable = false;
 
-    if (obj1.m_is_dead || obj2.m_is_dead)
+    if (obj1.m_row_on_lawn != obj2.m_row_on_lawn)
     {
         are_collidable = false;
     }
-    else if (obj1.m_row_on_lawn == obj2.m_row_on_lawn)
+    else if (obj1.m_is_dead || obj2.m_is_dead)
     {
         are_collidable = false;
     }
@@ -131,13 +131,13 @@ bool GameObject::AreCollidable(const pGameObject &obj1, const pGameObject &obj2)
 {
     bool are_collidable = false;
 
-    if (obj1->m_is_dead || obj2->m_is_dead)
+    if (obj1->m_row_on_lawn != obj2->m_row_on_lawn)
     {
-        are_collidable =  false;
+        are_collidable = false;
     }
-    else if (obj1->m_row_on_lawn == obj2->m_row_on_lawn)
+    else if (obj1->m_is_dead || obj2->m_is_dead)
     {
-        are_collidable =  false;
+        are_collidable = false;
     }
     else
     {
