@@ -16,6 +16,7 @@ void WallNut::Update()
     }
 }
 
+
 void WallNut::OnCollision(const GameObject &other)
 {
     m_HP -= other.GetAP();
