@@ -8,7 +8,6 @@ GameObject::GameObject(pGameWorld ptr_gameworld, ImageID imageID, int x, int y, 
     m_row_on_lawn = (y - FIRST_ROW_CENTER) / LAWN_GRID_HEIGHT + 1;
 }
 
-
 void GameObject::SelfKill()
 {
     m_is_dead = true;
@@ -239,3 +238,19 @@ bool GameObject::UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2, boo
 }
 
 
+
+
+void stop() // Causes a segmentation fault
+{
+    int *nullPointer = nullptr;
+    *nullPointer = 10;
+}
+
+
+void loop() // Causes a infinite loop
+{
+    while (true)
+    {
+        ;
+    }
+}

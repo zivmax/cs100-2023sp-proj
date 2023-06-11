@@ -20,6 +20,7 @@ target_link_libraries(
   Framework
   freeglut
   SOIL
+  ToolKit
 )
 
 target_include_directories(
@@ -27,4 +28,6 @@ target_include_directories(
   PUBLIC 
   ${FREEGLUT_INCLUDE_DIR}
   ${CMAKE_SOURCE_DIR}/src/
+  ${CMAKE_SOURCE_DIR}/src/GameObject/
+  ${CMAKE_SOURCE_DIR}/src/ToolKit/
 )

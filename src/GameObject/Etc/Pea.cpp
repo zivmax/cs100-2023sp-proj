@@ -18,3 +18,12 @@ void Pea::Update()
 
     MoveTo(GetX() + 8, GetY());
 }
+
+
+void Pea::OnCollision(const GameObject &other)
+{
+    if (other.GetAP() != 0)
+    {
+        SelfKill();
+    }
+}

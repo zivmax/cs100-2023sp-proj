@@ -10,6 +10,7 @@
 #include "SpriteManager.hpp"
 #include "utils.hpp"
 
+
 static void displayCallback()
 {
     GameManager::Instance().Update();

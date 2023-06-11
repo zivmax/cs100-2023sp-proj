@@ -21,10 +21,9 @@ void PeaShooter::Update()
     {
         if (m_belonging_world->AnyZombieOnRow(m_row_on_lawn))
         {
-            Attack();
+            if (m_belonging_world->AnyZombieRightOf(GetX()))
+                Attack();
         }
-
-        return;
     }
     else
     {

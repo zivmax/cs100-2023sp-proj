@@ -18,6 +18,7 @@ add_library(
 target_link_libraries(
 	Etc
 	GameObject
+	ToolKit
 )
 
 target_include_directories(
@@ -27,7 +28,6 @@ target_include_directories(
 	${CMAKE_SOURCE_DIR}/src/Framework/
 	${CMAKE_SOURCE_DIR}/src/GameObject/
 	${CMAKE_SOURCE_DIR}/src/GameWorld/
-	${CMAKE_SOURCE_DIR}/src/GameObject/Zombies/
-	${CMAKE_SOURCE_DIR}/src/GameObject/Plants/
 	${CMAKE_SOURCE_DIR}/src/GameObject/Etc/
+	${CMAKE_SOURCE_DIR}/src/ToolKit/
 )

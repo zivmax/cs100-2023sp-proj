@@ -23,57 +23,52 @@ static const int WORLD_SUN_GEN_INTER_TICKS = 300;
 // Correct is true
 static const bool ENABLE_LOST = true;
 
-GameWorld::GameWorld()
-{
-    m_sun_gen_inter_ticks = WORLD_SUN_GEN_INTER_TICKS;
-    m_wave_gen_inter_ticks = WAVE_INTER_TICKS;
-}
+
+GameWorld::GameWorld() {}
+
 
 GameWorld::~GameWorld() {}
 
 
 void GameWorld::Init()
 {
-    m_wave_gen_timer = FIRST_WAVE_TICKS;
-    m_sun_gen_timer = FIRST_WORLD_SUN_GEN_INTER_TICKS;
-
-    AddObject(std::make_shared<BackGround>(shared_from_this()));
-
     SetWave(0);
     SetSun(INIT_SUN);
 
+    AddObject(std::make_shared<BackGround>(shared_from_this()));
     CreatePlantingSpots();
     CreateSeedCards();
     CreateShovel();
+
+    m_sun_gen_timer = FIRST_WORLD_SUN_GEN_INTER_TICKS;
+    m_wave_gen_timer = FIRST_WAVE_TICKS;
 }
 
 
 LevelStatus GameWorld::Update()
 {
-    if (m_sun_gen_timer == 0)
+    if (m_sun_gen_timer == 1)
         GenerateSun();
     else
         m_sun_gen_timer--;
 
 
-    if (m_wave_gen_timer == 0)
+    if (m_wave_gen_timer == 1)
         GenerateWave();
     else
         m_wave_gen_timer--;
-    
-    
+
+
     UpdateAllObjects();
     HandleCollisions();
-    RemoveDeadObject();
+    RemoveDeadObjects();
 
     if (IsLost())
     {
-
         return LevelStatus::LOSING;
     }
 
     ExtraEatingUpdateForZombies();
-
 
 
     return LevelStatus::ONGOING;
@@ -139,9 +134,7 @@ void GameWorld::HandleCollisions()
         for (auto iter2 = iter1; iter2 != m_objects_ptr.end(); ++iter2)
         {
             if (*iter1 == *iter2)
-            {
                 continue;
-            }
 
             GameObject::UpdateCollisionStatus(*iter1, *iter2);
         }
@@ -159,7 +152,7 @@ void GameWorld::UpdateAllObjects()
 
 
 // This func remove all the dead object's shared ptr from the m_objects_ptr list.
-void GameWorld::RemoveDeadObject()
+void GameWorld::RemoveDeadObjects()
 {
     for (auto obj_ptr_iter = m_objects_ptr.begin(); obj_ptr_iter != m_objects_ptr.end();)
     {
@@ -181,8 +174,9 @@ void GameWorld::GenerateSun()
     int y = WINDOW_HEIGHT - 1;
     AddObject(std::make_shared<WorldSun>(x, y, shared_from_this()));
 
-    m_sun_gen_timer = m_sun_gen_inter_ticks;
+    m_sun_gen_timer = WORLD_SUN_GEN_INTER_TICKS;
 }
+
 
 void GameWorld::GenerateWave()
 {
@@ -192,10 +186,8 @@ void GameWorld::GenerateWave()
 
     GenerateRandomZombies(total_amount);
 
-    m_wave_gen_inter_ticks = WAVE_INTER_TICKS;
-    m_wave_gen_timer = m_wave_gen_inter_ticks;
+    m_wave_gen_timer = WAVE_INTER_TICKS;
 }
-
 
 void GameWorld::GenerateRandomZombies(int total_amount)
 {
@@ -229,7 +221,7 @@ template <typename ZombieT>
 void GameWorld::GenerateZombie()
 {
     int x = randInt(WINDOW_WIDTH - 40, WINDOW_WIDTH - 1);
-    int y = FIRST_ROW_CENTER + randInt(0, GAME_ROWS - 1) * LAWN_GRID_HEIGHT;
+    int y = FIRST_ROW_CENTER + LAWN_GRID_HEIGHT * randInt(0, GAME_ROWS - 1);
     AddObject(std::make_shared<ZombieT>(x, y, shared_from_this()));
 }
 
@@ -322,6 +314,20 @@ bool GameWorld::AnyZombieOnRow(int request_row) const
     for (auto &obj_ptr : m_objects_ptr)
     {
         if (GameObject::IsZombie(obj_ptr) && obj_ptr->GetLawnRow() == request_row)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+bool GameWorld::AnyZombieRightOf(int request_x) const
+{
+    for (auto &obj_ptr : m_objects_ptr)
+    {
+        if (GameObject::IsZombie(obj_ptr) && obj_ptr->GetX() > request_x)
         {
             return true;
         }

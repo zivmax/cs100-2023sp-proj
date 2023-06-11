@@ -11,11 +11,3 @@ AttackingObj::AttackingObj(pGameWorld belonging_world, ImageID imageID, AnimID a
 
 void AttackingObj::OnClick() {}
 
-
-void AttackingObj::OnCollision(const GameObject &other)
-{
-    if (other.GetAP() != 0)
-    {
-        SelfKill();
-    }
-}
