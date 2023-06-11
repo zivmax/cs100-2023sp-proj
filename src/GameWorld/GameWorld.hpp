@@ -53,9 +53,7 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
 
     private:
         int m_sun_gen_timer = 0;
-        int m_sun_gen_inter_ticks = 0;
         int m_wave_gen_timer = 0;
-        int m_wave_gen_inter_ticks = 0;
         std::list<std::shared_ptr<GameObject>> m_objects_ptr;
         ObjectOnHands m_object_on_hands = ObjectOnHands::NONE;
 

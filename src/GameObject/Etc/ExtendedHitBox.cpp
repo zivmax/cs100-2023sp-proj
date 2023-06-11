@@ -20,7 +20,7 @@ void ExtendedHitBox::Update()
     {
         SelfKill();
     }
-    else if (GetX() > 1)
+    else if (GetX() >= 2)
     {
         MoveTo(m_belonging_obj.lock()->GetX() - 40, m_belonging_obj.lock()->GetY());
     }

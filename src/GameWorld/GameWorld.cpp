@@ -21,15 +21,11 @@ static const int FIRST_WORLD_SUN_GEN_INTER_TICKS = 180;
 static const int WORLD_SUN_GEN_INTER_TICKS = 300;
 
 // Correct is true
-static const bool ENABLE_LOST = false;
+static const bool ENABLE_LOST = true;
 
 int cleanUpTimes = 0;
 
-GameWorld::GameWorld()
-{
-    m_sun_gen_inter_ticks = WORLD_SUN_GEN_INTER_TICKS;
-    m_wave_gen_inter_ticks = WAVE_INTER_TICKS;
-}
+GameWorld::GameWorld() {}
 
 
 GameWorld::~GameWorld() {}
@@ -37,17 +33,16 @@ GameWorld::~GameWorld() {}
 
 void GameWorld::Init()
 {
-    m_wave_gen_timer = FIRST_WAVE_TICKS;
-    m_sun_gen_timer = FIRST_WORLD_SUN_GEN_INTER_TICKS;
-
-    AddObject(std::make_shared<BackGround>(shared_from_this()));
-
     SetWave(0);
     SetSun(INIT_SUN);
 
+    AddObject(std::make_shared<BackGround>(shared_from_this()));
     CreatePlantingSpots();
     CreateSeedCards();
     CreateShovel();
+
+    m_sun_gen_timer = FIRST_WORLD_SUN_GEN_INTER_TICKS;
+    m_wave_gen_timer = FIRST_WAVE_TICKS;
 }
 
 
@@ -64,13 +59,13 @@ LevelStatus GameWorld::Update()
     // if (CountPlants() == 0 && CountZombies() == 1)
     //     STOP;
 
-    if (m_sun_gen_timer == 0)
+    if (m_sun_gen_timer == 1)
         GenerateSun();
     else
         m_sun_gen_timer--;
 
 
-    if (m_wave_gen_timer == 0)
+    if (m_wave_gen_timer == 1)
         GenerateWave();
     else
         m_wave_gen_timer--;
@@ -152,9 +147,7 @@ void GameWorld::HandleCollisions()
         for (auto iter2 = iter1; iter2 != m_objects_ptr.end(); ++iter2)
         {
             if (*iter1 == *iter2)
-            {
                 continue;
-            }
 
             GameObject::UpdateCollisionStatus(*iter1, *iter2);
         }
@@ -194,7 +187,7 @@ void GameWorld::GenerateSun()
     int y = WINDOW_HEIGHT - 1;
     AddObject(std::make_shared<WorldSun>(x, y, shared_from_this()));
 
-    m_sun_gen_timer = m_sun_gen_inter_ticks;
+    m_sun_gen_timer = WORLD_SUN_GEN_INTER_TICKS;
 }
 
 
@@ -206,8 +199,7 @@ void GameWorld::GenerateWave()
 
     GenerateRandomZombies(total_amount);
 
-    m_wave_gen_inter_ticks = WAVE_INTER_TICKS;
-    m_wave_gen_timer = m_wave_gen_inter_ticks;
+    m_wave_gen_timer = WAVE_INTER_TICKS;
 }
 
 
@@ -256,7 +248,7 @@ template <typename ZombieT>
 void GameWorld::GenerateZombie()
 {
     int x = randInt(WINDOW_WIDTH - 40, WINDOW_WIDTH - 1);
-    int y = FIRST_ROW_CENTER + randInt(0, GAME_ROWS - 1) * LAWN_GRID_HEIGHT;
+    int y = FIRST_ROW_CENTER + LAWN_GRID_HEIGHT * randInt(0, GAME_ROWS - 1);
     AddObject(std::make_shared<ZombieT>(x, y, shared_from_this()));
 }
 
