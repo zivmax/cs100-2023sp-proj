@@ -1,5 +1,7 @@
 #include "Etc.hpp"
 
+static const int SPEED = 8;
+
 Pea::Pea(int x, int y, pGameWorld belonging_world)
     : AttackingObj(belonging_world, IMGID_PEA, ANIMID_NO_ANIMATION, 20, x, y, 28, 28) {}
 
@@ -16,7 +18,7 @@ void Pea::Update()
         return;
     }
 
-    MoveTo(GetX() + 8, GetY());
+    MoveTo(GetX() + SPEED, GetY());
 }
 
 

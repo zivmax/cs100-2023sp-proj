@@ -70,7 +70,6 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
 
         void UpdateAllObjects();
         void HandleCollisions();
-        void ExtraEatingUpdateForZombies();
         void RemoveDeadObjects();
 
 

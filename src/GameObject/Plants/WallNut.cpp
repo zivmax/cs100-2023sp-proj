@@ -1,7 +1,11 @@
 #include "Plants.hpp"
 
+static const int HP = 4000;
+
+static const int BROKEN_TIMING = HP / (double) 3;
+
 WallNut::WallNut(int x, int y, pGameWorld belonging_world)
-    : PlantBase(belonging_world, IMGID_WALLNUT, ANIMID_IDLE_ANIM, 4000, x, y) {}
+    : PlantBase(belonging_world, IMGID_WALLNUT, ANIMID_IDLE_ANIM, HP, x, y) {}
 
 
 void WallNut::Update() 
@@ -19,7 +23,7 @@ void WallNut::OnCollision(const GameObject &other)
     {
         SelfKill();
     }
-    else if (m_HP < 4000 / (double) 3 && !m_is_cracked)
+    else if (m_HP < BROKEN_TIMING && !m_is_cracked)
     {
         m_is_cracked = true;
         ChangeImage(IMGID_WALLNUT_CRACKED);

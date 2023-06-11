@@ -50,13 +50,13 @@ void GameWorld::Init()
 
 LevelStatus GameWorld::Update()
 {
-    if (m_sun_gen_timer == 1)
+    if (m_sun_gen_timer == 0)
         GenerateSun();
     else
         m_sun_gen_timer--;
 
 
-    if (m_wave_gen_timer == 1)
+    if (m_wave_gen_timer == 0)
         GenerateWave();
     else
         m_wave_gen_timer--;
@@ -66,14 +66,7 @@ LevelStatus GameWorld::Update()
     HandleCollisions();
     RemoveDeadObjects();
 
-    if (IsLost())
-    {
-        return LevelStatus::LOSING;
-    }
-
-    ExtraEatingUpdateForZombies();
-
-    return LevelStatus::ONGOING;
+    return IsLost() ? LevelStatus::LOSING:LevelStatus::ONGOING;
 }
 
 
@@ -312,36 +305,6 @@ void GameWorld::HandleCollisions()
                 continue;
 
             GameObject::UpdateCollisionStatus(*iter1, *iter2);
-        }
-    }
-}
-
-
-void GameWorld::ExtraEatingUpdateForZombies()
-{
-    for (auto &obj_ptr1 : m_objects_ptr)
-    {
-        if (GameObject::IsZombie(obj_ptr1) && obj_ptr1->IsColliding())
-        {
-            GameObject::InitCollisionStatus(obj_ptr1);
-
-            for (auto &obj_ptr2 : m_objects_ptr)
-            {
-
-                if (GameObject::IsPlant(obj_ptr2))
-                {
-                    // the `false` param means no func call in `UpdateCollisionStatus`
-                    GameObject::UpdateCollisionStatus(obj_ptr1, obj_ptr2, false);
-                }
-            }
-            /*
-             * This Update Will Only make the not colliding but
-             * eating Zomibie Stop Eating.
-             */
-            if (obj_ptr1->IsColliding() == false)
-            {
-                obj_ptr1->Update();
-            }
         }
     }
 }

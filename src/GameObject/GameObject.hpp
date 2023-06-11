@@ -4,10 +4,8 @@
 #include "GameWorld.hpp"
 #include "ObjectBase.hpp"
 #include <memory>
-#include "ToolKit.hpp"
+ 
 
-
-const double TIME_PER_TICK = (1 / 30);
 
 // Declares the class name GameWorld so that its pointers can be used.
 using pGameWorld = std::shared_ptr<GameWorld>;
