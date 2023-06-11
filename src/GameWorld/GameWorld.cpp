@@ -91,7 +91,6 @@ pGameObject_weak GameWorld::PlantingSeedOnHand(int x, int y)
         return returned_ptr;
     }
 
-
     switch (m_object_on_hands)
     {
         case ObjectOnHands::SUN_FLOWER_SEED:
