@@ -70,7 +70,6 @@ LevelStatus GameWorld::Update()
 
     ExtraEatingUpdateForZombies();
 
-
     return LevelStatus::ONGOING;
 }
 
