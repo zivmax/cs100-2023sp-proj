@@ -95,6 +95,10 @@ bool GameObject::AreCollidable(const GameObject &obj1, const GameObject &obj2)
     {
         is_collidable = false;
     }
+    else if (obj1.GetY() == obj2.GetY())
+    {
+        return false;
+    }
     else
     {
         switch (obj1.m_type)
@@ -128,6 +132,10 @@ bool GameObject::AreCollidable(const pGameObject &obj1, const pGameObject &obj2)
     bool is_collidable = false;
 
     if (obj1->m_is_dead || obj2->m_is_dead)
+    {
+        return false;
+    }
+    else if (obj1->GetY() == obj2->GetY())
     {
         return false;
     }
@@ -165,12 +173,9 @@ bool GameObject::AreColliding(GameObject &obj1, GameObject &obj2)
     bool is_colliding = false;
 
     int diff_x = std::abs(obj1.GetX() - obj2.GetX());
-    int diff_y = std::abs(obj1.GetY() - obj2.GetY());
-
     int boundary_x = obj1.GetWidth() / 2 + obj2.GetWidth() / 2;
-    int boundary_y = obj1.GetHeight() / 2 + obj2.GetHeight() / 2;
 
-    if (diff_x <= boundary_x && diff_y <= boundary_y)
+    if (diff_x <= boundary_x)
     {
         is_colliding = true;
     }
@@ -187,12 +192,9 @@ bool GameObject::AreColliding(pGameObject &obj1, pGameObject &obj2)
     bool is_colliding = false;
 
     int diff_x = std::abs(obj1->GetX() - obj2->GetX());
-    int diff_y = std::abs(obj1->GetY() - obj2->GetY());
-
     int boundary_x = obj1->GetWidth() / 2 + obj2->GetWidth() / 2;
-    int boundary_y = obj1->GetHeight() / 2 + obj2->GetHeight() / 2;
 
-    if (diff_x <= boundary_x && diff_y <= boundary_y)
+    if (diff_x <= boundary_x)
     {
         is_colliding = true;
     }
