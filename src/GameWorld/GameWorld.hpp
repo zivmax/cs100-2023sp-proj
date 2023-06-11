@@ -6,7 +6,6 @@
 
 #include "WorldBase.hpp"
 #include "utils.hpp"
-#include "ToolKit.hpp"
 
 class GameObject;
 using pGameObject_weak = std::weak_ptr<GameObject>;
@@ -81,9 +80,10 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
 
         bool IsLost() const;
 
-        int CountZombies() const;
         int CountPlants() const;
         int CountAttackObjs() const;
+        int CountZombies() const;
 };
+
 
 #endif // !GAMEWORLD_HPP__

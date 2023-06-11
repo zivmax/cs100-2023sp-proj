@@ -29,6 +29,8 @@ class BombShrapnel : public AttackingObj
             }
         }
 
+        virtual void OnCollision(const GameObject &other) override {}
+
     private:
         int m_last_ticks_left = -1;
 };
@@ -66,3 +68,6 @@ void Explosion::Update()
         m_last_ticks_left--;
     }
 }
+
+
+void Explosion::OnCollision(const GameObject &other) {}

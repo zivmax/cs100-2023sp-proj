@@ -86,7 +86,6 @@ class AttackingObj : public GameObject
         AttackingObj(pGameWorld belonging_world, ImageID imageID, AnimID animID, int AP, int x, int y, int width, int height);
 
         virtual void OnClick() override;
-        virtual void OnCollision(const GameObject &other) override;
 };
 
 
@@ -96,6 +95,7 @@ class Pea : public AttackingObj
         Pea(int x, int y, pGameWorld belonging_world);
 
         virtual void Update() override;
+        virtual void OnCollision(const GameObject &other) override;
 };
 
 
@@ -105,6 +105,7 @@ class Explosion : public AttackingObj
         Explosion(int x, int y, pGameWorld belonging_world);
 
         virtual void Update() override;
+        virtual void OnCollision(const GameObject &other) override;
 
     private:
         int m_last_ticks_left = -1;

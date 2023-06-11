@@ -17,7 +17,7 @@ void CherryBomb::Update()
         return;
     }
 
-    if (m_explode_timer == 0)
+    if (m_explode_timer == 1)
     {
         m_belonging_world->AddObject(std::make_shared<Explosion>(GetX(), GetY(), m_belonging_world));
         SelfKill();
