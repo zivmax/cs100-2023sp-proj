@@ -8,7 +8,6 @@ SeedBase::SeedBase(pGameWorld belonging_world, ImageID imageID, ObjectOnHands se
     m_cooling_ticks = cooling_ticks;
     m_seed_type = seed_type;
     m_cost_sun = cost_sun;
-    m_row_on_lawn = 0;
 }
 
 
