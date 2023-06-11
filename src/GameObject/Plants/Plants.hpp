@@ -1,5 +1,5 @@
 #include "GameObject.hpp"
-#include "ToolKit.hpp"
+ 
 
 class PlantBase : public GameObject
 {
@@ -78,5 +78,5 @@ class Repeater : public PlantBase
     private:
         int m_cooling_timer = -1;
         int m_first_shoot_cooling_ticks = -1;
-        int m_second_shoot_cooling_ticks = -1;
+        int m_timing_of_second_shoot = -1;
 };

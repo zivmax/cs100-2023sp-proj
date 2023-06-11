@@ -1,7 +1,10 @@
 #include "Zombies.hpp"
 
+static const int HP = 1300;
+static const int AP = 3;
+
 BucketZombie::BucketZombie(int x, int y, pGameWorld belonging_world)
-    : ZombieBase(belonging_world, IMGID_BUCKET_HEAD_ZOMBIE, ANIMID_WALK_ANIM, 3, 1300, x, y)
+    : ZombieBase(belonging_world, IMGID_BUCKET_HEAD_ZOMBIE, ANIMID_WALK_ANIM, AP, HP, x, y)
 {
     m_speed = 1;
     m_has_bucket = true;

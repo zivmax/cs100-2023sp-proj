@@ -1,6 +1,8 @@
 #include "Etc.hpp"
 #include "utils.hpp"
 
+static const int DISAPPER_TICKS = 300;
+static const int POINT_OF_EACH_SUN = 25;
 
 Sun::Sun(int x, int y, pGameWorld belonging_world)
     : GameObject(belonging_world, IMGID_SUN, x, y, LAYER_SUN, 80, 80, ANIMID_IDLE_ANIM) {}
@@ -10,7 +12,7 @@ void Sun::OnClick()
 {
     SelfKill();
     int current_sun = m_belonging_world->GetSun();
-    m_belonging_world->SetSun(current_sun + 25);
+    m_belonging_world->SetSun(current_sun + POINT_OF_EACH_SUN);
 }
 
 
@@ -38,7 +40,7 @@ void FlowerSun::Update()
     }
     else
     {
-        if (m_elapsed_ticks - m_drop_ticks == 300)
+        if (m_elapsed_ticks - m_drop_ticks == DISAPPER_TICKS)
         {
             // If the sun has been on the ground for 300 ticks, then it will disappear.
             SelfKill();

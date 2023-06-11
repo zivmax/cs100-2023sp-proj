@@ -1,6 +1,9 @@
 #include "Etc.hpp"
 
+static const int AP = 5000;
+
 static const int EXPLOSION_DURATION = 3;
+
 
 class BombShrapnel : public AttackingObj
 {
@@ -41,10 +44,10 @@ Explosion::Explosion(int x, int y, pGameWorld belonging_world)
 {
     m_last_ticks_left = EXPLOSION_DURATION;
 
-    /* 
+    /*
      * When an explosion is created, it will create 9 shrapnels.
      * The shrapnels are the real attacking objects.
-    */
+     */
     for (int i = -1; i < 2; i++)
     {
         for (int j = -1; j < 2; j++)

@@ -1,10 +1,12 @@
 #include "Etc.hpp"
 #include "Plants.hpp"
 
+static const int HP = 300;
+
 static const int SHOOT_COOLING_TICKS = 30;
 
 PeaShooter::PeaShooter(int x, int y, pGameWorld belonging_world)
-    : PlantBase(belonging_world, IMGID_PEASHOOTER, ANIMID_IDLE_ANIM, 300, x, y)
+    : PlantBase(belonging_world, IMGID_PEASHOOTER, ANIMID_IDLE_ANIM, HP, x, y)
 {
     m_cooling_timer = 0;
     m_shoot_cooling_ticks = SHOOT_COOLING_TICKS;
