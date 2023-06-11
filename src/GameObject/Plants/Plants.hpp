@@ -45,8 +45,8 @@ class WallNut : public PlantBase
     public:
         WallNut(int x, int y, pGameWorld belonging_world);
 
-        virtual void OnCollision(const GameObject &other) override;
         virtual void Update() override;
+        virtual void OnCollision(const GameObject &other) override;
 
     private:
         bool m_is_cracked = false;

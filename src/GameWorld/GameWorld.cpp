@@ -82,180 +82,6 @@ void GameWorld::CleanUp()
 }
 
 
-void GameWorld::CreatePlantingSpots()
-{
-    // 45 (9 * 5) planting spots will be created in total.
-    for (size_t i = 0; i < GAME_COLS; i++)
-    {
-        for (size_t j = 0; j < GAME_ROWS; j++)
-        {
-            int x = FIRST_COL_CENTER + i * LAWN_GRID_WIDTH;
-            int y = FIRST_ROW_CENTER + j * LAWN_GRID_HEIGHT;
-            AddObject(std::make_shared<PlantingSpot>(x, y, shared_from_this()));
-        }
-    }
-}
-
-
-void GameWorld::CreateSeedCards()
-{
-    int x = 130;
-    AddObject(std::make_shared<SunFlowerSeed>(x, shared_from_this()));
-
-    x += 60;
-    AddObject(std::make_shared<PeaShooterSeed>(x, shared_from_this()));
-
-    x += 60;
-    AddObject(std::make_shared<WallNutSeed>(x, shared_from_this()));
-
-    x += 60;
-    AddObject(std::make_shared<CherryBombSeed>(x, shared_from_this()));
-
-    x += 60;
-    AddObject(std::make_shared<RepeaterSeed>(x, shared_from_this()));
-}
-
-
-void GameWorld::CreateShovel()
-{
-    AddObject(std::make_shared<Shovel>(shared_from_this()));
-}
-
-
-void GameWorld::HandleCollisions()
-{
-    for (auto &obj_ptr : m_objects_ptr)
-    {
-        GameObject::InitCollisionStatus(obj_ptr);
-    }
-
-    for (auto iter1 = m_objects_ptr.begin(); iter1 != m_objects_ptr.end(); ++iter1)
-    {
-        for (auto iter2 = iter1; iter2 != m_objects_ptr.end(); ++iter2)
-        {
-            if (*iter1 == *iter2)
-                continue;
-
-            GameObject::UpdateCollisionStatus(*iter1, *iter2);
-        }
-    }
-}
-
-
-void GameWorld::UpdateAllObjects()
-{
-    for (auto &obj_ptr : m_objects_ptr)
-    {
-        obj_ptr->Update();
-    }
-}
-
-
-// This func remove all the dead object's shared ptr from the m_objects_ptr list.
-void GameWorld::RemoveDeadObjects()
-{
-    for (auto obj_ptr_iter = m_objects_ptr.begin(); obj_ptr_iter != m_objects_ptr.end();)
-    {
-        if ((*obj_ptr_iter)->IsDead())
-        {
-            m_objects_ptr.erase(obj_ptr_iter++);
-        }
-        else
-        {
-            obj_ptr_iter++;
-        }
-    }
-}
-
-
-void GameWorld::GenerateSun()
-{
-    int x = randInt(75, WINDOW_WIDTH - 75);
-    int y = WINDOW_HEIGHT - 1;
-    AddObject(std::make_shared<WorldSun>(x, y, shared_from_this()));
-
-    m_sun_gen_timer = WORLD_SUN_GEN_INTER_TICKS;
-}
-
-
-void GameWorld::GenerateWave()
-{
-    SetWave(GetWave() + 1);
-
-    int total_amount = (15 + GetWave()) / 10;
-
-    GenerateRandomZombies(total_amount);
-
-    m_wave_gen_timer = WAVE_INTER_TICKS;
-}
-
-void GameWorld::GenerateRandomZombies(int total_amount)
-{
-    int p1 = 20;
-    int p2 = 2 * std::max(GetWave() - 8, 0);
-    int p3 = 3 * std::max(GetWave() - 15, 0);
-
-    for (int i = 0; i < total_amount; i++)
-    {
-        int random_num = randInt(1, p1 + p2 + p3);
-        if (random_num <= p1)
-        {
-            // RegularZombie
-            GenerateZombie<RegularZombie>();
-        }
-        else if (random_num <= p1 + p2)
-        {
-            // PoleZombie
-            GenerateZombie<PoleZombie>();
-        }
-        else
-        {
-            // BucketZombie
-            GenerateZombie<BucketZombie>();
-        }
-    }
-}
-
-
-template <typename ZombieT>
-void GameWorld::GenerateZombie()
-{
-    int x = randInt(WINDOW_WIDTH - 40, WINDOW_WIDTH - 1);
-    int y = FIRST_ROW_CENTER + LAWN_GRID_HEIGHT * randInt(0, GAME_ROWS - 1);
-    AddObject(std::make_shared<ZombieT>(x, y, shared_from_this()));
-}
-
-
-bool GameWorld::IsLost() const
-{
-    for (auto &obj_ptr : m_objects_ptr)
-    {
-        if (GameObject::IsZombie(obj_ptr) && obj_ptr->GetX() < 0)
-        {
-            if (ENABLE_LOST)
-            {
-                return true;
-            }
-            else
-            {
-                obj_ptr->SelfKill();
-            }
-        }
-    }
-
-    return false;
-}
-
-
-pGameObject_weak GameWorld::AddObject(pGameObject new_object_ptr)
-{
-    pGameObject_weak new_object_weak_ptr = new_object_ptr;
-    m_objects_ptr.push_back(std::move(new_object_ptr));
-
-    // Return an weak ptr in case some objects need to watch the object they create
-    return new_object_weak_ptr;
-}
-
 
 pGameObject_weak GameWorld::PlantingSeedOnHand(int x, int y)
 {
@@ -336,6 +162,135 @@ bool GameWorld::AnyZombieRightOf(int request_x) const
     return false;
 }
 
+
+
+void GameWorld::CreatePlantingSpots()
+{
+    // 45 (9 * 5) planting spots will be created in total.
+    for (size_t i = 0; i < GAME_COLS; i++)
+    {
+        for (size_t j = 0; j < GAME_ROWS; j++)
+        {
+            int x = FIRST_COL_CENTER + i * LAWN_GRID_WIDTH;
+            int y = FIRST_ROW_CENTER + j * LAWN_GRID_HEIGHT;
+            AddObject(std::make_shared<PlantingSpot>(x, y, shared_from_this()));
+        }
+    }
+}
+
+
+void GameWorld::CreateSeedCards()
+{
+    int x = 130;
+    AddObject(std::make_shared<SunFlowerSeed>(x, shared_from_this()));
+
+    x += 60;
+    AddObject(std::make_shared<PeaShooterSeed>(x, shared_from_this()));
+
+    x += 60;
+    AddObject(std::make_shared<WallNutSeed>(x, shared_from_this()));
+
+    x += 60;
+    AddObject(std::make_shared<CherryBombSeed>(x, shared_from_this()));
+
+    x += 60;
+    AddObject(std::make_shared<RepeaterSeed>(x, shared_from_this()));
+}
+
+
+void GameWorld::CreateShovel()
+{
+    AddObject(std::make_shared<Shovel>(shared_from_this()));
+}
+
+
+void GameWorld::GenerateSun()
+{
+    int x = randInt(75, WINDOW_WIDTH - 75);
+    int y = WINDOW_HEIGHT - 1;
+    AddObject(std::make_shared<WorldSun>(x, y, shared_from_this()));
+
+    m_sun_gen_timer = WORLD_SUN_GEN_INTER_TICKS;
+}
+
+
+void GameWorld::GenerateWave()
+{
+    SetWave(GetWave() + 1);
+
+    int total_amount = (15 + GetWave()) / 10;
+
+    GenerateRandomZombies(total_amount);
+
+    m_wave_gen_timer = WAVE_INTER_TICKS;
+}
+
+void GameWorld::GenerateRandomZombies(int total_amount)
+{
+    int p1 = 20;
+    int p2 = 2 * std::max(GetWave() - 8, 0);
+    int p3 = 3 * std::max(GetWave() - 15, 0);
+
+    for (int i = 0; i < total_amount; i++)
+    {
+        int random_num = randInt(1, p1 + p2 + p3);
+        if (random_num <= p1)
+        {
+            // RegularZombie
+            GenerateZombie<RegularZombie>();
+        }
+        else if (random_num <= p1 + p2)
+        {
+            // PoleZombie
+            GenerateZombie<PoleZombie>();
+        }
+        else
+        {
+            // BucketZombie
+            GenerateZombie<BucketZombie>();
+        }
+    }
+}
+
+
+template <typename ZombieT>
+void GameWorld::GenerateZombie()
+{
+    int x = randInt(WINDOW_WIDTH - 40, WINDOW_WIDTH - 1);
+    int y = FIRST_ROW_CENTER + LAWN_GRID_HEIGHT * randInt(0, GAME_ROWS - 1);
+    AddObject(std::make_shared<ZombieT>(x, y, shared_from_this()));
+}
+
+
+void GameWorld::UpdateAllObjects()
+{
+    for (auto &obj_ptr : m_objects_ptr)
+    {
+        obj_ptr->Update();
+    }
+}
+
+
+void GameWorld::HandleCollisions()
+{
+    for (auto &obj_ptr : m_objects_ptr)
+    {
+        GameObject::InitCollisionStatus(obj_ptr);
+    }
+
+    for (auto iter1 = m_objects_ptr.begin(); iter1 != m_objects_ptr.end(); ++iter1)
+    {
+        for (auto iter2 = iter1; iter2 != m_objects_ptr.end(); ++iter2)
+        {
+            if (*iter1 == *iter2)
+                continue;
+
+            GameObject::UpdateCollisionStatus(*iter1, *iter2);
+        }
+    }
+}
+
+
 void GameWorld::ExtraEatingUpdateForZombies()
 {
     for (auto &obj_ptr1 : m_objects_ptr)
@@ -363,5 +318,53 @@ void GameWorld::ExtraEatingUpdateForZombies()
             }
         }
     }
+}
+
+
+// This func remove all the dead object's shared ptr from the m_objects_ptr list.
+void GameWorld::RemoveDeadObjects()
+{
+    for (auto obj_ptr_iter = m_objects_ptr.begin(); obj_ptr_iter != m_objects_ptr.end();)
+    {
+        if ((*obj_ptr_iter)->IsDead())
+        {
+            m_objects_ptr.erase(obj_ptr_iter++);
+        }
+        else
+        {
+            obj_ptr_iter++;
+        }
+    }
+}
+
+
+bool GameWorld::IsLost() const
+{
+    for (auto &obj_ptr : m_objects_ptr)
+    {
+        if (GameObject::IsZombie(obj_ptr) && obj_ptr->GetX() < 0)
+        {
+            if (ENABLE_LOST)
+            {
+                return true;
+            }
+            else
+            {
+                obj_ptr->SelfKill();
+            }
+        }
+    }
+
+    return false;
+}
+
+
+pGameObject_weak GameWorld::AddObject(pGameObject new_object_ptr)
+{
+    pGameObject_weak new_object_weak_ptr = new_object_ptr;
+    m_objects_ptr.push_back(std::move(new_object_ptr));
+
+    // Return an weak ptr in case some objects need to watch the object they create
+    return new_object_weak_ptr;
 }
 

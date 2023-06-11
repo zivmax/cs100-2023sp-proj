@@ -37,20 +37,17 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
         virtual ~GameWorld();
 
         void Init() override;
-
         LevelStatus Update() override;
-
         void CleanUp() override;
-
-        pGameObject_weak AddObject(pGameObject new_object);
-        pGameObject_weak PlantingSeedOnHand(int x, int y);
 
         void SetObjectOnHands(ObjectOnHands new_object_on_hands);
         ObjectOnHands GetObjectOnHands() const;
+        pGameObject_weak PlantingSeedOnHand(int x, int y);
 
         bool AnyZombieOnRow(int request_row) const;
         bool AnyZombieRightOf(int request_x) const;
 
+        pGameObject_weak AddObject(pGameObject new_object);
 
     private:
         int m_sun_gen_timer = 0;
@@ -62,20 +59,19 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
         void CreateSeedCards();
         void CreateShovel();
 
-        void HandleCollisions();
-        void ExtraEatingUpdateForZombies();
-
-
-        void UpdateAllObjects();
-        void RemoveDeadObjects();
 
         void GenerateSun();
         void GenerateWave();
-
+        void GenerateRandomZombies(int total_amount);
         template <typename ZombieT>
         void GenerateZombie();
 
-        void GenerateRandomZombies(int total_amount);
+
+        void UpdateAllObjects();
+        void HandleCollisions();
+        void ExtraEatingUpdateForZombies();
+        void RemoveDeadObjects();
+
 
         bool IsLost() const;
 };
