@@ -5,16 +5,6 @@
 #include "GameObject.hpp"
 #include "ToolKit.hpp"
 
-class EmptyObject : public GameObject
-{
-    public:
-        EmptyObject(pGameWorld belonging_world);
-
-        virtual void Update() override;
-        virtual void OnClick() override;
-};
-
-
 class BackGround : public GameObject
 {
     public:

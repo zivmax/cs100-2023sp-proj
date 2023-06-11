@@ -32,9 +32,9 @@ void PeaShooter::Update()
 }
 
 
-
 void PeaShooter::Attack()
 {
+    // The x and y ensure the pea is shoot from the mouth of the shooter.
     m_belonging_world->AddObject(std::make_shared<Pea>(GetX() + 30, GetY() + 20, m_belonging_world));
     m_cooling_timer = m_shoot_cooling_ticks;
 }

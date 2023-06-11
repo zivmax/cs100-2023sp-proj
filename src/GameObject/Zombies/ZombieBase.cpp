@@ -4,9 +4,33 @@ ZombieBase::ZombieBase(pGameWorld belonging_world, ImageID imageID, AnimID animI
     : GameObject(belonging_world, imageID, x, y, LAYER_ZOMBIES, 20, 80, animID)
 {
     m_type = ObjectType::ZOMBIE;
-
     m_HP = HP;
     m_AP = AP;
+    m_is_eating = false;
+}
+
+
+void ZombieBase::Update()
+{
+    if (IsDead())
+    {
+        return;
+    }
+
+    // If is colliding, then nothing should do.
+    if (!m_is_colliding)
+    {
+        // If a zombie is not colliding but eating, he should stop eating 
+        if (m_is_eating)
+        {
+            StopEating();
+        }
+        else
+        {
+            // Only when Zombie is both eating and colliding, it won't move
+            UpdatePosition();
+        }
+    }
 }
 
 

@@ -6,24 +6,4 @@ RegularZombie::RegularZombie(int x, int y, pGameWorld belonging_world)
     m_speed = 1;
 }
 
-void RegularZombie::Update()
-{
-    if (IsDead())
-    {
-        return;
-    }
-
-    if (!m_is_colliding)
-    {
-        if (m_is_eating)
-        {
-            StopEating();
-        }
-        else
-        {
-            // Only when Zombie is both eating and colliding, it won't move
-            UpdatePosition();
-        }
-    }
-}
 

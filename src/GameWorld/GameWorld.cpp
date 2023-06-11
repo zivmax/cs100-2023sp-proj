@@ -5,8 +5,16 @@
 #include "Seeds.hpp"
 #include "Zombies.hpp"
 
+// !!! The origin of the lawn grid is the most left bottom one.       !!!
+// !!! The origin of the coordinate axis is the most left bottom one. !!!
+
 // Correct is 50
 static const int INIT_SUN = 50;
+
+// Correct is 180
+static const int FIRST_WORLD_SUN_GEN_INTER_TICKS = 180;
+// Correct is 300
+static const int WORLD_SUN_GEN_INTER_TICKS = 300;
 
 // Correct is 1200
 static const int FIRST_WAVE_TICKS = 1200;
@@ -14,11 +22,6 @@ static const int FIRST_WAVE_TICKS = 1200;
 static const int FIRST_WAVE_INTER_TICKS = 600;
 // Correct is std::max(150, 600 - 20 * GetWave())
 #define WAVE_INTER_TICKS std::max(150, 600 - 20 * GetWave())
-
-// Correct is 180
-static const int FIRST_WORLD_SUN_GEN_INTER_TICKS = 180;
-// Correct is 300
-static const int WORLD_SUN_GEN_INTER_TICKS = 300;
 
 // Correct is true
 static const bool ENABLE_LOST = true;
@@ -81,12 +84,12 @@ void GameWorld::CleanUp()
 }
 
 
-
 pGameObject_weak GameWorld::PlantingSeedOnHand(int x, int y)
 {
     pGameObject_weak returned_ptr = pGameObject_weak();
 
-    if (m_object_on_hands == ObjectOnHands::NONE)
+    // Never trust other funcs, check again
+    if (m_object_on_hands == ObjectOnHands::NONE || m_object_on_hands == ObjectOnHands::SHOVEL)
     {
         return returned_ptr;
     }
@@ -117,15 +120,18 @@ pGameObject_weak GameWorld::PlantingSeedOnHand(int x, int y)
             break;
     }
 
+    // After planting, the hands should be empty.
     m_object_on_hands = ObjectOnHands::NONE;
 
     return returned_ptr;
 }
 
+
 ObjectOnHands GameWorld::GetObjectOnHands() const
 {
     return m_object_on_hands;
 }
+
 
 void GameWorld::SetObjectOnHands(ObjectOnHands new_object_on_hands)
 {
@@ -161,7 +167,6 @@ bool GameWorld::AnyZombieRightOf(int request_x) const
 }
 
 
-
 void GameWorld::CreatePlantingSpots()
 {
     // 45 (9 * 5) planting spots will be created in total.
@@ -179,19 +184,21 @@ void GameWorld::CreatePlantingSpots()
 
 void GameWorld::CreateSeedCards()
 {
+    int inter_distence = 60;
+
     int x = 130;
     AddObject(std::make_shared<SunFlowerSeed>(x, shared_from_this()));
 
-    x += 60;
+    x += inter_distence;
     AddObject(std::make_shared<PeaShooterSeed>(x, shared_from_this()));
 
-    x += 60;
+    x += inter_distence;
     AddObject(std::make_shared<WallNutSeed>(x, shared_from_this()));
 
-    x += 60;
+    x += inter_distence;
     AddObject(std::make_shared<CherryBombSeed>(x, shared_from_this()));
 
-    x += 60;
+    x += inter_distence;
     AddObject(std::make_shared<RepeaterSeed>(x, shared_from_this()));
 }
 
@@ -208,6 +215,7 @@ void GameWorld::GenerateSun()
     int y = WINDOW_HEIGHT - 1;
     AddObject(std::make_shared<WorldSun>(x, y, shared_from_this()));
 
+    // Reset the timer for next gen.
     m_sun_gen_timer = WORLD_SUN_GEN_INTER_TICKS;
 }
 
@@ -220,6 +228,7 @@ void GameWorld::GenerateWave()
 
     GenerateRandomZombies(total_amount);
 
+    // Reset the timer for next gen.
     m_wave_gen_timer = WAVE_INTER_TICKS;
 }
 
@@ -231,6 +240,7 @@ void GameWorld::GenerateRandomZombies(int total_amount)
 
     for (int i = 0; i < total_amount; i++)
     {
+        // Roll a random num for every zombie to generate.
         int random_num = randInt(1, p1 + p2 + p3);
         if (random_num <= p1)
         {
@@ -254,6 +264,7 @@ void GameWorld::GenerateRandomZombies(int total_amount)
 template <typename ZombieT>
 void GameWorld::GenerateZombie()
 {
+    // Random x decreases the possibility of overlaped zombies.
     int x = randInt(WINDOW_WIDTH - 40, WINDOW_WIDTH - 1);
     int y = FIRST_ROW_CENTER + LAWN_GRID_HEIGHT * randInt(0, GAME_ROWS - 1);
     AddObject(std::make_shared<ZombieT>(x, y, shared_from_this()));
@@ -264,6 +275,7 @@ void GameWorld::UpdateAllObjects()
 {
     for (auto &obj_ptr : m_objects_ptr)
     {
+        // Ther are potential elements adding of the container in objects' Update().
         obj_ptr->Update();
     }
 }
@@ -273,6 +285,8 @@ void GameWorld::HandleCollisions()
 {
     for (auto &obj_ptr : m_objects_ptr)
     {
+        // Before checked, every object is considered to be not colliding.
+        // This func is to do this.
         GameObject::InitCollisionStatus(obj_ptr);
     }
 
@@ -322,6 +336,7 @@ void GameWorld::ExtraEatingUpdateForZombies()
 // This func remove all the dead object's shared ptr from the m_objects_ptr list.
 void GameWorld::RemoveDeadObjects()
 {
+    // Use raw iterator to prevent bad_ptr error if we need to remove element form container.
     for (auto obj_ptr_iter = m_objects_ptr.begin(); obj_ptr_iter != m_objects_ptr.end();)
     {
         if ((*obj_ptr_iter)->IsDead())
@@ -343,13 +358,10 @@ bool GameWorld::IsLost() const
         if (GameObject::IsZombie(obj_ptr) && obj_ptr->GetX() < 0)
         {
             if (ENABLE_LOST)
-            {
                 return true;
-            }
             else
-            {
+                // Kill the zombies out of the screes.
                 obj_ptr->SelfKill();
-            }
         }
     }
 
@@ -365,4 +377,3 @@ pGameObject_weak GameWorld::AddObject(pGameObject new_object_ptr)
     // Return an weak ptr in case some objects need to watch the object they create
     return new_object_weak_ptr;
 }
-

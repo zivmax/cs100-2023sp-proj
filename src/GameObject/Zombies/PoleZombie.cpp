@@ -9,6 +9,9 @@ PoleZombie::PoleZombie(int x, int y, pGameWorld belonging_world)
 {
     m_speed = 2;
     m_jump_anime_frames_left = POLE_ZOMBIE_JUMP_ANIME_FRAMES;
+    m_is_extended = false;
+    m_is_running = true;
+    m_is_playing = false;
 }
 
 
@@ -42,6 +45,7 @@ void PoleZombie::StopJump()
     PlayAnimation(ANIMID_WALK_ANIM);
 }
 
+
 void PoleZombie::Update()
 {
     if (IsDead())
@@ -51,7 +55,7 @@ void PoleZombie::Update()
 
     if (!m_is_extended)
     {
-        // This will Extend a new hitbox for pole zombie
+        // This will Extend a new hitbox on 40 pixels left for pole zombie
         ExtendHitBox();
         m_is_extended = true;
     }
@@ -63,7 +67,6 @@ void PoleZombie::Update()
     }
     else if (m_is_playing)
     {
-
         if (m_jump_anime_frames_left == 0)
         {
             StopJump();

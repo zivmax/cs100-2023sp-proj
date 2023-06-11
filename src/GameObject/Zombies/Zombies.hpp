@@ -13,6 +13,7 @@ class ZombieBase : public GameObject
     public:
         ZombieBase(pGameWorld belonging_world, ImageID imageID, AnimID animID, int AP, int HP, int x, int y);
 
+        virtual void Update() override;
         virtual void OnClick() override;
         virtual void OnCollision(const GameObject &other) override;
         virtual void UpdatePosition();
@@ -30,8 +31,6 @@ class RegularZombie : public ZombieBase
 {
     public:
         RegularZombie(int x, int y, pGameWorld belonging_world);
-
-        virtual void Update() override;
 };
 
 
@@ -40,7 +39,6 @@ class BucketZombie : public ZombieBase
     public:
         BucketZombie(int x, int y, pGameWorld belonging_world);
 
-        virtual void Update() override;
         virtual void OnCollision(const GameObject &other) override;
 
     private:

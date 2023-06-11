@@ -41,7 +41,7 @@ int GameObject::GetLawnRow() const
 void GameObject::OnCollision(const GameObject &obj) {}
 
 
-// These funcs use const GameObject &obj as parameter.
+// Funcs bellow are all have two version by func overloading.
 bool GameObject::IsPlant(const GameObject &obj)
 {
     return obj.m_type == ObjectType::PLANT;
@@ -99,24 +99,28 @@ bool GameObject::AreCollidable(const GameObject &obj1, const GameObject &obj2)
     {
         is_collidable = false;
     }
-    else if (obj1.m_type == ObjectType::ATTACKING_OBJECT)
-    {
-        if (obj2.m_type == ObjectType::ZOMBIE)
-            is_collidable = true;
-    }
-    else if (obj1.m_type == ObjectType::PLANT)
-    {
-        if (obj2.m_type == ObjectType::ZOMBIE)
-            is_collidable = true;
-    }
-    else if (obj1.m_type == ObjectType::ZOMBIE)
-    {
-        if (obj2.m_type == ObjectType::ATTACKING_OBJECT || obj2.m_type == ObjectType::PLANT)
-            is_collidable = true;
-    }
     else
     {
-        is_collidable = false;
+        switch (obj1.m_type)
+        {
+            case ObjectType::ATTACKING_OBJECT:
+                if (obj2.m_type == ObjectType::ZOMBIE)
+                    is_collidable = true;
+                break;
+
+            case ObjectType::PLANT:
+                if (obj2.m_type == ObjectType::ZOMBIE)
+                    is_collidable = true;
+                break;
+
+            case ObjectType::ZOMBIE:
+                if (obj2.m_type == ObjectType::ATTACKING_OBJECT || obj2.m_type == ObjectType::PLANT)
+                    is_collidable = true;
+                break;
+
+            default:
+                break;
+        }
     }
 
     return is_collidable;
@@ -125,6 +129,8 @@ bool GameObject::AreCollidable(const GameObject &obj1, const GameObject &obj2)
 
 bool GameObject::AreCollidable(const pGameObject &obj1, const pGameObject &obj2)
 {
+    bool is_collidable = false;
+
     if (obj1->m_row_on_lawn != obj2->m_row_on_lawn)
     {
         return false;
@@ -133,35 +139,40 @@ bool GameObject::AreCollidable(const pGameObject &obj1, const pGameObject &obj2)
     {
         return false;
     }
-    else if (obj1->m_type == ObjectType::ATTACKING_OBJECT)
-    {
-        if (obj2->m_type == ObjectType::ZOMBIE)
-            return true;
-    }
-    else if (obj1->m_type == ObjectType::PLANT)
-    {
-        if (obj2->m_type == ObjectType::ZOMBIE)
-            return true;
-    }
-    else if (obj1->m_type == ObjectType::ZOMBIE)
-    {
-        if (obj2->m_type == ObjectType::ATTACKING_OBJECT || obj2->m_type == ObjectType::PLANT)
-            return true;
-    }
     else
     {
-        return false;
+        switch (obj1->m_type)
+        {
+            case ObjectType::ATTACKING_OBJECT:
+                if (obj2->m_type == ObjectType::ZOMBIE)
+                    is_collidable = true;
+                break;
+
+            case ObjectType::PLANT:
+                if (obj2->m_type == ObjectType::ZOMBIE)
+                    is_collidable = true;
+                break;
+
+            case ObjectType::ZOMBIE:
+                if (obj2->m_type == ObjectType::ATTACKING_OBJECT || obj2->m_type == ObjectType::PLANT)
+                    is_collidable = true;
+                break;
+
+            default:
+                break;
+        }
     }
 
-    return false;
+    return is_collidable;
 }
 
 
+// Objects on different row will never be considerdd colliding.
 bool GameObject::AreColliding(GameObject &obj1, GameObject &obj2)
 {
     int diff_x = std::abs(obj1.GetX() - obj2.GetX());
-
     bool is_colliding = false;
+
     if (diff_x <= (obj1.GetWidth() / 2 + obj2.GetWidth() / 2))
     {
         is_colliding = true;
@@ -177,22 +188,27 @@ bool GameObject::AreColliding(GameObject &obj1, GameObject &obj2)
 bool GameObject::AreColliding(pGameObject &obj1, pGameObject &obj2)
 {
     int diff_x = std::abs(obj1->GetX() - obj2->GetX());
-
+    bool is_colliding = false;
+    
     if (diff_x <= (obj1->GetWidth() / 2 + obj2->GetWidth() / 2))
     {
-        return true;
+        is_colliding = true;
     }
     else
     {
-        return false;
+        is_colliding = false;
     }
+
+    return is_colliding;
 }
 
 
 bool GameObject::UpdateCollisionStatus(GameObject &obj1, GameObject &obj2, bool need_call_function)
 {
-    // We only check the ollision of two objects
-    // if they are on the same row and their type need to be checked.
+    /*
+     * We only check the ollision of two objects.
+     * If they are on the same row and their type need to be checked.
+    */ 
     if (GameObject::AreCollidable(obj1, obj2))
     {
         if (GameObject::AreColliding(obj1, obj2))
@@ -200,6 +216,7 @@ bool GameObject::UpdateCollisionStatus(GameObject &obj1, GameObject &obj2, bool 
             obj1.m_is_colliding = true;
             obj2.m_is_colliding = true;
 
+            // Some times we just want to Update the collision status
             if (need_call_function)
             {
                 obj1.OnCollision(obj2);
@@ -209,20 +226,23 @@ bool GameObject::UpdateCollisionStatus(GameObject &obj1, GameObject &obj2, bool 
         }
     }
 
-
     return false;
 }
 
 bool GameObject::UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2, bool need_call_function)
 {
-    // We only check the ollision of two objects
-    // if they are on the same row and their type need to be checked.
+    /*
+     * We only check the ollision of two objects.
+     * If they are on the same row and their type need to be checked.
+     */ 
     if (GameObject::AreCollidable(obj1, obj2))
     {
         if (GameObject::AreColliding(obj1, obj2))
         {
             obj1->m_is_colliding = true;
             obj2->m_is_colliding = true;
+
+            // Some times we just want to Update the collision status
             if (need_call_function)
             {
                 obj1->OnCollision(*obj2);
@@ -234,6 +254,3 @@ bool GameObject::UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2, boo
 
     return false;
 }
-
-
-

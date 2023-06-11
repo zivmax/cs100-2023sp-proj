@@ -4,13 +4,10 @@ PlantBase::PlantBase(pGameWorld belonging_world, ImageID imageID, AnimID animID,
     : GameObject(belonging_world, imageID, x, y, LAYER_PLANTS, 60, 80, animID)
 {
     m_type = ObjectType::PLANT;
-
     m_HP = HP;
-
-    // The origin of the lawn grid is the most left bottom one.
 }
 
-// For all the plants, they should do nothing when being clcked, the PlantingSpot class will take care of the clicks.
+
 void PlantBase::OnClick()
 {
     switch (m_belonging_world->GetObjectOnHands())
@@ -23,6 +20,7 @@ void PlantBase::OnClick()
             break;
     }
 }
+
 
 void PlantBase::OnCollision(const GameObject &other)
 {
