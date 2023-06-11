@@ -23,7 +23,7 @@ class ObjectBase
 
         int GetX() const;
         int GetY() const;
-        int GetWidth() const;   
+        int GetWidth() const;
         int GetHeight() const;
         AnimID GetCurrentAnimation() const;
 

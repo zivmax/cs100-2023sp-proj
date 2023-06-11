@@ -67,7 +67,7 @@ std::set<ObjectBase *> &ObjectBase::GetObjects(int layer)
     {
         return gameObjects[layer];
     }
-    else  
+    else
     {
         return gameObjects[0];
     }
