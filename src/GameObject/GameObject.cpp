@@ -89,15 +89,15 @@ void GameObject::InitCollisionStatus(pGameObject &obj)
 
 bool GameObject::AreCollidable(const GameObject &obj1, const GameObject &obj2)
 {
-    bool is_collidable = false;
+    bool are_collidable = false;
 
     if (obj1.m_is_dead || obj2.m_is_dead)
     {
-        is_collidable = false;
+        are_collidable = false;
     }
     else if (obj1.m_row_on_lawn == obj2.m_row_on_lawn)
     {
-        return false;
+        are_collidable = false;
     }
     else
     {
@@ -105,17 +105,17 @@ bool GameObject::AreCollidable(const GameObject &obj1, const GameObject &obj2)
         {
             case ObjectType::ATTACKING_OBJECT:
                 if (obj2.m_type == ObjectType::ZOMBIE)
-                    is_collidable = true;
+                    are_collidable = true;
                 break;
 
             case ObjectType::PLANT:
                 if (obj2.m_type == ObjectType::ZOMBIE)
-                    is_collidable = true;
+                    are_collidable = true;
                 break;
 
             case ObjectType::ZOMBIE:
                 if (obj2.m_type == ObjectType::ATTACKING_OBJECT || obj2.m_type == ObjectType::PLANT)
-                    is_collidable = true;
+                    are_collidable = true;
                 break;
 
             default:
@@ -123,21 +123,21 @@ bool GameObject::AreCollidable(const GameObject &obj1, const GameObject &obj2)
         }
     }
 
-    return is_collidable;
+    return are_collidable;
 }
 
 
 bool GameObject::AreCollidable(const pGameObject &obj1, const pGameObject &obj2)
 {
-    bool is_collidable = false;
+    bool are_collidable = false;
 
     if (obj1->m_is_dead || obj2->m_is_dead)
     {
-        return false;
+        are_collidable =  false;
     }
     else if (obj1->m_row_on_lawn == obj2->m_row_on_lawn)
     {
-        return false;
+        are_collidable =  false;
     }
     else
     {
@@ -145,17 +145,17 @@ bool GameObject::AreCollidable(const pGameObject &obj1, const pGameObject &obj2)
         {
             case ObjectType::ATTACKING_OBJECT:
                 if (obj2->m_type == ObjectType::ZOMBIE)
-                    is_collidable = true;
+                    are_collidable = true;
                 break;
 
             case ObjectType::PLANT:
                 if (obj2->m_type == ObjectType::ZOMBIE)
-                    is_collidable = true;
+                    are_collidable = true;
                 break;
 
             case ObjectType::ZOMBIE:
                 if (obj2->m_type == ObjectType::ATTACKING_OBJECT || obj2->m_type == ObjectType::PLANT)
-                    is_collidable = true;
+                    are_collidable = true;
                 break;
 
             default:
@@ -163,47 +163,47 @@ bool GameObject::AreCollidable(const pGameObject &obj1, const pGameObject &obj2)
         }
     }
 
-    return is_collidable;
+    return are_collidable;
 }
 
 
 // Objects on different row will never be considerdd colliding.
 bool GameObject::AreColliding(GameObject &obj1, GameObject &obj2)
 {
-    bool is_colliding = false;
+    bool are_colliding = false;
 
     int diff_x = std::abs(obj1.GetX() - obj2.GetX());
     int boundary_x = obj1.GetWidth() / 2 + obj2.GetWidth() / 2;
 
     if (diff_x <= boundary_x)
     {
-        is_colliding = true;
+        are_colliding = true;
     }
     else
     {
-        is_colliding = false;
+        are_colliding = false;
     }
 
-    return is_colliding;
+    return are_colliding;
 }
 
 bool GameObject::AreColliding(pGameObject &obj1, pGameObject &obj2)
 {
-    bool is_colliding = false;
+    bool are_colliding = false;
 
     int diff_x = std::abs(obj1->GetX() - obj2->GetX());
     int boundary_x = obj1->GetWidth() / 2 + obj2->GetWidth() / 2;
 
     if (diff_x <= boundary_x)
     {
-        is_colliding = true;
+        are_colliding = true;
     }
     else
     {
-        is_colliding = false;
+        are_colliding = false;
     }
 
-    return is_colliding;
+    return are_colliding;
 }
 
 
