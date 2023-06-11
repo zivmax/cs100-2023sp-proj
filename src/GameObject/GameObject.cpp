@@ -152,7 +152,6 @@ bool GameObject::AreCollidable(const pGameObject &obj1, const pGameObject &obj2)
 }
 
 
-// Objects on different row will never be considerdd colliding.
 bool GameObject::AreColliding(GameObject &obj1, GameObject &obj2)
 {
     bool are_colliding = false;
