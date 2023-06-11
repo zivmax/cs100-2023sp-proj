@@ -5,7 +5,6 @@
 GameObject::GameObject(pGameWorld ptr_gameworld, ImageID imageID, int x, int y, LayerID layer, int width, int height, AnimID animID)
     : ObjectBase(imageID, x, y, layer, width, height, animID), m_belonging_world(ptr_gameworld)
 {
-    m_row_on_lawn = (y - FIRST_ROW_CENTER) / LAWN_GRID_HEIGHT + 1;
 }
 
 void GameObject::SelfKill()
@@ -29,12 +28,6 @@ bool GameObject::IsColliding() const
 int GameObject::GetAP() const
 {
     return m_AP;
-}
-
-
-int GameObject::GetLawnRow() const
-{
-    return m_row_on_lawn;
 }
 
 

@@ -6,7 +6,6 @@
 #include <memory>
  
 
-
 // Declares the class name GameWorld so that its pointers can be used.
 using pGameWorld = std::shared_ptr<GameWorld>;
 
@@ -37,7 +36,6 @@ class GameObject : public ObjectBase, public std::enable_shared_from_this<GameOb
         virtual void OnCollision(const GameObject &other);
 
         int GetAP() const;
-        int GetLawnRow() const;
 
         static bool IsPlant(const GameObject &obj);
         static bool IsPlant(const pGameObject &obj);
@@ -64,7 +62,6 @@ class GameObject : public ObjectBase, public std::enable_shared_from_this<GameOb
     protected:
         int m_AP = 0;
         int m_HP = 1;
-        int m_row_on_lawn = -1;
         bool m_is_dead = false;
         bool m_is_colliding = false;
         ObjectType m_type = ObjectType::UNDEFINED;
