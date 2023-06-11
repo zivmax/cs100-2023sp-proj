@@ -91,11 +91,7 @@ bool GameObject::AreCollidable(const GameObject &obj1, const GameObject &obj2)
 {
     bool is_collidable = false;
 
-    if (obj1.m_row_on_lawn != obj2.m_row_on_lawn)
-    {
-        is_collidable = false;
-    }
-    else if (obj1.m_is_dead || obj2.m_is_dead)
+    if (obj1.m_is_dead || obj2.m_is_dead)
     {
         is_collidable = false;
     }
@@ -131,11 +127,7 @@ bool GameObject::AreCollidable(const pGameObject &obj1, const pGameObject &obj2)
 {
     bool is_collidable = false;
 
-    if (obj1->m_row_on_lawn != obj2->m_row_on_lawn)
-    {
-        return false;
-    }
-    else if (obj1->m_is_dead || obj2->m_is_dead)
+    if (obj1->m_is_dead || obj2->m_is_dead)
     {
         return false;
     }
@@ -170,10 +162,15 @@ bool GameObject::AreCollidable(const pGameObject &obj1, const pGameObject &obj2)
 // Objects on different row will never be considerdd colliding.
 bool GameObject::AreColliding(GameObject &obj1, GameObject &obj2)
 {
-    int diff_x = std::abs(obj1.GetX() - obj2.GetX());
     bool is_colliding = false;
 
-    if (diff_x <= (obj1.GetWidth() / 2 + obj2.GetWidth() / 2))
+    int diff_x = std::abs(obj1.GetX() - obj2.GetX());
+    int diff_y = std::abs(obj1.GetY() - obj2.GetY());
+
+    int boundary_x = obj1.GetWidth() / 2 + obj2.GetWidth() / 2;
+    int boundary_y = obj1.GetHeight() / 2 + obj2.GetHeight() / 2;
+
+    if (diff_x <= boundary_x && diff_y <= boundary_y)
     {
         is_colliding = true;
     }
@@ -187,10 +184,15 @@ bool GameObject::AreColliding(GameObject &obj1, GameObject &obj2)
 
 bool GameObject::AreColliding(pGameObject &obj1, pGameObject &obj2)
 {
-    int diff_x = std::abs(obj1->GetX() - obj2->GetX());
     bool is_colliding = false;
-    
-    if (diff_x <= (obj1->GetWidth() / 2 + obj2->GetWidth() / 2))
+
+    int diff_x = std::abs(obj1->GetX() - obj2->GetX());
+    int diff_y = std::abs(obj1->GetY() - obj2->GetY());
+
+    int boundary_x = obj1->GetWidth() / 2 + obj2->GetWidth() / 2;
+    int boundary_y = obj1->GetHeight() / 2 + obj2->GetHeight() / 2;
+
+    if (diff_x <= boundary_x && diff_y <= boundary_y)
     {
         is_colliding = true;
     }
@@ -208,7 +210,7 @@ bool GameObject::UpdateCollisionStatus(GameObject &obj1, GameObject &obj2, bool 
     /*
      * We only check the ollision of two objects.
      * If they are on the same row and their type need to be checked.
-    */ 
+     */
     if (GameObject::AreCollidable(obj1, obj2))
     {
         if (GameObject::AreColliding(obj1, obj2))
@@ -234,7 +236,7 @@ bool GameObject::UpdateCollisionStatus(pGameObject &obj1, pGameObject &obj2, boo
     /*
      * We only check the ollision of two objects.
      * If they are on the same row and their type need to be checked.
-     */ 
+     */
     if (GameObject::AreCollidable(obj1, obj2))
     {
         if (GameObject::AreColliding(obj1, obj2))
