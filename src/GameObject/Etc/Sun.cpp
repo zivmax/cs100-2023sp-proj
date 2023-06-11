@@ -3,6 +3,7 @@
 
 static const int DISAPPER_TICKS = 300;
 static const int POINT_OF_EACH_SUN = 25;
+static const int GRAVITY = 1;
 
 Sun::Sun(int x, int y, pGameWorld belonging_world)
     : GameObject(belonging_world, IMGID_SUN, x, y, LAYER_SUN, 80, 80, ANIMID_IDLE_ANIM) {}
@@ -29,13 +30,12 @@ void FlowerSun::Update()
 {
     if (m_elapsed_ticks < m_drop_ticks)
     {
-        // Calculate the position of the sun using the parabolic motion formula.
-        int next_x = GetX() - m_speed_x; // Calculate horizontal position
-        int next_y = GetY() + m_speed_y; // Calculate vertical position
+        int next_x = GetX() - m_speed_x;
+        int next_y = GetY() + m_speed_y;
 
-        m_speed_y--;
+        // There's gravity.
+        m_speed_y -= GRAVITY;
 
-        // Update the position of the sun
         MoveTo(next_x, next_y);
     }
     else
@@ -66,7 +66,7 @@ void WorldSun::Update()
     {
         MoveTo(GetX(), GetY() - 1);
     }
-    else if (m_elapsed_ticks - m_drop_ticks == 300)
+    else if (m_elapsed_ticks - m_drop_ticks == DISAPPER_TICKS)
     {
         // If the sun has been on the ground for 300 ticks, then it will disappear.
         SelfKill();
