@@ -132,11 +132,11 @@ void GameWorld::SetObjectOnHands(ObjectOnHands new_object_on_hands)
 }
 
 
-bool GameWorld::AnyZombieOnY(int request_y) const
+bool GameWorld::AnyZombieOnRow(int request_row) const
 {
     for (auto& obj_ptr : m_objects_ptr)
     {
-        if (GameObject::IsZombie(obj_ptr) && obj_ptr->GetY() == request_y)
+        if (GameObject::IsZombie(obj_ptr) && obj_ptr->GetLawnRow() == request_row)
         {
             return true;
         }

@@ -95,7 +95,7 @@ bool GameObject::AreCollidable(const GameObject &obj1, const GameObject &obj2)
     {
         is_collidable = false;
     }
-    else if (obj1.GetY() == obj2.GetY())
+    else if (obj1.m_row_on_lawn == obj2.m_row_on_lawn)
     {
         return false;
     }
@@ -135,7 +135,7 @@ bool GameObject::AreCollidable(const pGameObject &obj1, const pGameObject &obj2)
     {
         return false;
     }
-    else if (obj1->GetY() == obj2->GetY())
+    else if (obj1->m_row_on_lawn == obj2->m_row_on_lawn)
     {
         return false;
     }

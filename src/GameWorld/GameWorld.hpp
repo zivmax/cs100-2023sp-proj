@@ -44,7 +44,7 @@ class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorl
         ObjectOnHands GetObjectOnHands() const;
         pGameObject_weak PlantingSeedOnHand(int x, int y);
 
-        bool AnyZombieOnY(int request_y) const;
+        bool AnyZombieOnRow(int request_row) const;
         bool AnyZombieRightOf(int request_x) const;
 
         pGameObject_weak AddObject(pGameObject new_object);
