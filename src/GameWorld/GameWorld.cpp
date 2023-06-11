@@ -6,14 +6,14 @@
 #include "Zombies.hpp"
 
 // Correct is 50
-static const int INIT_SUN = 50;
+static const int INIT_SUN = 500000;
 
 // Correct is 1200
-static const int FIRST_WAVE_TICKS = 1200;
+static const int FIRST_WAVE_TICKS = 10;
 // Correct is 600
 static const int FIRST_WAVE_INTER_TICKS = 600;
 // Correct is std::max(150, 600 - 20 * GetWave())
-#define WAVE_INTER_TICKS std::max(150, 600 - 20 * GetWave())
+#define WAVE_INTER_TICKS 10
 
 // Correct is 180
 static const int FIRST_WORLD_SUN_GEN_INTER_TICKS = 180;
@@ -21,7 +21,7 @@ static const int FIRST_WORLD_SUN_GEN_INTER_TICKS = 180;
 static const int WORLD_SUN_GEN_INTER_TICKS = 300;
 
 // Correct is true
-static const bool ENABLE_LOST = true;
+static const bool ENABLE_LOST = false;
 
 int cleanUpTimes = 0;
 
@@ -31,12 +31,12 @@ GameWorld::GameWorld()
     m_wave_gen_inter_ticks = WAVE_INTER_TICKS;
 }
 
+
 GameWorld::~GameWorld() {}
 
 
 void GameWorld::Init()
 {
-
     m_wave_gen_timer = FIRST_WAVE_TICKS;
     m_sun_gen_timer = FIRST_WORLD_SUN_GEN_INTER_TICKS;
 
@@ -82,7 +82,6 @@ LevelStatus GameWorld::Update()
 
     if (IsLost())
     {
-
         return LevelStatus::LOSING;
     }
 
@@ -198,6 +197,7 @@ void GameWorld::GenerateSun()
     m_sun_gen_timer = m_sun_gen_inter_ticks;
 }
 
+
 void GameWorld::GenerateWave()
 {
     SetWave(GetWave() + 1);
@@ -209,6 +209,7 @@ void GameWorld::GenerateWave()
     m_wave_gen_inter_ticks = WAVE_INTER_TICKS;
     m_wave_gen_timer = m_wave_gen_inter_ticks;
 }
+
 
 // void GameWorld::GenerateWave()
 //{
@@ -235,7 +236,7 @@ void GameWorld::GenerateRandomZombies(int total_amount)
         if (random_num <= p1)
         {
             // RegularZombie
-            GenerateZombie<RegularZombie>();
+            GenerateZombie<PoleZombie>();
         }
         else if (random_num <= p1 + p2)
         {
