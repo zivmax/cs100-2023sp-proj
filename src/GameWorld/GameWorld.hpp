@@ -7,9 +7,11 @@
 #include "WorldBase.hpp"
 #include "utils.hpp"
 
+
 class GameObject;
 using pGameObject_weak = std::weak_ptr<GameObject>;
 using pGameObject = std::shared_ptr<GameObject>;
+
 
 enum class ZombieType;
 
@@ -28,7 +30,6 @@ enum class ObjectOnHands {
 class GameWorld : public WorldBase, public std::enable_shared_from_this<GameWorld>
 {
     public:
-        // Use shared_from_this() instead of "this".
         GameWorld();
         GameWorld(const GameWorld &other) = delete;
         GameWorld(GameWorld &&other) = delete;

@@ -6,8 +6,8 @@
 #include <memory>
  
 
-// Declares the class name GameWorld so that its pointers can be used.
 using pGameWorld = std::shared_ptr<GameWorld>;
+
 
 enum class ObjectType {
     UNDEFINED,
